@@ -819,6 +819,7 @@ function loadJsPDF(){
 }
 async function exportConceptPDF(btn){
   const old = btn ? btn.textContent : null;
+  const oldHTML = btn ? btn.innerHTML : null;   // M15a(2026-09-02)：改存 innerHTML，送出結束後原樣還原（含手機短字 span），不用 textContent 打掉結構
   if(btn){ btn.disabled = true; btn.textContent = t('Generating PDF…'); }
   try {
     const JsPDF = await loadJsPDF();
@@ -875,8 +876,18 @@ async function exportConceptPDF(btn){
   }
   if(btn){
     btn.disabled = false;
-    btn.textContent = t('⬇ Concept PDF (free)');
-    if(btn.firstChild) i18nNodes.push([btn.firstChild, '⬇ Concept PDF (free)']);
+    // M15a(2026-09-02)：還原按鈕原始 HTML（含手機短字 span），不再用 textContent 打掉結構
+    if(oldHTML !== null){
+      btn.innerHTML = oldHTML;
+      if(typeof collectI18nNodes === 'function'){
+        /* 重新註冊 span 內文字節點 */
+        btn.querySelectorAll('span').forEach(sp => { const s = sp.textContent.trim(); if(I18N[s] && sp.firstChild) i18nNodes.push([sp.firstChild, s]); });
+        // M15a-b(2026-09-03)：沒有 span 的頁面（pro／inspire）也把還原後的純文字節點重新註冊，切語言才會跟翻；先找再 push 不累積
+        const s0 = btn.textContent.trim();
+        if(!btn.querySelector('span') && btn.firstChild && I18N[s0] && !i18nNodes.some(p => p[0] === btn.firstChild)) i18nNodes.push([btn.firstChild, s0]);
+      }
+      applyLang();
+    }
   }
 }
 
