@@ -490,7 +490,11 @@ async function sendQuote(btn){
   };
   // 頁面設 window.PAGE_EMAIL_OPTIONAL=true（medium.html）→ Email 非必填，不擋送出
   if(!window.PAGE_EMAIL_OPTIONAL && (!email || email.indexOf('@') < 1)){
-    show('#fdf3ee', '#e0b39a', '#8a4a2b', t('Please enter your email under "Order Info" so our designer can reply with your quote and 3D render.'));
+    // B2b(2026-09-02)：Basic 的區塊標題已改 Your details，被擋訊息不再引用「Order Info」；其他頁沿用舊句
+    const blockMsg = window.PAGE_TAG === 'design-studio-basic'
+      ? t('Please enter your email so we can reply with your quote.')
+      : t('Please enter your email under "Order Info" so our designer can reply with your quote and 3D render.');
+    show('#fdf3ee', '#e0b39a', '#8a4a2b', blockMsg);
     // A5(2026-09-02)：被擋時把視線帶回 Email 欄，標紅並捲動聚焦
     const emailEl = document.getElementById('custEmail');
     if(emailEl){
@@ -520,6 +524,16 @@ async function sendQuote(btn){
     fd.append('page', window.PAGE_TAG || 'design-studio');
     fd.append('design_id', DESIGN_ID);
     fd.append('request', 'estimate');
+    // A1(2026-09-02)：五題答案帶進詢價信（沒載 wizard 的頁面 typeof 為 undefined → 整段跳過；載了但未走精靈 → 填 not via guided design）
+    if(typeof BRIEF_APPLIED !== 'undefined'){
+      const ba = BRIEF_APPLIED, nv = '(not via guided design)';
+      fd.append('brief_space', ba ? ba.spL + ' x ' + ba.spW + ' mm' : nv);
+      fd.append('brief_bather_height', ba ? ba.height + ' cm' : nv);
+      fd.append('brief_posture', ba ? ba.posture : nv);
+      fd.append('brief_bathers', ba ? String(ba.bathers) : nv);
+      fd.append('brief_look', ba ? ba.look : nv);
+      fd.append('brief_proposal', ba ? ba.proposal : nv);
+    }
     const selD = document.getElementById('shipDest');
     const destName = selD && selD.value ? selD.options[selD.selectedIndex].textContent : '(not selected)';
     const shipR = shipRate();
@@ -553,7 +567,9 @@ async function sendQuote(btn){
         溢水口: P.ovf, 溢水口距缸緣_mm: P.ovfDrop,
         裙擺式底座: P.skirt, 裙擺高度_mm: P.skirtH, 收腰寬度_pct: P.waistK, 裙擺弧R_mm: P.skirtR,
         手繪俯視輪廓_normalized: P.customPts, 手繪側牆剖面_k: P.customProfile },
-      計算規格: { 滿水容量_L: +s.fullVol.toFixed(1), 估計重量_kg: +s.weight.toFixed(1) }
+      計算規格: { 滿水容量_L: +s.fullVol.toFixed(1), 估計重量_kg: +s.weight.toFixed(1) },
+      // A1(2026-09-02)：五題答案（走過精靈才有值；JSON.stringify 會自動略過 undefined）
+      需求問答: (typeof BRIEF_APPLIED !== 'undefined') ? BRIEF_APPLIED : undefined
     };
     fd.append('attachment', new Blob([JSON.stringify(spec, null, 2)], {type:'application/json'}), 'design-spec.json');
     // 六角度 3D 渲染圖（郵件用 1200×900 JPEG，總量約 1MB）；截圖失敗不影響送單
@@ -764,6 +780,8 @@ async function exportConceptPDF(btn){
     const rows = [
       ['Design ID', DESIGN_ID],
       ['Date', new Date().toISOString().slice(0,10)],
+      // A1(2026-09-02)：走過精靈才有這列
+      ...((typeof BRIEF_APPLIED !== 'undefined' && BRIEF_APPLIED) ? [['Designed for', 'Space ' + BRIEF_APPLIED.spL + ' x ' + BRIEF_APPLIED.spW + ' mm - bather ' + BRIEF_APPLIED.height + ' cm - ' + BRIEF_APPLIED.posture + ' - ' + BRIEF_APPLIED.bathers + ' person(s)']] : []),
       ['Silhouette', P.shape === 'custom' ? 'Custom sketch' : P.shape],
       ['Overall size', P.L + ' x ' + P.W + ' x ' + P.H + ' mm (rim rear ' + (P.H + P.dH) + ' mm)'],
       ['Material', P.material === 'solid' ? 'Solid surface (matte)' : 'Premium acrylic (gloss)'],

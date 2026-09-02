@@ -209,6 +209,24 @@ const I18N = {
   'Price & Quote': ['价格与询价', 'ราคาและใบเสนอราคา', '價格與詢價'],
   // B2(2026-09-02) Basic 新增：Order Info 標題改名，Basic 無 CAD 語境
   'Your details': ['您的资料', 'ข้อมูลของคุณ', '您的資料'],
+  // B2b(2026-09-02) Basic 新增：被擋訊息不再引用已改名的區塊標題
+  'Please enter your email so we can reply with your quote.': ['请填写 Email，我们才能回复您的报价。', 'กรุณากรอกอีเมลของคุณ เพื่อให้เราตอบกลับพร้อมใบเสนอราคา', '請填寫 Email，我們才能回覆您的報價。'],
+  // B5(2026-09-02) Basic 新增：One-of-One 與水位開關文案白話化，沿用舊鍵翻譯意思改寫
+  'Make it exclusive — mould retired after your tub, with certificate': ['升级为专属版（模具在您的浴缸后退役＋证书）', 'อัปเกรดเป็นรุ่นพิเศษเฉพาะคุณ (ปลดระวางแม่พิมพ์หลังผลิตอ่างของคุณ + ใบรับรอง)', '升級為專屬版（模具在您的浴缸後退役＋證書）'],
+  'Show water level': ['显示水位模拟', 'แสดงระดับน้ำจำลอง', '顯示水位模擬'],
+  // B6(2026-09-02) Basic 新增：色票下方即時提示客製色加價，'Custom colour' 已存在字典不重加
+  'Classic White — included': ['经典白（已包含）', 'สีขาวคลาสสิก (รวมอยู่แล้ว)', '經典白（已包含）'],
+  // C1a(2026-09-02) Basic 新增：現況缺翻譯字串
+  'The Design Studio — Basic': ['设计工作室 — Basic', 'สตูดิโอออกแบบ — Basic', '設計工作室 — Basic'],
+  'Answer 5 questions. Get 4 tubs designed around you.': ['回答 5 个问题，获得 4 款为您量身设计的浴缸。', 'ตอบ 5 คำถาม รับข้อเสนออ่างอาบน้ำ 4 แบบที่ออกแบบมาเพื่อคุณ', '回答 5 個問題，獲得 4 款為您量身設計的浴缸。'],
+  'No tools to learn — we design four tubs for your space and body, you pick one and adjust size & colour.': ['不用学工具 — 我们依您的空间与身形设计四款浴缸，您选一款并调整尺寸与颜色。', 'ไม่ต้องเรียนรู้เครื่องมือใด ๆ — เราออกแบบอ่างอาบน้ำสี่แบบตามพื้นที่และสัดส่วนร่างกายของคุณ คุณเลือกหนึ่งแบบแล้วปรับขนาดและสี', '不用學工具 — 我們依您的空間與身形設計四款浴缸，您選一款並調整尺寸與顏色。'],
+  '✨ Redesign — answer again': ['✨ 重新设计 — 再答一次', '✨ ออกแบบใหม่ — ตอบคำถามอีกครั้ง', '✨ 重新設計 — 再答一次'],
+  '📱 Preview in your space': ['📱 在您的空间预览', '📱 พรีวิวในพื้นที่ของคุณ', '📱 在您的空間預覽'],
+  "Tap below to view this design in AR, right where you're standing.": ['点击下方按钮，在您所在的位置以 AR 查看此设计。', 'แตะด้านล่างเพื่อดูแบบนี้ในโหมด AR ตรงตำแหน่งที่คุณยืนอยู่', '點擊下方按鈕，在您所在的位置以 AR 檢視此設計。'],
+  '👁 View in AR': ['👁 以 AR 查看', '👁 ดูในโหมด AR', '👁 以 AR 檢視'],
+  'Scan with an iPhone or iPad to view this design in AR.': ['用 iPhone 或 iPad 扫描，以 AR 查看此设计。', 'สแกนด้วย iPhone หรือ iPad เพื่อดูแบบนี้ในโหมด AR', '用 iPhone 或 iPad 掃描，以 AR 檢視此設計。'],
+  'Android AR support is on our roadmap — for now, this works on iPhone/iPad.': ['Android 的 AR 支持已在规划中 — 目前仅支持 iPhone/iPad。', 'การรองรับ AR บน Android อยู่ในแผนของเรา — ตอนนี้ใช้ได้กับ iPhone/iPad เท่านั้น', 'Android 的 AR 支援已在規劃中 — 目前僅支援 iPhone/iPad。'],
+  'Close': ['关闭', 'ปิด', '關閉'],
 };
 // 含 HTML 標記的區塊：id → [英文, 简中, 泰文, 繁中]
 const I18N_HTML = {
@@ -260,5 +278,6 @@ function applyLang(){
   if(typeof padTop !== 'undefined'){ padTop.redraw(); padSide.redraw(); }
   if(typeof updateSpec === 'function' && tubGroup) updateSpec();
   try { if(PROPS.length) renderProposalCards(); } catch(e){}   // 語言切換時重繪提案卡
+  if(typeof updateColorNote === 'function') updateColorNote();   // B6b(2026-09-02)：語言切換時重翻色票提示
 }
 // 語言完全交由站上導覽列的 langSel 控制（見檔尾接線），設計器不再有自己的語言選項
