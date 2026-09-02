@@ -53,7 +53,7 @@ function briefTargets(){
   const innerL = { recline: hmm*0.82, stretch: hmm*0.93, deep: hmm*0.62 };
   const clampL = v => Math.max(1200, Math.min(maxL, Math.round((v + 40 + (two?150:0))/10)*10));
   const clampW = v => Math.max(600, Math.min(maxW, Math.round((v + 40)/10)*10));
-  return { two, innerL, clampL, clampW };
+  return { two, innerL, clampL, clampW, maxL, maxW };
 }
 let PROPS = [];
 let BRIEF_APPLIED = null;   // A1(2026-09-02)：客人選定提案當下的五題答案快照（之後改滑桿不影響），供詢價信／PDF 帶入
@@ -62,11 +62,12 @@ function generateProposals(){
   const shape = LOOK_SHAPE[BRIEF.look] || 'ellipse';
   const wBase = T.two ? 760 : 600;   // 內口寬目標
   const defs = [
-    { key:'compact', name:'Compact fit',  L:T.clampL(T.innerL.recline), W:T.clampW(wBase - 40), D:450, extra:{shape} },
-    { key:'stretch', name:'Full stretch', L:T.clampL(T.innerL.stretch), W:T.clampW(wBase + 20), D:450, extra:{shape} },
-    { key:'deep',    name:'Deep soak',    L:T.clampL(T.innerL.deep),    W:T.clampW(wBase + 20), D:540, extra:{shape} },
+    // A3(2026-09-02)：每張提案卡加 why（推薦理由）與 shot（縮圖視角，差異化四張縮圖）
+    { key:'compact', name:'Compact fit',  L:T.clampL(T.innerL.recline), W:T.clampW(wBase - 40), D:450, extra:{shape}, why:'Fits your space, knees relaxed', shot:[Math.PI/4, Math.PI/3.2] },
+    { key:'stretch', name:'Full stretch', L:T.clampL(T.innerL.stretch), W:T.clampW(wBase + 20), D:450, extra:{shape}, why:'Lie flat at', shot:[Math.PI/4, Math.PI/3.2] },
+    { key:'deep',    name:'Deep soak',    L:T.clampL(T.innerL.deep),    W:T.clampW(wBase + 20), D:540, extra:{shape}, why:'Seated deep soak, 540 mm water', shot:[Math.PI/4, Math.PI/2.6] },
     { key:'sculpt',  name:'Sculptural',   L:T.clampL(T.innerL.recline), W:T.clampW(wBase + 20), D:460,
-      extra:{ shape, dH:90, rim:'round', egg: BRIEF.look==='organic' ? 10 : 0 } }
+      extra:{ shape, dH:90, rim:'round', egg: BRIEF.look==='organic' ? 10 : 0 }, why:'Raised backrest, softer rim', shot:[Math.PI*0.75, Math.PI/3.2] }
   ];
   const saved = {}; Object.keys(P).forEach(k=>{ saved[k] = P[k]; });
   PROPS = defs.map(d=>{
@@ -76,8 +77,10 @@ function generateProposals(){
     buildTub();
     const spec = computeSpec();
     const price = priceParts().total;
-    const img = captureRenders({ w:520, h:390, mime:'image/jpeg', q:0.82, shots:[['thumb', Math.PI/4, Math.PI/3.2]], noWatermark:true })[0][1];
-    return { name:d.name, params, img, dims:`${d.L} × ${d.W} × ${params.H} mm`, depth:d.D, cap:spec.fullVol.toFixed(0), price };
+    const img = captureRenders({ w:520, h:390, mime:'image/jpeg', q:0.82, shots:[['thumb', d.shot[0], d.shot[1]]], noWatermark:true })[0][1];
+    // A3(2026-09-02)：why/whyHeight 供卡片顯示推薦理由；note 標註 Deep soak 撞下限的情況
+    return { name:d.name, params, img, dims:`${d.L} × ${d.W} × ${params.H} mm`, depth:d.D, cap:spec.fullVol.toFixed(0), price,
+      why: d.why, whyHeight: d.key==='stretch', note: (d.key==='deep' && d.L===1200 && (T.innerL.deep + 40) < 1200) ? 'Minimum length applied' : null };
   });
   Object.keys(saved).forEach(k=>{ P[k] = saved[k]; });
   syncUI(); buildTub();
@@ -88,15 +91,21 @@ function generateProposals(){
 function renderProposalCards(){
   const g = document.getElementById('propGrid');
   g.innerHTML = '';
+  // A3(2026-09-02)：四款價格一致（皆 MTM）時，改在網格上方寫一句，卡內不重複；不一致時保留卡內各自價格分支
+  const samePrice = PROPS.length > 0 && PROPS.every(p => p.price === PROPS[0].price);
+  const pl = document.getElementById('propPriceLine');
+  if(pl) pl.textContent = samePrice ? (t('All four are Made-to-Measure') + ' — ' + fromStr(PROPS[0].price)) : '';
   PROPS.forEach((p, i)=>{
     const card = document.createElement('div');
     card.className = 'prop-card';
     card.innerHTML = `<img src="${p.img}" alt="${p.name}">
       <div class="pc-body">
         <b>${t(p.name)}</b>
+        <span class="pc-why">${t(p.why)}${p.whyHeight ? ' ' + BRIEF.height + ' cm' : ''}</span>
         <span>${p.dims}</span>
         <span>${t('Depth')} ${p.depth}mm · ~${p.cap} L</span>
-        <span class="pc-price">${fromStr(p.price)}</span>
+        ${p.note ? `<span class="pc-note">${t(p.note)}</span>` : ''}
+        ${samePrice ? '' : `<span class="pc-price">${fromStr(p.price)}</span>`}
       </div>`;
     card.addEventListener('click', ()=> applyProposal(i));
     g.appendChild(card);
@@ -109,9 +118,18 @@ function applyProposal(i){
   Object.assign(P, p.params);
   P.customPts = null; P.customProfile = null;
   sanitizeBase();
+  // A2(2026-09-02)：長寬滑桿上限跟客人空間連動（絕對上限 2200/1200 仍守住；下限保護避免 max<min）
+  const T = briefTargets();
+  const capL = Math.max(1200, T.maxL), capW = Math.max(600, T.maxW);
+  [['rL','nL',capL],['rW','nW',capW]].forEach(([rid,nid,cap])=>{ const r=document.getElementById(rid), n=document.getElementById(nid); if(r) r.max = cap; if(n) n.max = cap; });
+  if(P.L > capL) P.L = capL;
+  if(P.W > capW) P.W = capW;
+  const sc = document.getElementById('spaceCap');
+  if(sc){ sc.style.display = 'block'; sc.textContent = t('Sized to your space — up to') + ' ' + capL + ' × ' + capW + ' mm'; }
   document.querySelectorAll('.rim-btns button').forEach(b=>b.classList.toggle('active', b.dataset.rim === P.rim));
   document.querySelectorAll('.drain-btns button[data-drain]').forEach(b=>b.classList.toggle('active', b.dataset.drain === P.drain));
   document.querySelectorAll('.shape-btns button').forEach(b=>b.classList.toggle('active', b.dataset.shape === P.shape));
+  if(typeof unlockQuoteBtn === 'function') unlockQuoteBtn();
   syncUI(); updateRowVis(); buildTub();
   closeWizard();
 }

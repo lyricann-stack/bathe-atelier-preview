@@ -156,3 +156,16 @@ function updateColorNote(){
   const std = (P.color || '').toLowerCase() === STD_COLOR;
   el.textContent = std ? t('Classic White — included') : (t('Custom colour') + ' +USD $' + PRICING.color.toLocaleString('en-US'));
 }
+
+// A6(2026-09-02)：客人改任何參數（滑桿／材質／顏色／選項）→ 解鎖詢價按鈕、清掉成功 banner
+function unlockQuoteBtn(){
+  const b = document.getElementById('quoteBtn');
+  if(!b || b.dataset.sent !== '1') return;
+  delete b.dataset.sent; b.disabled = false;
+  // A6c(2026-09-02)：改既有文字節點而不是整個換掉，節點身份不變，i18nNodes 裡的條目才對得上
+  if(b.firstChild && b.firstChild.nodeType === 3) b.firstChild.textContent = t('Submit design & get a firm quote →'); else b.textContent = t('Submit design & get a firm quote →');
+  if(typeof i18nNodes !== 'undefined' && b.firstChild){ i18nNodes.forEach(pair => { if(pair[0] === b.firstChild) pair[1] = 'Submit design & get a firm quote →'; }); }
+  const bn = document.getElementById('quoteBanner'); if(bn){ bn.style.display = 'none'; bn.textContent = ''; }
+}
+['input','change'].forEach(ev => { const p = document.getElementById('panel'); if(p) p.addEventListener(ev, e => { if(e.target && e.target.id !== 'custEmail' && e.target.id !== 'custName' && e.target.id !== 'custNote' && e.target.id !== 'shipDest') unlockQuoteBtn(); }, true); });
+document.querySelectorAll('.sw, .mat-btns button').forEach(el => el.addEventListener('click', unlockQuoteBtn));

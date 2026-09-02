@@ -67,6 +67,8 @@
       <div class="tip">Tilts the whole tub base into a wedge shape (0° = standard flat base). For a tub that needs to sit on an angled surface or a deliberate sloped-base look.</div>
       <div id="warn">⚠ Invalid parameters: interior space too small, please adjust</div>
       <div id="lenWarn" class="tip" style="display:none;color:#b3541e">⚠ Interior length under 950mm — only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).</div>
+      <!-- A2(2026-09-02)：選定提案後顯示長寬滑桿已按客人空間收斂上限 -->
+      <div id="spaceCap" class="tip" style="display:none"></div>
       <div id="thinWarn" class="tip" style="display:none;color:#b3541e">⚠ Wall thickness below 5mm between inner and outer shells — adjust base sizes or arc R.</div>
     </div>
     <div class="group">
@@ -182,6 +184,8 @@
     <div id="wizP" style="display:none">
       <h2>Your four proposals</h2>
       <div class="sk-sub">Built around your space and body — pick one, then fine-tune it.</div>
+      <!-- A3(2026-09-02)：四款價格一致時的統一價格句（卡內不重複） -->
+      <div class="tip" id="propPriceLine" style="margin:-4px 0 10px"></div>
       <div id="propGrid"></div>
       <div class="tip" style="margin-top:10px">Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one — everything stays adjustable.</div>
       <div class="sk-actions">
@@ -212,7 +216,7 @@
 
 <script>
   // 三版本設定（必須在 lib 之前）
-  window.PAGE_ID_PREFIX='BA-B'; window.PAGE_TAG='design-studio-basic'; window.PAGE_AUTO_WIZARD=true; window._noHandles=true;
+  window.PAGE_ID_PREFIX='BA-B'; window.PAGE_TAG='design-studio-basic'; window.PAGE_AUTO_WIZARD=true; window._noHandles=true; window.PAGE_SPEC_COMPACT=true;
 </script>
 <script src="lib-tub-state.js"></script>
 <script src="lib-tub-i18n.js"></script>

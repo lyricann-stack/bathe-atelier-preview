@@ -227,6 +227,24 @@ const I18N = {
   'Scan with an iPhone or iPad to view this design in AR.': ['用 iPhone 或 iPad 扫描，以 AR 查看此设计。', 'สแกนด้วย iPhone หรือ iPad เพื่อดูแบบนี้ในโหมด AR', '用 iPhone 或 iPad 掃描，以 AR 檢視此設計。'],
   'Android AR support is on our roadmap — for now, this works on iPhone/iPad.': ['Android 的 AR 支持已在规划中 — 目前仅支持 iPhone/iPad。', 'การรองรับ AR บน Android อยู่ในแผนของเรา — ตอนนี้ใช้ได้กับ iPhone/iPad เท่านั้น', 'Android 的 AR 支援已在規劃中 — 目前僅支援 iPhone/iPad。'],
   'Close': ['关闭', 'ปิด', '關閉'],
+  // A6(2026-09-02) Basic 新增：送出成功訊息拆固定字串＋變數
+  '✅ Your design is in! Reference': ['✅ 您的设计已送出！参考编号', '✅ ส่งแบบของคุณแล้ว! หมายเลขอ้างอิง', '✅ 您的設計已送出！參考編號'],
+  "We'll reply to": ['我们会回复到', 'เราจะตอบกลับไปที่', '我們會回覆到'],
+  'with a firm quote within one business day.': ['一个工作日内附上正式报价。', 'พร้อมใบเสนอราคาที่ชัดเจนภายในหนึ่งวันทำการ', '一個工作日內附上正式報價。'],
+  'Submitted ✓': ['已送出 ✓', 'ส่งแล้ว ✓', '已送出 ✓'],
+  // A2(2026-09-02) Basic 新增：選定提案後長寬滑桿上限提示
+  'Sized to your space — up to': ['依您的空间调整 — 最大可至', 'ปรับตามพื้นที่ของคุณ — สูงสุด', '依您的空間調整 — 最大可至'],
+  // A3(2026-09-02) Basic 新增：四提案卡推薦理由與統一價格句
+  'Fits your space, knees relaxed': ['贴合您的空间，膝盖放松', 'พอดีกับพื้นที่ของคุณ เข่าผ่อนคลาย', '貼合您的空間，膝蓋放鬆'],
+  'Lie flat at': ['可平躺至', 'นอนราบได้ที่ความสูง', '可平躺至'],
+  'Seated deep soak, 540 mm water': ['坐姿深泡，水深 540 mm', 'แช่น้ำลึกแบบนั่ง น้ำลึก 540 มม.', '坐姿深泡，水深 540 mm'],
+  'Raised backrest, softer rim': ['加高靠背，缸缘更柔和', 'พนักพิงสูงขึ้น ขอบอ่างนุ่มนวลขึ้น', '加高靠背，缸緣更柔和'],
+  'Minimum length applied': ['已套用最短长度', 'ใช้ความยาวขั้นต่ำแล้ว', '已套用最短長度'],
+  'All four are Made-to-Measure': ['四款皆为量身定制（MTM）', 'ทั้งสี่แบบผลิตตามสั่ง (Made-to-Measure)', '四款皆為量身定製（MTM）'],
+  // A6c(2026-09-02) Basic 新增：送出成功訊息句點依語言（泰文無句點習慣，用空格）
+  '. ': ['。', ' ', '。'],
+  // B3(2026-09-02) Basic 新增：規格表摺疊區標題
+  'Full specification': ['完整规格', 'สเปกฉบับเต็ม', '完整規格'],
 };
 // 含 HTML 標記的區塊：id → [英文, 简中, 泰文, 繁中]
 const I18N_HTML = {
@@ -279,5 +297,7 @@ function applyLang(){
   if(typeof updateSpec === 'function' && tubGroup) updateSpec();
   try { if(PROPS.length) renderProposalCards(); } catch(e){}   // 語言切換時重繪提案卡
   if(typeof updateColorNote === 'function') updateColorNote();   // B6b(2026-09-02)：語言切換時重翻色票提示
+  if(typeof BRIEF_APPLIED !== 'undefined' && BRIEF_APPLIED){ const sc=document.getElementById('spaceCap'); const r=document.getElementById('rL'), w=document.getElementById('rW'); if(sc && r && w) sc.textContent = t('Sized to your space — up to') + ' ' + r.max + ' × ' + w.max + ' mm'; }   // A2(2026-09-02)
+  if(typeof refreshQuoteBanner === 'function') refreshQuoteBanner();   // A6b(2026-09-02)
 }
 // 語言完全交由站上導覽列的 langSel 控制（見檔尾接線），設計器不再有自己的語言選項
