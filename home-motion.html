@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Bathe Atelier — Motion Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* page palette — Must Société reference (white, ink, caramel) */
+    --ink:#101010; --paper:#ffffff; --cream:#f4f2ed; --line:rgba(16,16,16,.10);
+    --muted:#6b6b6b; --accent:#c69e63; --accent-deep:#9a7b43;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--accent);color:var(--ink)}
+  a{color:inherit;text-decoration:none}
+
+  .ribbon{position:fixed;z-index:90;left:0;top:0;background:var(--ink);color:var(--paper);
+    font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:5px 12px;font-weight:700}
+
+
+  /* ===== opening band (light) ===== */
+  .intro{padding:calc(96px + 14vh) clamp(18px,4vw,56px) 10vh;max-width:900px}
+  .intro .eyebrow{font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:20px;font-weight:600}
+  .intro h1{font-size:clamp(34px,6vw,64px);font-weight:700;line-height:1.05;letter-spacing:-.01em;text-wrap:balance}
+  .intro p{margin-top:20px;max-width:52ch;font-size:clamp(14px,1.3vw,17px);line-height:1.65;color:var(--muted)}
+
+  /* ===== scroll-driven manufacturing sequence — contained white card =====
+     Bright-studio renders (製程五圖_提示詞_亮底版.md), so the card now reads
+     as an inset framed photo sequence rather than a separate dark section. */
+  .filmwrap{padding:0 clamp(14px,3vw,40px) 10vh}
+  .build{position:relative;height:600vh;max-width:1360px;margin:0 auto}
+  @media(max-width:720px){.build{height:460vh}}
+  .stage{position:sticky;top:88px;height:calc(100vh - 132px);min-height:520px;border-radius:26px;
+    overflow:hidden;display:flex;align-items:flex-end;box-shadow:0 30px 70px -30px rgba(16,16,16,.18);
+    border:1px solid var(--line)}
+  @media(max-width:720px){.stage{top:76px;height:calc(100vh - 108px);border-radius:18px}}
+
+  .plates{position:absolute;inset:0;will-change:transform}
+  .plate{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;
+    background-color:var(--cream);will-change:opacity}
+  .plate:not(:first-child){opacity:0}
+  .vignette{position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(to top,rgba(255,255,255,.96) 0%,rgba(255,255,255,.62) 30%,transparent 54%),
+               linear-gradient(to bottom,rgba(255,255,255,.55) 0%,transparent 20%)}
+
+  .rail{position:absolute;left:clamp(18px,4vw,44px);top:50%;transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:13px;z-index:3}
+  .rail i{display:block;width:2px;height:34px;background:rgba(16,16,16,.14);position:relative;
+    overflow:hidden;border-radius:2px}
+  .rail i::after{content:'';position:absolute;inset:0;background:var(--accent-deep);transform:scaleY(0);
+    transform-origin:top;transition:transform .45s ease}
+  .rail i.on::after{transform:scaleY(1)}
+  @media(max-width:720px){.rail{display:none}}
+
+  /* Portrait phones: `cover` crops these wide renders down to a featureless
+     middle strip, so the object stops reading. `contain` letterboxes onto the
+     same near-white as the card, so the object stays whole and floats in the
+     frame, which is the point. Sitting it high leaves room for the caption. */
+  @media(max-width:720px){
+    .plate{background-size:contain;background-position:center 34%}
+    .vignette{background:linear-gradient(to top,rgba(255,255,255,.98) 0%,rgba(255,255,255,.75) 26%,transparent 46%)}
+  }
+
+  .caps{position:relative;z-index:4;width:100%;padding:0 clamp(18px,4vw,44px) clamp(48px,8vh,88px);
+    padding-left:clamp(40px,7vw,96px)}
+  .cap{position:absolute;bottom:clamp(48px,8vh,88px);left:clamp(40px,7vw,96px);right:clamp(18px,4vw,44px);
+    max-width:680px;opacity:0;transform:translateY(16px);
+    transition:opacity .5s ease,transform .5s ease;pointer-events:none}
+  .cap.on{opacity:1;transform:none}
+  .cap .eyebrow{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:12px;font-weight:600}
+  .cap h2{font-size:clamp(26px,4.4vw,48px);font-weight:700;line-height:1.06;letter-spacing:-.01em;
+    color:var(--ink);text-wrap:balance}
+  .cap p{margin-top:14px;max-width:46ch;font-size:clamp(13px,1.3vw,15.5px);line-height:1.62;color:var(--muted)}
+
+  .filmopen{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;text-align:center;padding:0 22px;transition:opacity .4s ease}
+  .filmopen .eyebrow{font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:20px;font-weight:600}
+  .filmopen h2{font-size:clamp(30px,6vw,72px);font-weight:700;line-height:1.02;letter-spacing:-.01em;
+    color:var(--ink);text-wrap:balance}
+  .filmopen p{margin-top:18px;max-width:42ch;font-size:clamp(12.5px,1.3vw,15px);line-height:1.65;color:var(--muted)}
+  .cue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);width:1px;height:46px;overflow:hidden}
+  .cue::after{content:'';position:absolute;left:0;top:-46px;width:1px;height:46px;background:var(--accent-deep);
+    animation:cue 2.2s ease-in-out infinite}
+  @keyframes cue{55%,100%{transform:translateY(92px)}}
+
+  .finalcta{position:absolute;right:clamp(18px,4vw,44px);bottom:clamp(48px,8vh,88px);z-index:6;
+    display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);
+    border-radius:999px;padding:13px 24px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+    opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;pointer-events:none;
+    box-shadow:0 10px 28px -8px rgba(16,16,16,.35)}
+  .finalcta.on{opacity:1;transform:none;pointer-events:auto}
+  @media(max-width:720px){
+    .finalcta{left:clamp(18px,4vw,44px);right:auto;bottom:20px;padding:11px 18px;font-size:10px}
+    .cap{bottom:88px}
+  }
+
+  /* ===== below the fold — light page ===== */
+  .after{position:relative;z-index:7;background:var(--paper)}
+  .band{padding:clamp(70px,11vh,140px) clamp(18px,4vw,56px);max-width:1180px;margin:0 auto}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  .sectitle{font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:22px;font-weight:600}
+  .seclede{font-size:clamp(22px,3vw,36px);font-weight:700;letter-spacing:-.01em;line-height:1.15;max-width:24ch;text-wrap:balance;margin-bottom:8px}
+
+  /* explore — links out to the dedicated pages, no content duplicated here */
+  .explore-links{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,24px)}
+  @media(max-width:900px){.explore-links{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.explore-links{grid-template-columns:1fr}}
+  .explore-link{border:1px solid var(--line);border-radius:16px;padding:clamp(22px,3vw,32px);background:var(--paper);
+    display:block;transition:transform .35s ease,box-shadow .35s ease}
+  .explore-link:hover{transform:translateY(-4px);box-shadow:0 20px 40px -18px rgba(16,16,16,.16)}
+  .explore-link h3{font-size:17px;font-weight:700;line-height:1.3;letter-spacing:-.01em}
+  .explore-link .go{display:block;margin-top:16px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent-deep)}
+
+  /* three ways into the studio */
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,24px);margin-top:22px}
+  @media(max-width:900px){.tiers{grid-template-columns:1fr}}
+  .tier{border:1px solid var(--line);border-radius:16px;padding:clamp(22px,3vw,34px);background:var(--paper);
+    display:flex;flex-direction:column;transition:transform .35s ease,box-shadow .35s ease}
+  .tier:hover{transform:translateY(-5px);box-shadow:0 24px 46px -18px rgba(16,16,16,.18)}
+  .tier .meta{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .tier .name{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-deep)}
+  .tier .time{font-size:11px;letter-spacing:.08em;color:var(--muted)}
+  .tier h3{margin-top:12px;font-size:21px;font-weight:700;letter-spacing:-.01em}
+  .tier .lede{margin-top:10px;font-size:13.5px;line-height:1.6;color:var(--muted)}
+  .tier ul{margin-top:16px;list-style:none;flex:1}
+  .tier li{padding:8px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.55;color:var(--muted)}
+  .tier li::before{content:'—';color:var(--accent);margin-right:9px}
+  .tier .go{margin-top:20px;display:inline-block;border:1px solid var(--ink);border-radius:999px;padding:11px 20px;
+    text-align:center;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--ink);
+    transition:background .25s,color .25s}
+  .tier:hover .go{background:var(--ink);color:var(--paper)}
+  .tier.featured{background:var(--cream)}
+
+  footer{border-top:1px solid var(--line);padding:56px clamp(18px,4vw,56px) 64px}
+  .foot{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:28px 56px;justify-content:space-between;align-items:flex-start}
+  .foot .brandline{max-width:44ch}
+  .foot .brandline b{display:block;font-size:15px;font-weight:700;margin-bottom:10px}
+  .foot .brandline p{font-size:13px;line-height:1.7;color:var(--muted)}
+  .foot .brandline a{color:var(--accent-deep);font-weight:600}
+  .foot .cols{display:flex;gap:clamp(28px,5vw,72px)}
+  .foot .col span{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-deep);font-weight:700;margin-bottom:12px}
+  .foot .col a{display:block;font-size:13px;color:var(--muted);padding:4px 0;transition:color .2s}
+  .foot .col a:hover{color:var(--ink)}
+  .legal{max-width:1180px;margin:40px auto 0;padding-top:20px;border-top:1px solid var(--line);
+    font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+  @media(prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+<script src="lib-site-nav.js"></script>
+<div class="ribbon">Prototype · Motion Concept</div>
+
+<div class="intro">
+  <div class="eyebrow">Sculptural Bathtubs · Made to Order</div>
+  <h1>One drawing. One bathtub. Scroll to watch it take shape.</h1>
+  <p>A flat sheet of acrylic on Monday. One sculpted piece, filled with light, by the end of it — shown below exactly as it leaves the workshop.</p>
+</div>
+
+<div class="filmwrap">
+<section class="build" id="build">
+  <div class="stage">
+    <div class="plates" id="plates">
+      <div class="plate" style="background-image:url(assets/make/make-1-sheet-light.jpg)"></div>
+      <div class="plate" style="background-image:url(assets/make/make-2-formed-light.jpg)"></div>
+      <div class="plate" style="background-image:url(assets/make/make-3-reinforced-light.jpg)"></div>
+      <div class="plate" style="background-image:url(assets/make/make-4-polished-light.jpg)"></div>
+      <div class="plate" style="background-image:url(assets/make/make-5-finished-light.jpg)"></div>
+    </div>
+    <div class="vignette"></div>
+
+    <div class="rail" id="rail"><i></i><i></i><i></i><i></i><i></i></div>
+
+    <div class="filmopen" id="opening">
+      <div class="eyebrow">Five stages, one piece</div>
+      <h2>Scroll to<br>shape it</h2>
+      <p>No mould pulled off a shelf, no catalogue page — a single sheet, drawn out by hand.</p>
+      <div class="cue"></div>
+    </div>
+
+    <div class="caps">
+      <article class="cap" data-i="0">
+        <div class="eyebrow">01 — The sheet</div>
+        <h2>It starts as a flat sheet</h2>
+        <p>No mould pulled off a shelf, no catalogue page. Four millimetres of cast acrylic, still under its film, cut to the footprint your room asked for.</p>
+      </article>
+      <article class="cap" data-i="1">
+        <div class="eyebrow">02 — The pull</div>
+        <h2>One pull, one piece</h2>
+        <p>Heated until it gives, then drawn down in a single vacuum pull. The waste flange stays on for now — proof it came out of the sheet whole, with nothing joined.</p>
+      </article>
+      <article class="cap" data-i="2">
+        <div class="eyebrow">03 — The reinforcement</div>
+        <h2>The half you never see</h2>
+        <p>The flange comes off and the outside is backed by hand. Coarse, matte, unphotographed — this is the half that decides whether the tub is still true in twenty years.</p>
+      </article>
+      <article class="cap" data-i="3">
+        <div class="eyebrow">04 — The surface</div>
+        <h2>Sanded until it stops being a surface</h2>
+        <p>Worked back through every grade until the eye reads one piece of material rather than something manufactured. One overflow hole is the only interruption.</p>
+      </article>
+      <article class="cap" data-i="4">
+        <div class="eyebrow">05 — The finish</div>
+        <h2>Filled with light</h2>
+        <p>Set where the light falls across it, brassware run before a pipe is soldered. This one is yours alone — the drawing is retired the day it ships.</p>
+      </article>
+    </div>
+
+    <a class="finalcta" id="finalcta" href="#studio">Open the Design Studio →</a>
+  </div>
+</section>
+</div>
+
+<div class="after">
+  <div class="band" id="studio">
+    <div class="sectitle reveal">Design Studio · Three ways in</div>
+    <div class="seclede reveal">Same atelier, same craft — choose how deep you go.</div>
+    <div class="tiers">
+      <a class="tier reveal" href="basic.html">
+        <div class="meta"><span class="name">Basic</span><span class="time">≈ 2 minutes</span></div>
+        <h3>Designed around you</h3>
+        <p class="lede">Answer five questions — we design four tubs for your space and body.</p>
+        <ul>
+          <li>No tools to learn</li>
+          <li>Four proposals, ergonomically sized</li>
+          <li>Adjust size &amp; colour, then get your quote</li>
+        </ul>
+        <span class="go">Start with 5 questions →</span>
+      </a>
+      <a class="tier featured reveal" href="medium.html">
+        <div class="meta"><span class="name">Medium</span><span class="time">≈ 10 minutes</span></div>
+        <h3>Edit it in 3D</h3>
+        <p class="lede">Upload a photo, drawing or CAD — or start from a shape — and pull the outline directly on the tub.</p>
+        <ul>
+          <li>Photos &amp; drawings auto-traced into a tub</li>
+          <li>Pull edge nodes live on the 3D model</li>
+          <li>Instant price as you edit</li>
+        </ul>
+        <span class="go">Open the studio →</span>
+      </a>
+      <a class="tier reveal" href="pro.html">
+        <div class="meta"><span class="name">Pro</span><span class="time">No limits</span></div>
+        <h3>Full parametric control</h3>
+        <p class="lede">For designers — factory arcs, hand-sketch, CAD import, dimensioned DXF.</p>
+        <ul>
+          <li>Factory-grade mould parameters</li>
+          <li>Sketch or import your own CAD</li>
+          <li>Manufacturing CAD pack with your firm quote</li>
+        </ul>
+        <span class="go">Enter Pro →</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="band" id="explore">
+    <div class="explore-links">
+      <!-- 2026-09-02，Lyric要求：Collection／The Atelier Way原本整段內容直接活在首頁裡
+           (#collection／#way錨點)，往上捲一樣回到首頁，不是獨立分頁。改法跟ee14196對
+           Materials/How it works/Guides的處理一致：完整內容搬到新的獨立頁，這裡只留連結卡片。 -->
+      <a class="explore-link reveal" href="atelier-way.html">
+        <span class="sectitle" style="margin-bottom:10px">The Atelier Way</span>
+        <h3>Made once, never repeated — how we design and build</h3>
+        <span class="go">Read the atelier way →</span>
+      </a>
+      <a class="explore-link reveal" href="collection.html">
+        <span class="sectitle" style="margin-bottom:10px">The Collection</span>
+        <h3>Six silhouettes we've shaped for past clients</h3>
+        <span class="go">Browse the collection →</span>
+      </a>
+      <a class="explore-link reveal" href="materials.html">
+        <span class="sectitle" style="margin-bottom:10px">Materials</span>
+        <h3>Acrylic or solid surface — the full comparison</h3>
+        <span class="go">See both materials →</span>
+      </a>
+      <a class="explore-link reveal" href="how-it-works.html">
+        <span class="sectitle" style="margin-bottom:10px">How it works</span>
+        <h3>Sketch to delivery — the full process and pricing</h3>
+        <span class="go">Read how it works →</span>
+      </a>
+      <a class="explore-link reveal" href="guides.html">
+        <span class="sectitle" style="margin-bottom:10px">The Bathe journal</span>
+        <h3>Sizing, ergonomics and buying guides</h3>
+        <span class="go">Browse the guides →</span>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="foot">
+      <div class="brandline">
+        <b>Bathe Atelier</b>
+        <p>Bespoke bathtubs in acrylic &amp; solid surface, made one at a time in our own ateliers. Delivered worldwide.<br><a href="mailto:hello@batheatelier.com">hello@batheatelier.com</a></p>
+      </div>
+      <div class="cols">
+        <div class="col">
+          <span>Explore</span>
+          <a href="atelier-way.html">The Atelier Way</a>
+          <a href="collection.html">Collection</a>
+          <a href="materials.html">Materials</a>
+          <a href="how-it-works.html">How it works</a>
+          <a href="guides.html">Guides</a>
+        </div>
+        <div class="col">
+          <span>Start</span>
+          <a href="#studio">Start designing</a>
+        </div>
+      </div>
+    </div>
+    <div class="legal">© 2026 Bathe Atelier · Made one at a time · Prototype</div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var build=document.getElementById('build'),
+      plates=[].slice.call(document.querySelectorAll('.plate')),
+      wrap=document.getElementById('plates'),
+      opening=document.getElementById('opening'),
+      cta=document.getElementById('finalcta'),
+      caps=[].slice.call(document.querySelectorAll('.cap')),
+      ticks=[].slice.call(document.querySelectorAll('.rail i')),
+      N=plates.length,
+      reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function clamp(v,a,b){return v<a?a:v>b?b:v}
+  function lerp(a,b,t){return a+(b-a)*t}
+
+  // preload so a stage never flashes in mid-scroll
+  plates.forEach(function(p){
+    var m=/url\(["']?(.*?)["']?\)/.exec(p.style.backgroundImage);
+    if(m){ var im=new Image(); im.src=m[1]; }
+  });
+
+  function frame(){
+    var r=build.getBoundingClientRect();
+    var total=build.offsetHeight-window.innerHeight;
+    var p=clamp(-r.top/total,0,1);
+
+    // opening title clears over the first 11%
+    var o=clamp(p/0.11,0,1);
+    opening.style.opacity=String(1-o);
+
+    // stage position 0..N-1 across the build range
+    var b=clamp((p-0.07)/0.88,0,1);
+    var pos=b*(N-1);
+
+    // layer 0 is the base; each upper layer ramps in over its own step,
+    // so exactly one crossfade is in flight and total opacity stays 1
+    for(var i=1;i<N;i++){
+      plates[i].style.opacity=clamp(pos-i+1,0,1).toFixed(3);
+    }
+    wrap.style.transform='scale('+lerp(1.05,1.0,b).toFixed(4)+')';
+
+    var idx=Math.min(N-1,Math.round(pos));
+    for(var j=0;j<caps.length;j++){
+      caps[j].classList.toggle('on', j===idx && o>0.85);
+      if(ticks[j]) ticks[j].classList.toggle('on', j<=idx && o>0.85);
+    }
+    cta.classList.toggle('on', b>0.88);
+  }
+  // called straight from the scroll event: the browser already throttles passive
+  // scroll listeners to the frame rate, and an rAF flag would stay latched in a
+  // background tab where rAF never fires, freezing the sequence
+  window.addEventListener('scroll',frame,{passive:true});
+  window.addEventListener('resize',frame);
+  frame();
+
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.16});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+<script>
+/* 2026-09-02，Lyric要求：分支比對期間，designers.html/portfolio.html/start.html這三個
+   還沒套新皮膚的導覽項目直接從導覽列拿掉；logo(BATHE Atelier)連去index.html也還沒套新皮膚，
+   保留品牌字樣顯示但拿掉可點擊性。只在bathe-atelier-preview這個比對快照生效，
+   feat/mustsociete-restyle分支原始碼完全沒動。注意：home-motion/atelier-way/collection/
+   materials/how-it-works/guides這6頁現在的nav是lib-site-nav.js在頁面載入時注入的共用元件，
+   本來就不含這些項目了，這段對它們是no-op，只還對basic/medium/pro/contact/
+   choosing-your-material有效。 */
+(function(){
+  var HIDE = ['designers.html','portfolio.html','start.html'];
+  document.querySelectorAll('nav a[href]').forEach(function(a){
+    var href = a.getAttribute('href');
+    if(HIDE.indexOf(href) !== -1){
+      a.style.display = 'none';
+    } else if(href === 'index.html'){
+      var span = document.createElement('span');
+      span.innerHTML = a.innerHTML;
+      var style = a.getAttribute('style');
+      if(style) span.setAttribute('style', style);
+      a.replaceWith(span);
+    }
+  });
+})();
+</script>
+</body>
+</html>

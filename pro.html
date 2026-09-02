@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Design Studio · Pro — Factory-Grade Parametric Control | Bathe Atelier</title>
+<meta name="description" content="Full parametric control: factory arcs, hand-sketch, CAD import, dimensioned DXF. The manufacturing CAD pack ships with your firm quote.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..800;1,400&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/GLTFExporter.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fflate@0.7.4/umd/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/USDZExporter.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="shipping-rates.js"></script>
+<link rel="stylesheet" href="studio.css">
+<!-- Phase 5(2026-08-20)：Photo2Tub上傳banner樣式，逐字抽自photo2tub-app.html -->
+<style id="p2t-skin">
+  #p2tBanner { padding:12px clamp(20px,5vw,56px); background:#fbfaf6; border-bottom:1px solid #e6e1d5; font-size:13px; max-height:50vh; overflow-y:auto; }
+  #p2tBanner .p2t-row { display:flex; align-items:center; gap:12px; max-width:1280px; margin:0 auto; }
+  #p2tBanner .p2t-spinner { width:16px; height:16px; border-radius:50%; border:2px solid #ddd8cc; border-top-color:#9a7b43; animation:p2tspin .8s linear infinite; flex:none; }
+  @keyframes p2tspin { to { transform:rotate(360deg); } }
+  #p2tBanner.ok { border-left:3px solid #6f9a6f; }
+  #p2tBanner.warn { border-left:3px solid #b3541e; }
+  #p2tBanner.err { border-left:3px solid #b3413e; }
+  #p2tBanner .p2t-title { font-weight:700; color:#1b1a16; }
+  #p2tBanner .p2t-sub { color:#66614f; margin-top:2px; }
+  #p2tDetails { margin-top:8px; max-width:1280px; margin-left:auto; margin-right:auto; }
+  #p2tDetails summary { cursor:pointer; color:#9a7b43; font-size:12px; }
+  #p2tDetails ul { margin:6px 0 0 18px; padding:0; color:#66614f; font-size:12px; line-height:1.6; }
+  #p2tDetails li.p2t-warn-item { color:#a0611e; }
+  /* 單照片救援包招1(2026-08-23)：追問卡片樣式 */
+  .p2t-hint-card { margin-top:10px; max-width:1280px; margin-left:auto; margin-right:auto; padding:10px 14px; background:#fdfaf3; border:1px solid #ddd8cc; border-radius:8px; }
+  .p2t-hint-header { color:#9a7b43; font-size:12px; margin-bottom:8px; }
+  .p2t-hint-row { margin-bottom:8px; }
+  .p2t-hint-row:last-child { margin-bottom:0; }
+  .p2t-hint-q { color:#1b1a16; font-size:12.5px; margin-bottom:5px; }
+  .p2t-hint-opts { display:flex; flex-wrap:wrap; gap:6px; }
+  .p2t-hint-pill { font:inherit; font-size:12px; padding:5px 12px; border-radius:999px; border:1px solid #ddd8cc; background:#fff; color:#4a463d; cursor:pointer; }
+  .p2t-hint-pill:hover { border-color:#9a7b43; color:#1b1a16; }
+  .p2t-hint-pill-selected { background:#9a7b43; border-color:#9a7b43; color:#fff; font-weight:600; }
+  .p2t-hint-status { color:#5a8a5a; font-size:11.5px; margin-top:4px; min-height:14px; }
+  /* 追問卡片改彈窗(2026-09-02，Lyric回報：卡片內嵌在版面裡會把下方3D模型往下推，
+     捲不到；改成蓋在頁面上的彈窗，答完按「完成」關掉，不佔版面高度)。 */
+  #p2tHintModal { position:fixed; inset:0; z-index:200; display:none; align-items:center; justify-content:center; padding:20px; }
+  #p2tHintModal.open { display:flex; }
+  #p2tHintModal .p2t-modal-backdrop { position:absolute; inset:0; background:rgba(27,26,22,.45); }
+  #p2tHintModal .p2t-modal-panel { position:relative; background:#fdfaf3; border:1px solid #ddd8cc; border-radius:14px;
+    width:min(560px,100%); max-height:80vh; display:flex; flex-direction:column; box-shadow:0 30px 70px -20px rgba(16,16,16,.35); }
+  #p2tHintModal .p2t-modal-scroll { overflow-y:auto; padding:20px 22px; }
+  #p2tHintModal .p2t-modal-scroll .p2t-hint-card { margin-top:0; max-width:none; margin-left:0; margin-right:0; padding:0; border:none; }
+  #p2tHintModal .p2t-modal-scroll .p2t-hint-card + .p2t-hint-card { margin-top:16px; padding-top:16px; border-top:1px solid #e6e1d5; }
+  #p2tHintModal .p2t-modal-foot { padding:12px 22px; border-top:1px solid #ddd8cc; display:flex; justify-content:flex-end; flex:none; }
+  #p2tHintModal .p2t-modal-done { border:none; background:#1b1a16; color:#fff; padding:10px 22px; border-radius:999px;
+    font-size:13px; font-weight:600; cursor:pointer; }
+  #p2tHintModal .p2t-modal-done:hover { opacity:.9; }
+  /* 2026-09-02，Lyric回報：頁首說明太多、擠壓下方3D模型可視空間——三條上傳提示改成
+     預設收合，按「ⓘ Upload notes」才彈出浮層，不佔版面高度(用position:absolute浮動，
+     不會把main/#viewer往下推)。 */
+  .notes-toggle { font:inherit; font-size:12px; color:#9a7b43; background:none; border:1px solid #ddd8cc; border-radius:999px; padding:4px 12px; cursor:pointer; margin-top:4px; }
+  .notes-toggle:hover { border-color:#9a7b43; }
+  .notes-wrap { position:relative; display:inline-block; }
+  .notes-popover { display:none; position:absolute; top:calc(100% + 8px); left:0; z-index:150; width:min(420px,80vw); background:#fdfaf3; border:1px solid #ddd8cc; border-radius:12px; padding:14px 16px; box-shadow:0 20px 50px -15px rgba(16,16,16,.3); }
+  .notes-popover.open { display:block; }
+  .notes-popover .sub { margin-top:0; }
+  .notes-popover .sub + .sub { margin-top:8px; }
+</style>
+</head>
+<body>
+<!-- 站上同一條導覽列（與其他頁完全一致，維持視覺連續性） -->
+<nav style="flex:none;height:70px;display:flex;align-items:center;background:rgba(244,241,234,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid #ddd8cc">
+  <div style="width:100%;max-width:1280px;margin:0 auto;padding:0 clamp(20px,5vw,56px);display:flex;align-items:center;justify-content:space-between;gap:20px">
+    <a href="index.html" style="text-decoration:none;color:#1b1a16;display:flex;align-items:baseline;gap:9px;letter-spacing:.28em;font-size:15px;font-weight:600">BATHE<span style="font-style:normal;letter-spacing:.01em;font-weight:700;color:#9a7b43;font-size:16px">Atelier</span></a>
+    <div style="display:flex;align-items:center;gap:26px" data-nav-links>
+      <a href="materials.html" style="text-decoration:none;color:#4a463d;font-size:14px;letter-spacing:.01em">Materials</a>
+      <a href="how-it-works.html" style="text-decoration:none;color:#4a463d;font-size:14px">How it works</a>
+      <a href="designers.html" style="text-decoration:none;color:#4a463d;font-size:14px">For designers</a>
+      <a href="portfolio.html" style="text-decoration:none;color:#4a463d;font-size:14px">Portfolio</a>
+      <a href="guides.html" style="text-decoration:none;color:#4a463d;font-size:14px;font-weight:400">Guides</a>
+      <a href="start.html" style="text-decoration:none;color:#9a7b43;font-size:14px;font-weight:600">Design studio</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <select id="langSel" aria-label="Language" style="appearance:none;-webkit-appearance:none;background:transparent;border:1px solid #ddd8cc;border-radius:999px;padding:7px 14px;font-size:12.5px;font-family:inherit;color:#4a463d;cursor:pointer">
+        <option value="en">EN</option>
+        <option value="zh">简中</option>
+        <option value="th">ไทย</option>
+      </select>
+      <a href="contact.html" style="text-decoration:none;background:#1b1a16;color:#f4f1ea;padding:11px 20px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:.01em">Get free sample kit</a>
+    </div>
+  </div>
+</nav>
+<!-- 標題帶：沿用原 Design Studio 的頁面語氣 -->
+<div class="studio-strip">
+  <div>
+    <div class="eyebrow">The Design Studio — Pro</div>
+    <h1>Shape it. Watch it turn.</h1>
+    <div class="sub">Sketch any shape · sculpt it live in 3D · export designer-ready CAD — we build it from there</div>
+    <div class="notes-wrap">
+      <button type="button" class="notes-toggle" onclick="toggleUploadNotes(event)">ⓘ Upload notes</button>
+      <!-- 三條原本常駐的提示(缸型偵測警語／側拍技巧／重跑差異)收進浮層，預設收合不佔版面高度，
+           見上方.notes-popover樣式與下面toggleUploadNotes() -->
+      <div class="notes-popover" id="uploadNotesPopover">
+        <div class="sub" style="color:#c99a4a;margin-top:0">⚠ Please upload photos of a bathtub only — basins, shower trays, or washbasins cannot be reliably detected and will be reconstructed as an incorrect bathtub shape.</div>
+        <!-- Phase 6A Stage 1.5(2026-08-21)：攝影指導文案——Joplin實測證實正交側視照能讓側壁曲線
+             自動還原，這行字是覆蓋率的槓桿(近乎零成本，比Stage 2的透視數學校正便宜得多) -->
+        <div class="sub">💡 Include one photo taken square-on to the side, level with the rim — this lets us automatically recreate the side-wall profile shape.</div>
+        <!-- 雲端run-to-run非決定性已知限制(2026-08-24，8f裁定歸檔擱置＋補誠實預告)：疑GPU/容器層浮點
+             歸納順序差異，經家族邊界模糊的造型放大成可觀察的比例/家族差異；本機路徑已驗證零漂移，
+             版本一致性已排除；邊界收斂偵測是現行緩解(信心自動降級)。復活條件：使用者實際回報結果
+             不一致，或未來預算檢討騰出自一致性檢查的空間。詳見 R3_研究線總結案報告.md 第16項。 -->
+        <div class="sub">💡 Re-uploading the same photos may occasionally produce a slightly different result — if the shape looks off, try re-uploading or fine-tune it manually below.</div>
+      </div>
+    </div>
+  </div>
+  <div class="btns">
+    <!-- Phase 5(2026-08-20)：照片轉3D，跟下面既有的T5「Site photo notes」是兩個不同功能——
+         這裡是AI自動重建3D模型，Site photo notes是人工標註空間位置附在詢價信裡，UI故意分開放避免混淆 -->
+    <button class="btn btn-upl" id="photo2tubBtn" onclick="document.getElementById('photo2tubFiles').click()">📷 Generate 3D from photos</button>
+    <input type="file" id="photo2tubFiles" accept="image/png,image/jpeg,image/jpg,image/webp" multiple style="display:none">
+    <button class="btn btn-upl" onclick="document.getElementById('cadFile').click()">⬆ Upload CAD File</button>
+    <button class="btn btn-dxf" onclick="exportConceptPDF(this)">⬇ Concept PDF (free)</button>
+    <button class="btn btn-json" id="cadPackBtn" onclick="requestCadPack(this)">⬇ CAD pack (DXF + spec + renders)</button>
+    <button class="btn btn-upl" onclick="openARPreview()">📱 Preview in your space</button>
+    <!-- Phase 8 M8-2a(2026-08-21)：照片合成(貼紙式)——跟上面T5「Site photo notes」是兩個不同功能
+         (T5=標註空間位置附詢價信；這裡=把設計缸疊進場景照輸出展示圖)，入口分開避免混淆 -->
+    <button class="btn btn-upl" onclick="openPhotoCompose()">🛋 Place in a photo</button>
+    <input type="file" id="cadFile" accept=".dxf,.stl,.json" style="display:none">
+  </div>
+</div>
+<div id="p2tBanner" style="display:none"></div>
+<main>
+  <div id="panel">
+    <!-- Phase 8佇列(2026-08-22)：缸型切換提升為一級控制——直接是#panel的子元素、故意不用class="group"，
+         避開lib-edit3d-handles.js的EDIT_MODE面板收合邏輯(只收':scope > .group')，讓純手動設計靠牆缸的人
+         不用先找到照片上傳區。select本身id/onchange原樣搬過來，photo2tub上傳流程讀值的路徑不受影響。 -->
+    <div style="margin-bottom:16px;padding:12px;border:1px solid #2e2a24;border-radius:16px;background:#201d19">
+      <h3 style="font-size:13px;color:#ece7dc;margin-bottom:10px;border-left:3px solid #9a7b43;padding-left:8px">Tub Type</h3>
+      <select id="photo2tubType" onchange="if(typeof chooseTubType==='function') chooseTubType(this.value)" style="width:100%;background:#1c1a17;color:#ece7dc;border:1px solid #2a2723;border-radius:8px;padding:8px 10px;font-size:13px">
+        <option value="freestanding" selected>Freestanding</option>
+        <option value="wall">Wall-mounted</option>
+      </select>
+    </div>
+    <button class="preset" style="margin:0 0 12px;padding:11px" onclick="openWizard()">✨ Guided design — answer 5 questions, get 4 tailored tubs</button>
+    <div class="group">
+      <h3>① Tub Shape (Freestanding)</h3>
+      <div class="shape-btns">
+        <button data-shape="rect" onclick="setShape('rect',this)">Rounded Rect</button>
+        <button data-shape="stadium" onclick="setShape('stadium',this)">Rounded Ends</button>
+        <button data-shape="ellipse" class="active" onclick="setShape('ellipse',this)">Oval</button>
+        <button data-shape="custom" onclick="openSketch()">✏️ Sketch</button>
+      </div>
+      <div class="rim-label">Rim profile</div>
+      <div class="drain-btns rim-btns">
+        <button data-rim="flat" onclick="setRim('flat',this)">Flat</button>
+        <button data-rim="round" class="active" onclick="setRim('round',this)">Rounded</button>
+        <button data-rim="bevel" onclick="setRim('bevel',this)">Beveled</button>
+      </div>
+      <button class="preset" onclick="applyPhotoPreset()">★ Photo preset: asymmetric egg tub</button>
+      <div class="rim-label" style="margin-top:10px">Factory classics (production-proven)</div>
+      <div class="drain-btns">
+        <button onclick="applyClassic('marbella',this)">Marbella</button>
+        <button onclick="applyClassic('victoria',this)">Victoria</button>
+        <button onclick="applyClassic('darwin',this)">Darwin</button>
+      </div>
+    </div>
+    <div class="group">
+      <h3>② Dimensions (mm)</h3>
+      <div class="row"><label>Overall length</label><input type="range" id="rL" min="1200" max="2200" step="10" value="1600"><div class="val"><input id="nL" value="1600"><span>mm</span></div></div>
+      <div class="row"><label>Overall width</label><input type="range" id="rW" min="600" max="1200" step="10" value="800"><div class="val"><input id="nW" value="800"><span>mm</span></div></div>
+      <div class="row"><label>Rim height (front)</label><input type="range" id="rH" min="400" max="1100" step="10" value="580"><div class="val"><input id="nH" value="580"><span>mm</span></div></div>
+      <div class="row"><label>Wall thickness</label><input type="range" id="rT" min="5" max="40" step="1" value="20"><div class="val"><input id="nT" value="20"><span>mm</span></div></div>
+      <div class="row"><label>Base thickness</label><input type="range" id="rB" min="20" max="200" step="5" value="130"><div class="val"><input id="nB" value="130"><span>mm</span></div></div>
+      <div class="row" id="radiusRow" style="display:none"><label>Corner radius</label><input type="range" id="rR" min="50" max="300" step="10" value="150"><div class="val"><input id="nR" value="150"><span>mm</span></div></div>
+      <div class="row" id="lipRow"><label>Rim edge width</label><input type="range" id="rLip" min="10" max="40" step="1" value="20"><div class="val"><input id="nLip" value="20"><span>mm</span></div></div>
+      <div class="row" id="ibLRow"><label>Inner base length</label><input type="range" id="rIbL" min="500" max="1900" step="2" value="1108"><div class="val"><input id="nIbL" value="1108"><span>mm</span></div></div>
+      <div class="row" id="ibWRow"><label>Inner base width</label><input type="range" id="rIbW" min="250" max="950" step="2" value="518"><div class="val"><input id="nIbW" value="518"><span>mm</span></div></div>
+      <div class="row" id="obLRow"><label>Outer base length</label><input type="range" id="rObL" min="600" max="2000" step="2" value="1190"><div class="val"><input id="nObL" value="1190"><span>mm</span></div></div>
+      <div class="row" id="obWRow"><label>Outer base width</label><input type="range" id="rObW" min="300" max="1000" step="2" value="600"><div class="val"><input id="nObW" value="600"><span>mm</span></div></div>
+      <div id="warn">⚠ Invalid parameters: interior space too small, please adjust</div>
+      <div id="lenWarn" class="tip" style="display:none;color:#b3541e">⚠ Interior length under 950mm — only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).</div>
+      <div id="thinWarn" class="tip" style="display:none;color:#b3541e">⚠ Wall thickness below 5mm between inner and outer shells — adjust base sizes or arc R.</div>
+    </div>
+    <div class="group">
+      <h3>③ Asymmetry Parameters</h3>
+      <div class="row"><label>Backrest rise (rear)</label><input type="range" id="rDH" min="0" max="250" step="10" value="0"><div class="val"><input id="nDH" value="0"><span>mm</span></div></div>
+      <div class="row"><label>Rise curvature</label><input type="range" id="rArc" min="0" max="100" step="5" value="60"><div class="val"><input id="nArc" value="60"><span>%</span></div></div>
+      <div class="row"><label>Egg factor</label><input type="range" id="rE" min="0" max="30" step="1" value="0"><div class="val"><input id="nE" value="0"><span>%</span></div></div>
+      <div class="row"><label>Base taper</label><input type="range" id="rS" min="60" max="100" step="1" value="100"><div class="val"><input id="nS" value="100"><span>%</span></div></div>
+      <div class="tip">Backrest rise = how much higher the rear rim is (sloped rim) | Egg factor = narrower front, wider rear | Base taper = footprint vs rim opening; smaller = more inward-curving walls</div>
+      <div class="rim-label" style="margin-top:10px">Side wall profile</div>
+      <div class="drain-btns wallmode-btns">
+        <button data-wallmode="factory" class="active" onclick="setWallMode('factory',this)">Factory arcs (per-side R)</button>
+        <button data-wallmode="curve" onclick="setWallMode('curve',this)">Default curve</button>
+        <button data-wallmode="arc" onclick="setWallMode('arc',this)">Arc R</button>
+        <button data-wallmode="s" onclick="setWallMode('s',this)">S-curve (2 arcs)</button>
+      </div>
+      <div class="row" id="riLRow" style="margin-top:10px"><label>Inner wall R — length section</label><input type="range" id="rRiL" min="300" max="5000" step="1" value="1001"><div class="val"><input id="nRiL" value="1001"><span>mm</span></div></div>
+      <div class="row" id="riWRow"><label>Inner wall R — width section</label><input type="range" id="rRiW" min="300" max="5000" step="1" value="1152"><div class="val"><input id="nRiW" value="1152"><span>mm</span></div></div>
+      <div class="row" id="roLRow"><label>Outer wall R — length section</label><input type="range" id="rRoL" min="300" max="5000" step="1" value="887"><div class="val"><input id="nRoL" value="887"><span>mm</span></div></div>
+      <div class="row" id="roWRow"><label>Outer wall R — width section</label><input type="range" id="rRoW" min="300" max="5000" step="1" value="1743"><div class="val"><input id="nRoW" value="1743"><span>mm</span></div></div>
+      <div class="row" id="wallRRow" style="display:none;margin-top:10px"><label>Side wall arc R</label><input type="range" id="rWR" min="600" max="4000" step="50" value="2000"><div class="val"><input id="nWR" value="2000"><span>mm</span></div></div>
+      <div class="row" id="wallR1Row" style="display:none;margin-top:10px"><label>Lower arc R1</label><input type="range" id="rWR1" min="600" max="4000" step="50" value="2000"><div class="val"><input id="nWR1" value="2000"><span>mm</span></div></div>
+      <div class="row" id="wallR2Row" style="display:none"><label>Upper arc R2 (reversed)</label><input type="range" id="rWR2" min="600" max="4000" step="50" value="1200"><div class="val"><input id="nWR2" value="1200"><span>mm</span></div></div>
+      <div class="row" id="wallMidRow" style="display:none"><label>S join height</label><input type="range" id="rWM" min="20" max="80" step="5" value="55"><div class="val"><input id="nWM" value="55"><span>%</span></div></div>
+      <div class="tip">Arc / S-curve run from the tapered base edge up to the rim (width section as reference). Smaller R = more curved. All R values are annotated on the CAD drawing — the factory reads them straight off. Sketched profiles are auto-fitted to arcs where possible.</div>
+      <div class="chk" id="skirtChk" style="margin-top:10px"><input type="checkbox" id="skirtToggle"><label for="skirtToggle">Pedestal skirt base (Oneida-style)</label></div>
+      <div class="row" id="skirtHRow" style="display:none;margin-top:10px"><label>Skirt height</label><input type="range" id="rSkH" min="80" max="300" step="10" value="180"><div class="val"><input id="nSkH" value="180"><span>mm</span></div></div>
+      <div class="row" id="skirtWRow" style="display:none"><label>Waist width</label><input type="range" id="rSkW" min="45" max="90" step="1" value="58"><div class="val"><input id="nSkW" value="58"><span>%</span></div></div>
+      <div class="row" id="skirtRRow" style="display:none"><label>Skirt arc R</label><input type="range" id="rSkR" min="300" max="1500" step="25" value="400"><div class="val"><input id="nSkR" value="400"><span>mm</span></div></div>
+      <div class="tip" id="skirtTip" style="display:none">Outer shell only: skirt foot width = Base taper, tucks in to the waist, then the wall profile continues to the rim. The inner bowl stays a normal bowl.</div>
+      <div class="chk" style="margin-top:10px"><input type="checkbox" id="undercutToggle"><label for="undercutToggle">Allow undercut (bulge beyond rim — split mould: stone resin / premium)</label></div>
+      <div class="tip">Vertical demoulding cannot have undercuts. Unchecked = walls auto-limited to never bulge beyond the rim (standard acrylic)</div>
+      <div id="undercutWarn" class="tip" style="display:none;color:#b3541e">⚠ Undercut on acrylic needs a split mould and hand-finished seams — high cost. Consider solid surface, or continue as premium bespoke.</div>
+    </div>
+    <div class="group">
+      <h3>④ Drain & Floor Slope</h3>
+      <div class="drain-btns">
+        <button data-drain="center" class="active" onclick="setDrain('center',this)">Center</button>
+        <button data-drain="back" onclick="setDrain('back',this)">End · rear</button>
+        <button data-drain="front" onclick="setDrain('front',this)">End · front</button>
+        <button data-drain="side" onclick="setDrain('side',this)">Short edge</button>
+        <button data-drain="side2" onclick="setDrain('side2',this)">Short edge · opposite</button>
+      </div>
+      <div class="row" style="margin-top:12px"><label>Floor drain slope</label><input type="range" id="rSlope" min="1.3" max="1.5" step="0.05" value="1.5"><div class="val"><input id="nSlope" value="1.5"><span>°</span></div></div>
+      <div class="tip">Tub floor slopes towards the drain, drain at the lowest point (factory standard 1.3–1.5°). Drain detail follows the factory standard fitting, applied at mould stage.</div>
+      <div class="chk" id="ovfChk" style="margin-top:10px"><input type="checkbox" id="ovfToggle"><label for="ovfToggle">Overflow drain (factory standard, 75mm below rim)</label></div>
+      <div class="chk" id="faucetChk" style="margin-top:10px"><input type="checkbox" id="faucetToggle"><label for="faucetToggle">Faucet hole (drag on the rim to position)</label></div>
+      <!-- 佇列項11(2026-08-22)原為Pro專屬進階選項，Lyric裁定改列基本功能，同批下放Medium/Basic，
+           這裡順手拿掉"(advanced)"/"Experimental"措辭，跟三版本頁統一。
+           0°=平底(預設，跟現行零改動)，範圍0-3°對應「非平整底」的斜面底例子，不做任意自訂輪廓(v2 backlog)。 -->
+      <div class="row" style="margin-top:12px"><label>Base slope</label><input type="range" id="rBaseSlope" min="0" max="3" step="0.1" value="0"><div class="val"><input id="nBaseSlope" value="0"><span>°</span></div></div>
+      <div class="tip">Tilts the whole tub base into a wedge shape (0° = standard flat base). For a tub that needs to sit on an angled surface or a deliberate sloped-base look.</div>
+    </div>
+    <div class="group">
+      <h3>⑤ Material & Colour</h3>
+      <div class="drain-btns mat-btns" style="margin-bottom:10px">
+        <button data-mat="acrylic" class="active" onclick="setMaterial('acrylic',this)">Acrylic (gloss)</button>
+        <button data-mat="solid" onclick="setMaterial('solid',this)">Solid surface (matte)</button>
+      </div>
+      <div class="swatches">
+        <div class="sw active" style="background:#f5f5f0" data-c="#f5f5f0" title="Classic White"></div>
+        <div class="sw" style="background:#2b2b2b" data-c="#2b2b2b" title="Matte Black"></div>
+        <div class="sw" style="background:#9aa5ad" data-c="#9aa5ad" title="Stone Grey"></div>
+        <div class="sw" style="background:#e8dcc8" data-c="#e8dcc8" title="Cream"></div>
+        <div class="sw" style="background:#5d7b6f" data-c="#5d7b6f" title="Morandi Green"></div>
+        <input type="color" id="customColor" value="#f5f5f0" style="width:32px;height:28px;border:none;background:none;cursor:pointer" title="Custom colour">
+      </div>
+      <div class="chk" style="margin-top:10px"><input type="checkbox" id="waterToggle"><label for="waterToggle">Show water level (translucent blue = water)</label></div>
+    </div>
+    <div class="group">
+      <h3>⑥ Order Info (exported to CAD / spec)</h3>
+      <input type="text" id="custName" placeholder="Customer name">
+      <input type="email" id="custEmail" placeholder="Email *">
+      <input type="text" id="custNote" placeholder="Notes (e.g. overflow drain required)">
+    </div>
+    <div class="group">
+      <h3>⑦ Live Specifications</h3>
+      <table id="spec"></table>
+    </div>
+    <div class="group">
+      <h3>⑧ Price & Quote</h3>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0 2px">
+        <span style="font-size:12.5px;color:#8a8478">Tier</span>
+        <b id="tierName" style="font-weight:700;font-size:18px;color:#9a7b43"></b>
+      </div>
+      <div id="tierDesc" class="tip" style="margin-bottom:8px"></div>
+      <label style="display:flex;gap:8px;align-items:flex-start;font-size:13px;margin-bottom:12px;cursor:pointer">
+        <input type="checkbox" id="optOneOfOne" style="margin-top:2px;accent-color:#9a7b43">
+        <span>Make it One-of-One (mold retired + certificate)</span>
+      </label>
+      <div style="font-size:12.5px;color:#8a8478;margin-bottom:5px">Options</div>
+      <label style="display:flex;gap:8px;align-items:center;font-size:13px;margin-bottom:5px;cursor:pointer">
+        <input type="checkbox" id="optBackrest" style="accent-color:#9a7b43">
+        <span>Heated backrest</span>
+        <b style="margin-left:auto">+$1,690</b>
+      </label>
+      <label style="display:flex;gap:8px;align-items:center;font-size:13px;margin-bottom:10px;cursor:pointer">
+        <input type="checkbox" id="optBasin" style="accent-color:#9a7b43">
+        <span>Matching basin</span>
+        <b id="basinPriceLbl" style="margin-left:auto">+$990</b>
+      </label>
+      <div id="priceRows" style="font-size:13px;border-top:1px solid #ddd8cc;padding-top:7px"></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:7px 0 10px;border-bottom:2px solid #1b1a16;margin-bottom:10px">
+        <span style="font-size:12.5px;color:#8a8478">Estimated price</span>
+        <b id="fromTotal" style="font-weight:700;font-size:20px;color:#9a7b43"></b>
+      </div>
+      <div style="margin:2px 0 12px">
+        <div style="font-size:12.5px;color:#8a8478;margin-bottom:5px">Ship to</div>
+        <select id="shipDest" style="width:100%;padding:8px 10px;font-size:13px;border:1px solid #ddd8cc;border-radius:8px;background:#fff;color:#1b1a16"></select>
+        <div id="shipEst" style="display:none;margin-top:9px;font-size:13.5px">
+          <div style="display:flex;justify-content:space-between"><span style="color:#8a8478">Est. shipping</span><b id="shipVal"></b></div>
+          <div style="display:flex;justify-content:space-between;margin-top:3px"><span style="color:#8a8478">Est. total</span><b id="totVal" style="color:#9a7b43"></b></div>
+          <div class="tip" style="margin-top:6px">Door-to-door estimate — confirmed on your firm quote.</div>
+        </div>
+      </div>
+      <div class="tip" style="margin-bottom:10px">USD $399 design fee — fully credited to any tier. Final price is confirmed on your firm quote.</div>
+      <button id="quoteBtn" onclick="sendQuote(this)" style="width:100%;background:#1b1a16;color:#f4f1ea;border:none;padding:14px;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer">Submit design & get a firm quote →</button>
+      <div id="quoteBanner" style="display:none;margin-top:10px;padding:12px;border-radius:10px;font-size:13px;line-height:1.5"></div>
+    </div>
+    <div class="group">
+      <h3>Production Flow</h3>
+      <div class="flow" id="flowBox">
+        <b>Customer</b>: adjust shape &amp; parameters here with live 3D preview<br><b>↓ One-click export</b><br><b>Designer</b>: DXF 3-view drawing (editable in AutoCAD) + JSON spec sheet<br><b>↓ Designer review / fine-tune</b><br><b>Factory</b>: acrylic = mould + thermoforming; solid surface = CNC shaping + hand finishing
+      </div>
+    </div>
+  </div>
+  <div id="viewer">
+    <canvas id="canvas3d"></canvas>
+    <div id="extBanner">Viewing external CAD model — adjust any parameter to return to the parametric model</div>
+    <div id="hint">Drag = 360° free orbit (incl. bottom view) | Scroll = zoom</div>
+  </div>
+</main>
+<div id="sketchModal">
+  <div class="sk-box">
+    <h2>✏️ Sketch Your Bathtub Shape</h2>
+    <div class="sk-sub">Draw a one-of-a-kind bathtub — sketch lines are auto-smoothed into clean curves and built into a 3D model. All dimension parameters remain adjustable afterwards.</div>
+    <div class="sk-flex">
+      <div class="sk-col">
+        <h4>① Top-View Rim Shape (required)</h4>
+        <div class="desc" id="skDescTop">The rim outline seen from directly above. Draw a <b>closed</b> shape (ends auto-connect). You can also photograph a paper sketch and upload it (dark pen, white paper, even lighting).</div>
+        <canvas id="padTop" class="pad" width="360" height="260"></canvas>
+        <div class="sk-tools">
+          <button onclick="clearPad('top')">Clear</button>
+          <label class="upl">📷 Upload sketch photo<input type="file" id="uplTop" accept="image/*" style="display:none"></label>
+        </div>
+      </div>
+      <div class="sk-col">
+        <h4>② Side Wall Profile (optional)</h4>
+        <div class="desc" id="skDescSide">Dashed line on the left = tub centerline. Draw one side wall curve <b>from bottom to top</b> (e.g. tapered base, bulging middle). If skipped, the "Base taper" slider is used instead.</div>
+        <canvas id="padSide" class="pad" width="300" height="260"></canvas>
+        <div class="sk-tools">
+          <button onclick="clearPad('side')">Clear</button>
+          <button onclick="clearPad('side');useDefaultProfile=true">Use default profile</button>
+        </div>
+      </div>
+    </div>
+    <div id="skErr"></div>
+    <div class="sk-actions">
+      <button class="cancel" onclick="closeSketch()">Cancel</button>
+      <button class="ok" onclick="confirmSketch()">✔ Generate 3D Model</button>
+    </div>
+  </div>
+</div>
+<div id="wizModal" style="display:none;position:fixed;inset:0;background:rgba(15,25,35,.55);z-index:100;align-items:center;justify-content:center">
+  <div class="sk-box" style="width:min(680px,94vw)">
+    <div id="wizQ">
+      <h2>✨ Guided design</h2>
+      <div class="sk-sub">Answer a few questions — we design four tubs around you, then you fine-tune the one you like.</div>
+      <div class="rim-label" style="margin-top:0">Installation space</div>
+      <div class="row"><label>Space length</label><input type="range" id="rSpL" min="1300" max="4000" step="50" value="2400"><div class="val"><input id="nSpL" value="2400"><span>mm</span></div></div>
+      <div class="row"><label>Space width</label><input type="range" id="rSpW" min="700" max="3000" step="50" value="1600"><div class="val"><input id="nSpW" value="1600"><span>mm</span></div></div>
+      <div class="tip">We keep at least 50mm clearance on each side for installation and cleaning.</div>
+      <div class="rim-label">Main bather's height</div>
+      <div class="row"><label>Height</label><input type="range" id="rBh" min="140" max="200" step="1" value="170"><div class="val"><input id="nBh" value="170"><span>cm</span></div></div>
+      <div class="rim-label">How do you like to soak?</div>
+      <div class="drain-btns" id="postureBtns">
+        <button data-pos="recline" class="active">Recline, knees relaxed</button>
+        <button data-pos="stretch">Lie flat, legs straight</button>
+        <button data-pos="deep">Deep soak, seated</button>
+      </div>
+      <div class="rim-label">Bathing for</div>
+      <div class="drain-btns" id="bathersBtns">
+        <button data-n="1" class="active">One person</button>
+        <button data-n="2">Two people</button>
+      </div>
+      <div class="rim-label">Which look speaks to you?</div>
+      <div class="drain-btns" id="lookBtns">
+        <button data-look="organic" class="active">Soft organic</button>
+        <button data-look="rounded">Rounded ends</button>
+        <button data-look="linear">Clean lines</button>
+      </div>
+      <div class="sk-actions">
+        <button class="cancel" onclick="closeWizard()">Cancel</button>
+        <button class="ok" onclick="generateProposals()">✨ Design my four tubs →</button>
+      </div>
+    </div>
+    <div id="wizP" style="display:none">
+      <h2>Your four proposals</h2>
+      <div class="sk-sub">Built around your space and body — pick one, then fine-tune it.</div>
+      <div id="propGrid"></div>
+      <div class="tip" style="margin-top:10px">Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one — everything stays adjustable.</div>
+      <div class="sk-actions">
+        <button class="cancel" onclick="wizBack()">← Change answers</button>
+        <button class="cancel" onclick="closeWizard()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Phase 8 M8-1b(2026-08-21)：在你的空間查看(AR)——同機iOS直接開Quick Look，
+     其他裝置顯示QR給iPhone/iPad掃(Android v1不支援，見lib-edit3d-ar-ui.js開頭說明) -->
+<div id="arModal" style="display:none;position:fixed;inset:0;background:rgba(15,25,35,.55);z-index:100;align-items:center;justify-content:center">
+  <div class="sk-box" style="width:min(420px,92vw);text-align:center">
+    <h2>📱 Preview in your space</h2>
+    <div id="arIOSPanel" style="display:none">
+      <div class="sk-sub">Tap below to view this design in AR, right where you're standing.</div>
+      <button class="ok" onclick="launchARSameDevice()">👁 View in AR</button>
+    </div>
+    <div id="arDesktopPanel" style="display:none">
+      <div class="sk-sub">Scan with an iPhone or iPad to view this design in AR.</div>
+      <img id="arQrImg" style="width:220px;height:220px;margin:10px auto;display:block">
+      <div id="arQrError" class="tip" style="display:none;color:#b3541e"></div>
+      <div class="tip">Android AR support is on our roadmap — for now, this works on iPhone/iPad.</div>
+    </div>
+    <div class="sk-actions"><button class="cancel" onclick="closeARPreview()">Close</button></div>
+  </div>
+</div>
+
+<!-- Phase 8 M8-2a(2026-08-21)：照片合成(貼紙式)——上傳場景照，把設計缸的去背渲染貼紙
+     拖曳/縮放/旋轉對齊後輸出合成圖。純前端零上傳。邏輯在lib-edit3d-photocompose.js -->
+<div id="composeModal" style="display:none;position:fixed;inset:0;background:rgba(15,25,35,.55);z-index:100;align-items:center;justify-content:center">
+  <div class="sk-box" style="width:min(860px,94vw)">
+    <h2>🛋 Place your design in a photo</h2>
+    <div class="sk-sub">Upload a photo of the space, then drag, pinch or scroll to place the tub. The photo never leaves your browser.</div>
+    <div class="sk-tools" style="margin-bottom:8px;flex-wrap:wrap">
+      <label class="upl">📷 Upload photo<input type="file" id="pcPhotoFile" accept="image/*" style="display:none"></label>
+      <button id="pcModePlace" class="active" onclick="pcSetMode('place')">Move &amp; resize</button>
+      <button id="pcModeView" onclick="pcSetMode('view')">↻ Adjust 3D view</button>
+      <label style="display:inline-flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="checkbox" id="pcShadowChk" checked onchange="pcToggleShadow(this)">Ground shadow</label>
+      <label style="display:inline-flex;align-items:center;gap:6px;font-size:13px">Rotate<input type="range" id="pcRotSlider" min="-180" max="180" value="0" step="1" style="width:110px"></label>
+    </div>
+    <div style="max-height:56vh;overflow:auto;border:1px solid #ddd8cc;border-radius:8px;background:#faf8f3;text-align:center">
+      <canvas id="pcCanvas" style="max-width:100%;cursor:move;touch-action:none"></canvas>
+    </div>
+    <div id="pcTip" class="tip" style="margin-top:6px"></div>
+    <!-- margin-inline-start(非文字空格)隔開連結：i18n的applyLang()會用t(key)整段覆蓋文字節點內容，
+         尾隨空格活不過語言切換，靠CSS間距才不受影響(3d-photo2tub-55複核時發現，順手修) -->
+    <div class="tip" style="margin-top:4px">Sizing here is visual only — for true-to-scale placement, use AR.<a href="javascript:void(0)" onclick="pcSwitchToAR()" style="color:#c99a4a;margin-inline-start:5px">📱 View in AR instead</a></div>
+    <div id="pcStatus" class="tip" style="margin-top:4px"></div>
+    <div class="sk-actions">
+      <button class="cancel" onclick="closePhotoCompose()">Close</button>
+      <button class="ok" id="pcShareBtn" style="display:none" onclick="pcShare()">📤 Share</button>
+      <button class="ok" onclick="pcDownload()">⬇ Download image</button>
+    </div>
+  </div>
+</div>
+<script>
+  // 三版本設定（必須在 lib 之前）
+  window.PAGE_ID_PREFIX='BA-P'; window.PAGE_TAG='design-studio-pro'; window.PAGE_CAD_GATE=true;
+
+  // 2026-09-02：頁首「Upload notes」浮層開關，點toggle開/關，點外面自動關閉
+  function toggleUploadNotes(e){
+    e.stopPropagation();
+    document.getElementById('uploadNotesPopover').classList.toggle('open');
+  }
+  document.addEventListener('click', (e)=>{
+    const pop = document.getElementById('uploadNotesPopover');
+    if(pop && pop.classList.contains('open') && !e.target.closest('.notes-wrap')) pop.classList.remove('open');
+  });
+</script>
+<!-- Phase 5(2026-08-20)：換底Edit3D共用核心(lib-edit3d-*.js)，取代lib-tub-engine/export/import/
+     ui/sketch/wizard/handles/i18n八個舊模組；state/scene/pricing/orbit/boot四個核對後零差異沿用不動；
+     wallmount/photo2tub為新增能力。順序要求：wallmount在geometry之前(geometry呼叫wallIdxWeight)；
+     handles在orbit/boot之前(boot.js結尾的buildTub()/animate()要在EDIT_MODE monkey-patch過buildTub後才call)；
+     photo2tub殿後(呼叫importSpecJSON，import.js要先載入)。 -->
+<script src="lib-tub-state.js"></script>
+<script src="lib-edit3d-i18n.js"></script>
+<script src="lib-tub-scene.js"></script>
+<script src="lib-edit3d-wallmount.js"></script>
+<script src="lib-edit3d-geometry.js"></script>
+<script src="lib-tub-pricing.js"></script>
+<script src="lib-edit3d-export.js"></script>
+<script src="lib-edit3d-ar-export.js"></script>
+<script src="lib-edit3d-import.js"></script>
+<script src="lib-edit3d-ui.js"></script>
+<script src="lib-edit3d-sketch.js"></script>
+<script src="lib-edit3d-wizard.js"></script>
+<script src="lib-edit3d-handles.js"></script>
+<script src="lib-tub-orbit.js"></script>
+<script src="lib-tub-boot.js"></script>
+<script src="lib-edit3d-photo2tub.js"></script>
+<script src="lib-edit3d-ar-ui.js"></script>
+<script src="lib-edit3d-photocompose.js"></script>
+<script>
+/* 2026-09-02，Lyric要求：分支比對期間，designers.html/portfolio.html/start.html這三個
+   還沒套新皮膚的導覽項目直接從導覽列拿掉；logo(BATHE Atelier)連去index.html也還沒套新皮膚，
+   保留品牌字樣顯示但拿掉可點擊性。只在bathe-atelier-preview這個比對快照生效，
+   feat/mustsociete-restyle分支原始碼完全沒動。注意：home-motion/atelier-way/collection/
+   materials/how-it-works/guides這6頁現在的nav是lib-site-nav.js在頁面載入時注入的共用元件，
+   本來就不含這些項目了，這段對它們是no-op，只還對basic/medium/pro/contact/
+   choosing-your-material有效。 */
+(function(){
+  var HIDE = ['designers.html','portfolio.html','start.html'];
+  document.querySelectorAll('nav a[href]').forEach(function(a){
+    var href = a.getAttribute('href');
+    if(HIDE.indexOf(href) !== -1){
+      a.style.display = 'none';
+    } else if(href === 'index.html'){
+      var span = document.createElement('span');
+      span.innerHTML = a.innerHTML;
+      var style = a.getAttribute('style');
+      if(style) span.setAttribute('style', style);
+      a.replaceWith(span);
+    }
+  });
+})();
+</script>
+</body>

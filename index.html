@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bathe Atelier — Sculptural Bathtubs, Made to Order</title>
+<meta name="description" content="Sculptural freestanding bathtubs, designed by you and made to order — one at a time. Shape yours in the 3D Design Studio.">
+<link rel="canonical" href="https://batheatelier.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bathe Atelier">
+<meta property="og:title" content="Bathe Atelier — Sculptural Bathtubs, Made to Order">
+<meta property="og:description" content="Sculptural freestanding bathtubs, designed by you and made to order — one at a time.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,300..700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:#131211; color:#ece7dc; font-family:"DM Sans",system-ui,sans-serif; }
+  ::selection { background:#9a7b43; color:#131211; }
+
+  /* ===== 懸浮極簡導覽 ===== */
+  nav { position:fixed; inset:0 0 auto 0; z-index:50; display:flex; align-items:center; justify-content:space-between;
+        padding:26px clamp(20px,4vw,56px); }
+  nav .links { display:flex; gap:clamp(18px,3vw,44px); }
+  nav a { color:#ece7dc; text-decoration:none; font-size:11.5px; letter-spacing:.22em; text-transform:uppercase; opacity:.85; transition:opacity .2s; }
+  nav a:hover { opacity:1; }
+  nav .brand { font-family:'Anton',sans-serif; font-size:19px; letter-spacing:.08em; color:#ece7dc; text-decoration:none;
+               position:absolute; left:50%; transform:translateX(-50%); opacity:1; }
+  nav .cta { border:1px solid #9a7b43; border-radius:999px; padding:9px 18px; color:#e6c98a; font-size:11px; letter-spacing:.18em; }
+  nav .cta:hover { background:#9a7b43; color:#131211; opacity:1; }
+
+  /* ===== 全螢幕幕式段落 ===== */
+  main { scroll-snap-type:y proximity; }
+  section.act { position:relative; height:100vh; min-height:640px; scroll-snap-align:start; overflow:hidden;
+                display:flex; align-items:center; justify-content:center; }
+  section.act .bg { position:absolute; inset:0; background-size:cover; background-position:center;
+                    transform:scale(1.06); animation:drift 26s ease-in-out infinite alternate; }
+  @keyframes drift { from { transform:scale(1.06) translateY(0); } to { transform:scale(1.12) translateY(-1.5%); } }
+  section.act .veil { position:absolute; inset:0; background:linear-gradient(to top, rgba(19,18,17,.55) 0%, rgba(19,18,17,0) 34%),
+                                              linear-gradient(to bottom, rgba(19,18,17,.35) 0%, rgba(19,18,17,0) 22%); }
+
+  /* Hero */
+  .hero-center { position:relative; text-align:center; padding:0 20px; transform:translateY(-9vh); }
+  .hero-center h1 { font-family:'Anton',sans-serif; font-size:clamp(52px,10vw,150px); line-height:.98; letter-spacing:.02em; color:#f4efe4;
+                    text-transform:uppercase; }
+  .hero-center .sub { margin-top:18px; font-size:clamp(10.5px,1.2vw,13px); letter-spacing:.34em; text-transform:uppercase; color:#cfc7b6; }
+  .scroll-cue { position:absolute; bottom:30px; left:50%; transform:translateX(-50%); width:1px; height:56px; overflow:hidden; }
+  .scroll-cue::after { content:''; position:absolute; left:0; top:-56px; width:1px; height:56px; background:#e6c98a; animation:cue 2.2s ease-in-out infinite; }
+  @keyframes cue { 55%,100% { transform:translateY(112px); } }
+
+  /* 幕：作品 */
+  .caption { position:absolute; left:clamp(20px,4vw,56px); bottom:clamp(26px,4vh,44px); max-width:70%; }
+  .caption .name { font-family:'Anton',sans-serif; font-size:clamp(38px,6vw,84px); letter-spacing:.03em; text-transform:uppercase; color:#f4efe4; line-height:1; }
+  .caption .line { margin-top:10px; font-size:clamp(12px,1.3vw,15px); letter-spacing:.12em; color:#cfc7b6; text-transform:uppercase; }
+  .act-cta { position:absolute; right:clamp(20px,4vw,56px); bottom:clamp(30px,4.5vh,48px); border:1px solid rgba(236,231,220,.55);
+             border-radius:999px; padding:12px 22px; color:#ece7dc; text-decoration:none; font-size:11.5px; letter-spacing:.2em;
+             text-transform:uppercase; backdrop-filter:blur(4px); transition:all .25s; white-space:nowrap; }
+  .act-cta:hover { background:#ece7dc; color:#131211; border-color:#ece7dc; }
+
+  /* 進場動效 */
+  .rise { opacity:0; transform:translateY(26px); transition:opacity .9s ease, transform .9s ease; }
+  .in .rise { opacity:1; transform:none; }
+  .in .rise.d1 { transition-delay:.12s; } .in .rise.d2 { transition-delay:.24s; }
+
+  /* 終幕 CTA */
+  .finale { background:#131211; flex-direction:column; text-align:center; }
+  .finale h2 { font-family:'Anton',sans-serif; font-size:clamp(46px,9vw,130px); letter-spacing:.02em; text-transform:uppercase; color:#f4efe4; line-height:1; }
+  .finale p { margin:22px 0 34px; font-size:clamp(12px,1.4vw,15px); letter-spacing:.22em; text-transform:uppercase; color:#b5ac9c; }
+  .finale .go { border:1px solid #9a7b43; background:transparent; border-radius:999px; padding:16px 34px; color:#e6c98a; font-size:12.5px;
+                letter-spacing:.24em; text-transform:uppercase; text-decoration:none; transition:all .25s; }
+  .finale .go:hover { background:#9a7b43; color:#131211; }
+  footer { position:absolute; bottom:24px; left:0; right:0; text-align:center; font-size:10.5px; letter-spacing:.18em;
+           color:#6f695d; text-transform:uppercase; }
+  footer a { color:#8f8776; text-decoration:none; }
+
+  @media (max-width:760px){
+    nav .links { display:none; }
+    nav .brand { position:static; transform:none; }
+    .caption { max-width:88%; bottom:96px; }
+    .act-cta { right:auto; left:clamp(20px,4vw,56px); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="links">
+    <a href="materials.html">Materials</a>
+    <a href="how-it-works.html">How it works</a>
+    <a href="guides.html">Guides</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <a class="brand" href="index.html">BATHE&nbsp;ATELIER</a>
+  <a class="cta" href="customize.html">Design Studio +</a>
+</nav>
+
+<main>
+  <!-- 第一幕：Hero（開場影片之後會放在這裡；目前以渲染圖佔位） -->
+  <section class="act" id="hero">
+    <div class="bg" style="background-image:url('assets/hero-darwin.jpg')"></div>
+    <div class="veil"></div>
+    <div class="hero-center">
+      <h1 class="rise">Bathe Atelier</h1>
+      <div class="sub rise d1">Sculptural bathtubs &nbsp;·&nbsp; designed by you &nbsp;·&nbsp; made one at a time</div>
+    </div>
+    <div class="scroll-cue"></div>
+  </section>
+
+  <!-- 第二幕：Darwin -->
+  <section class="act">
+    <div class="bg" style="background-image:url('assets/act-darwin.jpg')"></div>
+    <div class="veil"></div>
+    <div class="caption">
+      <div class="name rise">Darwin</div>
+      <div class="line rise d1">Carved by water</div>
+    </div>
+    <a class="act-cta rise d2" href="customize.html">Design from this →</a>
+  </section>
+
+  <!-- 第三幕：Marbella -->
+  <section class="act">
+    <div class="bg" style="background-image:url('assets/act-marbella.jpg')"></div>
+    <div class="veil"></div>
+    <div class="caption">
+      <div class="name rise">Marbella</div>
+      <div class="line rise d1">A quiet classic</div>
+    </div>
+    <a class="act-cta rise d2" href="customize.html?shape=stadium&L=1600&W=800&H=485&t=20&b=40&r=150&dH=95&egg=0&taper=72&arc=60&rim=round&drain=center&slope=1.5&wallMode=arc&wallR=2000">Design from this →</a>
+  </section>
+
+  <!-- 第四幕：Victoria -->
+  <section class="act">
+    <div class="bg" style="background-image:url('assets/act-victoria.jpg')"></div>
+    <div class="veil"></div>
+    <div class="caption">
+      <div class="name rise">Victoria</div>
+      <div class="line rise d1">Made for the long soak</div>
+    </div>
+    <a class="act-cta rise d2" href="customize.html?shape=stadium&L=1600&W=800&H=490&t=20&b=40&r=150&dH=110&egg=0&taper=75&arc=55&rim=round&drain=back&slope=1.5&wallMode=arc&wallR=1800">Design from this →</a>
+  </section>
+
+  <!-- 終幕 -->
+  <section class="act finale">
+    <h2 class="rise">One of One</h2>
+    <p class="rise d1">Design a bathtub that will exist only once</p>
+    <a class="go rise d2" href="customize.html">Open the Design Studio</a>
+    <footer><a href="mailto:hello@batheatelier.com">hello@batheatelier.com</a> &nbsp;·&nbsp; © 2026 Bathe Atelier</footer>
+  </section>
+</main>
+
+<script>
+// 進場動效：段落進入視口時觸發
+const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('in', e.isIntersecting)), {threshold:0.35});
+document.querySelectorAll('section.act').forEach(s => io.observe(s));
+</script>
+</body>
+</html>
