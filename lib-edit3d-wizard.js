@@ -19,7 +19,9 @@ function wizBack(){
 }
 
 // ---------- 需求問答狀態 ----------
-const BRIEF = { spL:2400, spW:1600, height:170, posture:'recline', bathers:1, look:'organic' };
+const BRIEF = { spL:1800, spW:1000, height:170, posture:'recline', bathers:1, look:'organic' };
+// M8b(2026-09-02)：BRIEF 空間預設以頁面滑桿的 HTML value 為準——medium.html 是 1800×1000、pro.html 是 2400×1600，共用檔不寫死任何一頁的值
+{ const _r = document.getElementById('rSpL'), _w = document.getElementById('rSpW'); if(_r) BRIEF.spL = +_r.value; if(_w) BRIEF.spW = +_w.value; }
 [['postureBtns','pos','posture'], ['bathersBtns','n','bathers'], ['lookBtns','look','look']].forEach(([id, attr, key])=>{
   document.querySelectorAll('#'+id+' button').forEach(b=> b.addEventListener('click', ()=>{
     document.querySelectorAll('#'+id+' button').forEach(x=>x.classList.remove('active'));
@@ -27,7 +29,23 @@ const BRIEF = { spL:2400, spW:1600, height:170, posture:'recline', bathers:1, lo
     BRIEF[key] = attr === 'n' ? +b.dataset[attr] : b.dataset[attr];
   }));
 });
-[['rSpL','nSpL','spL'], ['rSpW','nSpW','spW'], ['rBh','nBh','height']].forEach(([rid, nid, key])=>{
+// M8(2026-09-02)：空間兩支滑桿「拉到頂＝不限」共用 helper（BRIEF[key]=9999）；身高組維持原邏輯，不套用
+function setSpace(r, n, key, v){
+  if(v >= +r.max){ r.value = r.max; n.value = r.max + '+'; BRIEF[key] = 9999; }
+  else { r.value = v; n.value = v; BRIEF[key] = v; }
+}
+[['rSpL','nSpL','spL'], ['rSpW','nSpW','spW']].forEach(([rid, nid, key])=>{
+  const r = document.getElementById(rid), n = document.getElementById(nid);
+  r.addEventListener('input', ()=> setSpace(r, n, key, +r.value));
+  n.addEventListener('change', ()=>{
+    const v = parseInt(String(n.value).replace(/[^\d]/g,''), 10);
+    if(isNaN(v)){ setSpace(r, n, key, +r.min); return; }
+    if(v >= +r.max){ setSpace(r, n, key, v); return; }
+    const clamped = Math.max(+r.min, Math.min(+r.max, v));
+    setSpace(r, n, key, Math.round(clamped/50)*50);
+  });
+});
+[['rBh','nBh','height']].forEach(([rid, nid, key])=>{
   const r = document.getElementById(rid), n = document.getElementById(nid);
   r.addEventListener('input', ()=>{ n.value = r.value; BRIEF[key] = +r.value; });
   n.addEventListener('change', ()=>{ let v = Math.max(+r.min, Math.min(+r.max, +n.value || +r.min)); n.value = v; r.value = v; BRIEF[key] = v; });
@@ -63,6 +81,7 @@ function briefTargets(){
   return { two, innerL, clampL, clampW };
 }
 let PROPS = [];
+let BRIEF_APPLIED = null;   // M9(2026-09-02)：走過精靈選卡後的五題答案快照，帶進詢價信／spec JSON／Concept PDF
 // Phase 5(2026-08-21)：修正wallface-test.html/photo2tub-app.html/medium.html既有的一個真實bug
 // (非本次引入，逐字沿用時原樣繼承)——EDIT_MODE(lib-edit3d-handles.js)把captureRenders monkey-patch
 // 成async function(為了在截圖前後隱藏節點編輯的edge/node群組)，但generateProposals()這裡原本同步
@@ -120,6 +139,7 @@ function renderProposalCards(){
 function applyProposal(i){
   const p = PROPS[i];
   if(!p) return;
+  BRIEF_APPLIED = Object.assign({}, BRIEF, { proposal: p.name });
   Object.assign(P, p.params);
   P.customPts = null; P.customPtsInner = null; P.customProfile = null; P.wallMod = null; P.rimMod = null;
   // 靠牆缸下放Medium(2026-08-22)迴歸實測發現的同一個狀態同步問題(見applyClassic()同段註解)：
