@@ -278,6 +278,64 @@ const I18N = {
   'depth': ['深', 'ลึก', '深'],
   // P1(2026-09-02) Basic v2 新增：Deep soak 卡文案加 wide floor（舊鍵 'Seated deep soak, 540 mm water' 保留）
   'Seated deep soak, 540 mm water, wide floor': ['坐姿深泡，水深 540 mm，底部宽敞', 'แช่น้ำลึกแบบนั่ง น้ำลึก 540 มม. พื้นกว้าง', '坐姿深泡，水深 540 mm，底部寬敞'],
+  // S1(2026-09-04) 三工作室新增：步驟骨架指示器／導覽文案，兩套字典逐字相同；泰文機翻待校
+  'Step': ['步骤', 'ขั้นตอน', '步驟'],
+  'of': ['共', 'จาก', '共'],
+  'Back': ['上一步', 'ก่อนหน้า', '上一步'],
+  'Next': ['下一步', 'ถัดไป', '下一步'],
+  "Skip, I'll set it myself": ['略过，我自己设定', 'ข้าม ฉันจะตั้งค่าเอง', '略過，我自己設定'],
+  'Guided design': ['引导设计', 'ออกแบบพร้อมไกด์', '引導設計'],
+  // S2(2026-09-04) 三工作室新增：Step 4 標題
+  'Summary': ['设计摘要', 'สรุปการออกแบบ', '設計摘要'],
+  // S3(2026-09-04) 三工作室新增：Step 標題
+  'Start': ['开始', 'เริ่มต้น', '開始'],
+  'Shape': ['造型', 'รูปทรง', '造型'],
+  // S8a(2026-09-04) 三工作室新增：群組內子步標籤
+  'Question': ['问题', 'คำถาม', '問題'],
+  // S8b(2026-09-04) 三工作室新增：Your details 五題（机翻待校）
+  'What do you do?': ['您是做什么的？', 'คุณทำงานอะไร?', '您是做什麼的？'],
+  'Bathroom designer': ['浴室设计师', 'นักออกแบบห้องน้ำ', '浴室設計師'],
+  'Architect': ['建筑师', 'สถาปนิก', '建築師'],
+  'Other': ['其他', 'อื่นๆ', '其他'],
+  'So we send the right level of detail.': ['让我们提供合适详尽程度的资讯。', 'เพื่อให้เราส่งรายละเอียดในระดับที่เหมาะสม', '讓我們提供合適詳盡程度的資訊。'],
+  'Any previous experience with custom baths?': ['之前有定制浴缸的经验吗？', 'เคยมีประสบการณ์กับอ่างอาบน้ำสั่งทำมาก่อนไหม?', '之前有客製浴缸的經驗嗎？'],
+  'First time': ['第一次', 'ครั้งแรก', '第一次'],
+  'Ordered custom before': ['之前订过定制款', 'เคยสั่งทำแบบกำหนดเองมาก่อน', '之前訂過客製款'],
+  'Trade, I do this regularly': ['业内人士，经常处理这类工作', 'อยู่ในวงการ ทำแบบนี้เป็นประจำ', '業內人士，經常處理這類工作'],
+  'Optional. It helps us pitch the quote at the right level.': ['选填。有助于我们提供合适程度的报价说明。', 'ไม่บังคับ ช่วยให้เรานำเสนอใบเสนอราคาในระดับที่เหมาะสม', '選填。有助於我們提供合適程度的報價說明。'],
+  'The name we put on the quote.': ['我们会把这个名字写在报价单上。', 'ชื่อที่เราจะใส่ในใบเสนอราคา', '我們會把這個名字寫在報價單上。'],
+  'Email': ['电子邮件', 'อีเมล', '電子郵件'],
+  'Any notes?': ['有什么备注吗？', 'มีบันทึกเพิ่มเติมไหม?', '有什麼備註嗎？'],
+  'Anything the designer should know before quoting.': ['报价前有什么设计师需要知道的事吗。', 'สิ่งที่นักออกแบบควรทราบก่อนเสนอราคา', '報價前有什麼設計師需要知道的事嗎。'],
+  // S9a(2026-09-04) 三工作室新增：Step 0 文案
+  'Answer 5 quick questions. We size four tubs to your space and body; pick one and adjust it, or skip and set everything yourself.': ['回答5个快速问题。我们会依您的空间与身型量身设计四款浴缸；挑一款调整，或跳过自己设定所有细节。', 'ตอบคำถามสั้นๆ 5 ข้อ เราจะออกแบบอ่างอาบน้ำ 4 แบบให้เหมาะกับพื้นที่และสรีระของคุณ เลือกหนึ่งแบบมาปรับแต่ง หรือข้ามไปตั้งค่าทุกอย่างด้วยตัวเอง', '回答5個快速問題。我們會依您的空間與身型量身設計四款浴缸；挑一款調整，或跳過自己設定所有細節。'],
+  'We design four tubs around you': ['我们为您量身设计四款浴缸', 'เราออกแบบอ่างอาบน้ำ 4 แบบเพื่อคุณ', '我們為您量身設計四款浴缸'],
+  // C2a(2026-09-05) Basic 文案去 em dash／白話
+  'The Design Studio: Basic': ['设计工作室 — Basic', 'สตูดิโอออกแบบ — Basic', '設計工作室 — Basic'],
+  'No tools to learn. We design four tubs for your space and body, you pick one and adjust size & colour.': ['不用学工具 — 我们依您的空间与身形设计四款浴缸，您选一款并调整尺寸与颜色。', 'ไม่ต้องเรียนรู้เครื่องมือใด ๆ — เราออกแบบอ่างอาบน้ำสี่แบบตามพื้นที่และสัดส่วนร่างกายของคุณ คุณเลือกหนึ่งแบบแล้วปรับขนาดและสี', '不用學工具 — 我們依您的空間與身形設計四款浴缸，您選一款並調整尺寸與顏色。'],
+  'Redesign: answer again': ['重新设计 — 再答一次', 'ออกแบบใหม่ — ตอบคำถามอีกครั้ง', '重新設計 — 再答一次'],
+  'Built around your space and body. Pick one, then fine-tune it.': ['依你的空间与身形而生——选一款，再细调。', 'ออกแบบตามพื้นที่และสรีระของคุณ — เลือกหนึ่งแบบแล้วปรับต่อ', '依你的空間與身形而生——選一款，再細調。'],
+  "Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.": ['已按四周各留 50mm 与主要使用者身高设定尺寸。选一款——所有参数仍可调整。', 'ปรับขนาดตามพื้นที่ (เว้นข้างละ 50 มม.) และส่วนสูงผู้ใช้หลัก เลือกหนึ่งแบบ — ทุกค่ายังปรับได้', '已按四周各留 50mm 與主要使用者身高設定尺寸。選一款——所有參數仍可調整。'],
+  '✨ Guided design: answer 5 questions, get 4 tailored tubs': ['✨ 引导设计——回答 5 个问题，获得 4 款量身方案', '✨ ออกแบบพร้อมไกด์ — ตอบ 5 ข้อ รับอ่าง 4 แบบ', '✨ 引導設計——回答 5 個問題，獲得 4 款量身方案'],
+  '⚠ Interior length under 950mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).': ['⚠ 内部长度不足 950mm——只适合坐姿／蹲姿使用（脚到臀约 900mm）。', '⚠ ความยาวภายในต่ำกว่า 950มม. — เหมาะกับการอาบแบบนั่ง/นั่งยองเท่านั้น (ขาถึงสะโพก ≈ 900มม.)', '⚠ 內部長度不足 950mm——只適合坐姿／蹲姿使用（腳到臀約 900mm）。'],
+  '⚠ Wall thickness below 5mm between inner and outer shells: adjust base sizes or arc R.': ['⚠ 内外缸之间壁厚不足 5mm——请调整底部尺寸或弧度 R。', '⚠ ความหนาผนังระหว่างเปลือกในและนอกต่ำกว่า 5 มม. — โปรดปรับขนาดฐานหรือรัศมี R', '⚠ 內外缸之間壁厚不足 5mm——請調整底部尺寸或弧度 R。'],
+  'Make it exclusive: mould retired after your tub, with certificate': ['升级为专属版（模具在您的浴缸后退役＋证书）', 'อัปเกรดเป็นรุ่นพิเศษเฉพาะคุณ (ปลดระวางแม่พิมพ์หลังผลิตอ่างของคุณ + ใบรับรอง)', '升級為專屬版（模具在您的浴缸後退役＋證書）'],
+  'Door-to-door estimate, confirmed on your firm quote.': ['含门到门运费；正式报价时确认。', 'ประมาณการแบบส่งถึงบ้าน — ยืนยันในใบเสนอราคา', '含門到門運費；正式報價時確認。'],
+  'USD $399 design fee, fully credited to any tier. Final price is confirmed on your firm quote.': ['USD $399 设计费——可全额折抵任一层级。最终价格以正式报价确认。', 'ค่าออกแบบ USD $399 — หักคืนเต็มจำนวนในทุกระดับ ราคาสุดท้ายยืนยันในใบเสนอราคา', 'USD $399 設計費——可全額折抵任一層級。最終價格以正式報價確認。'],
+  'Viewing external CAD model. Adjust any parameter to return to the parametric model': ['外部 CAD 模型查看中 — 调整任何参数即可返回参数化模型', 'กำลังแสดงโมเดล CAD ภายนอก — ปรับพารามิเตอร์ใดก็ได้เพื่อกลับสู่โมเดลพาราเมตริก', '外部 CAD 模型檢視中 — 調整任何參數即可返回參數化模型'],
+  'Android AR support is on our roadmap. For now, this works on iPhone/iPad.': ['Android 的 AR 支持已在规划中 — 目前仅支持 iPhone/iPad。', 'การรองรับ AR บน Android อยู่ในแผนของเรา — ตอนนี้ใช้ได้กับ iPhone/iPad เท่านั้น', 'Android 的 AR 支援已在規劃中 — 目前僅支援 iPhone/iPad。'],
+  // C2d(2026-09-05) 工作室共用 UI 字串去 em dash
+  'Classic White, included': ['经典白（已包含）', 'สีขาวคลาสสิก (รวมอยู่แล้ว)', '經典白（已包含）'],
+  'No space limit: up to our maximum': ['空间不限 — 最大可至', 'ไม่จำกัดพื้นที่ — สูงสุดของเรา', '空間不限 — 最大可至'],
+  'Sized to your space: up to': ['依您的空间调整 — 最大可至', 'ปรับตามพื้นที่ของคุณ — สูงสุด', '依您的空間調整 — 最大可至'],
+  '❌ Something went wrong. Please try again, or email hello@batheatelier.com directly.': ['❌ 送出失败，请稍后再试，或直接来信 hello@batheatelier.com', '❌ ส่งไม่สำเร็จ กรุณาลองใหม่ หรืออีเมลมาที่ hello@batheatelier.com', '❌ 送出失敗，請稍後再試，或直接來信 hello@batheatelier.com'],
+  'The manufacturing CAD pack (dimensioned DXF three-views plus the full spec file) is emailed together with your firm quote after you submit your design below.': ['可制造的 CAD 包（含尺寸标注的 DXF 三视图＋完整规格文件）会在你于下方送出设计后，随正式报价一并通过 Email 发送。', 'ชุดไฟล์ CAD สำหรับการผลิต (DXF สามมุมมองพร้อมขนาด + ไฟล์สเปกฉบับเต็ม) จะถูกส่งทางอีเมลพร้อมใบเสนอราคา หลังจากคุณส่งแบบด้านล่าง', '可製造的 CAD 包（含尺寸標註的 DXF 三視圖＋完整規格檔）會在你於下方送出設計後，隨正式報價一併以 Email 寄出。'],
+  '⚠ Undercut on acrylic needs a split mould and hand-finished seams: high cost. Consider solid surface, or continue as premium bespoke.': ['⚠ 亚克力做倒扣需左右合模＋人工处理接缝，成本高。建议改用人造石，或按高价定制（Bespoke）继续。', '⚠ Undercut บนอะคริลิกต้องใช้แม่พิมพ์แยกซ้ายขวาและเก็บรอยต่อด้วยมือ — ต้นทุนสูง แนะนำโซลิดเซอร์เฟซ หรือทำต่อแบบ Bespoke พรีเมียม', '⚠ 壓克力做倒扣需左右合模＋人工處理接縫，成本高。建議改用人造石，或按高價客製（Bespoke）繼續。'],
+  // L1/L2-c(2026-09-05) 工作室送出同意句
+  'By submitting, you agree to our': ['提交即表示您同意我们的', 'การส่งข้อมูลถือว่าคุณยอมรับ', '提交即表示您同意我們的'],
+  'Terms': ['条款', 'ข้อกำหนด', '條款'],
+  'and': ['与', 'และ', '與'],
+  'Privacy policy': ['隐私政策', 'นโยบายความเป็นส่วนตัว', '隱私政策'],
 };
 // 含 HTML 標記的區塊：id → [英文, 简中, 泰文, 繁中]
 const I18N_HTML = {
@@ -333,5 +391,6 @@ function applyLang(){
   if(typeof BRIEF_APPLIED !== 'undefined' && BRIEF_APPLIED){ const sc=document.getElementById('spaceCap'); const r=document.getElementById('rL'), w=document.getElementById('rW'); if(sc && r && w) sc.textContent = (typeof spaceCapText === 'function') ? spaceCapText(r.max, w.max) : (t('Sized to your space — up to') + ' ' + r.max + ' × ' + w.max + ' mm'); }   // A2(2026-09-02)／W1(2026-09-02)：改呼叫 spaceCapText 統一兩軸不限文案
   if(typeof refreshQuoteBanner === 'function') refreshQuoteBanner();   // A6b(2026-09-02)
   if(typeof refreshDimsInner === 'function') refreshDimsInner();   // S2(2026-09-02)
+  if(typeof StudioSteps !== 'undefined') StudioSteps.render();   // S1(2026-09-04)：步驟指示器語言切換時重繪
 }
 // 語言完全交由站上導覽列的 langSel 控制（見檔尾接線），設計器不再有自己的語言選項

@@ -1,0 +1,58 @@
+/* studio-steps.css — S1(2026-09-04)：三工作室共用的步驟骨架樣式，只用既有色票。搭配 lib-studio-steps.js。 */
+#panel > .ss-hide, .btns .ss-hide{display:none !important}
+/* S1(2026-09-04) 補：規格 CSS 清單只列了 #panel 直系子元素與工具列，沒列 #ssNav 的
+   #ssBack／#ssNext——但 render() 明確要求「cur 是 steps[0] 時 ss-hide」，兩者是 #ssNav
+   的子元素而非 #panel 直系子元素，套用同一支 ss-hide class 需要這條選擇器才會真的隱藏 */
+#ssNav > .ss-hide{display:none !important}
+body.ss-on #panel{display:flex;flex-direction:column}
+#ssBar{position:sticky;top:0;z-index:5;background:#faf8f2;margin:-14px -14px 12px;padding:10px 14px;border:0;border-bottom:1px solid #ddd8cc;border-radius:0}
+.ss-top{display:flex;justify-content:space-between;align-items:center}
+.ss-label{font-size:12px;color:#66614f;letter-spacing:.04em}
+.ss-dots{display:flex;gap:6px}
+.ss-dot{width:8px;height:8px;border-radius:50%;background:#ddd8cc;cursor:pointer}
+.ss-dot.done{background:#9a7b43;opacity:.45}
+.ss-dot.on{background:#9a7b43}
+.ss-title{font-size:15px;font-weight:600;color:#1b1a16;margin-top:4px}
+#ssNav{display:flex;justify-content:space-between;gap:10px;margin-top:4px;padding-top:12px;border-top:1px solid #e6e1d5}
+.ss-btn{font:inherit;font-size:13px;font-weight:600;border-radius:999px;padding:10px 18px;cursor:pointer}
+.ss-back{background:transparent;color:#4a463d;border:1px solid #ddd8cc}
+.ss-next{background:#1b1a16;color:#f4f1ea;border:none;margin-left:auto}
+/* R3：總結頁面板加寬、3D 靠右 */
+body.ss-summary #panel{width:min(560px,50%)}
+@media (max-width:700px){
+  body.ss-summary #panel{width:100%}
+}
+/* S8a(2026-09-04)：群組內子步 */
+[data-substeps] > .ss-hide{display:none !important}
+/* S8a 補：同 S1 的 #ssNav 缺口——.ss-sub-back／.ss-sub-next 是 .ss-subnav 的子元素，
+   不是 [data-substeps] 的直系子元素，subGo() 對它們加 ss-hide 需要這條才會真的隱藏 */
+.ss-subnav > .ss-hide{display:none !important}
+.ss-sub{display:flex;justify-content:space-between;align-items:center;margin:2px 0 10px}
+.ss-sub-label{font-size:12px;color:#66614f}
+.ss-sub-dots{display:flex;gap:5px}
+.ss-subnav{display:flex;justify-content:space-between;gap:8px;margin-top:10px}
+.ss-subnav .ss-btn{padding:8px 14px;font-size:12.5px}
+.yd-q .yd-label{font-size:13px;font-weight:600;color:#1b1a16;margin-bottom:8px}
+.yd-q input{width:100%}
+.yd-q .tip{margin-top:6px}
+.ss-opts{display:flex;flex-wrap:wrap;gap:6px}
+.ss-opts button{font:inherit;font-size:12.5px;padding:8px 12px;border-radius:999px;border:1px solid #ddd8cc;background:#fff;color:#4a463d;cursor:pointer}
+.ss-opts button.active{background:#8a6c39;border-color:#8a6c39;color:#fff}
+/* S9a(2026-09-04)：Guided design 內嵌為 Step 0 */
+body.ss-on #panel > #wizModal{display:block !important;position:static !important;inset:auto !important;background:none !important;z-index:auto !important;padding:0}
+body.ss-on #panel > #wizModal.ss-hide{display:none !important}
+body.ss-on #panel > #wizModal .sk-box{width:auto !important;max-width:none;max-height:none;padding:0;background:transparent;border-radius:0;box-shadow:none;overflow:visible}
+body.ss-on #panel > #wizModal h2{display:none}
+body.ss-on #panel > #wizModal button[onclick="closeWizard()"]{display:none}
+body.ss-on #panel > button.preset{display:none}
+.wz-q{margin-bottom:14px}
+.wz-n{display:inline-flex;width:18px;height:18px;border-radius:50%;background:#8a6c39;color:#fff;font-size:12px;font-weight:600;align-items:center;justify-content:center;margin-right:6px;vertical-align:middle}
+body.ss-on #panel > #wizModal .rim-label{margin-top:0}
+/* S10(2026-09-04)：手機——3D 至少 40vh、選項按鈕換行、步驟列對齊 12px 內距 */
+@media (max-width:700px){
+  body.ss-on #viewer{height:40vh;min-height:240px}
+  body.ss-on .drain-btns, body.ss-on .shape-btns, body.ss-on .ss-opts{flex-wrap:wrap}
+  body.ss-on .drain-btns button{flex:1 1 45%}
+  body.ss-on #ssBar{margin:-12px -12px 12px}
+  body.ss-on #panel > #wizModal .sk-box{width:auto}
+}

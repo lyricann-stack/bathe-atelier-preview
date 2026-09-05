@@ -554,6 +554,10 @@ async function sendQuote(btn){
     fd.append('options', optList.join('; ') || 'none');
     fd.append('est_total', shipR != null ? 'from USD $' + (pp.total + shipR).toLocaleString('en-US') : '-');
     fd.append('estimate_range', 'from USD $' + pp.total.toLocaleString('en-US') + ' + shipping (tier pricing per 2026-07 structure; $399 design fee credited)');
+    // S8e(2026-09-04)：Your details 前兩題（選項制），頁面沒有欄位時送 (not asked)
+    const _role = document.getElementById('custRole'), _exp = document.getElementById('custExp');
+    fd.append('cust_role', _role ? (_role.value || '(not given)') : '(not asked)');
+    fd.append('cust_experience', _exp ? (_exp.value || '(not given)') : '(not asked)');
     // A4(2026-09-02)：Basic 進來的詢價主旨與 designer quote 分流，業務一眼分辨
     const subj = window.PAGE_TAG === 'design-studio-basic'
       ? 'Bathe Atelier — Guided design enquiry [' + DESIGN_ID + ']'
@@ -576,6 +580,8 @@ async function sendQuote(btn){
       計算規格: { 滿水容量_L: +s.fullVol.toFixed(1), 估計重量_kg: +s.weight.toFixed(1) },
       // A1(2026-09-02)：五題答案（走過精靈才有值；JSON.stringify 會自動略過 undefined）
       需求問答: (typeof BRIEF_APPLIED !== 'undefined') ? BRIEF_APPLIED : undefined,
+      // S8e(2026-09-04)：Your details 前兩題身份/經驗，沒走過該欄位時 undefined（JSON.stringify 略過）
+      客戶身份: (typeof _role !== 'undefined' && _role) ? { role: _role.value || null, experience: _exp ? (_exp.value || null) : null } : undefined,
       // Q1(2026-09-02)：意圖值快照
       外型與舒適度: (typeof INTENT !== 'undefined') ? Object.assign({}, INTENT) : undefined
     };
@@ -612,7 +618,7 @@ async function sendQuote(btn){
     if(window.PAGE_TAG === 'design-studio-basic'){ btn.dataset.sent = '1'; }
   } catch(e){
     console.error(e);
-    show('#fdf3ee', '#e0b39a', '#8a4a2b', t('❌ Something went wrong — please try again, or email hello@batheatelier.com directly.'));
+    show('#fdf3ee', '#e0b39a', '#8a4a2b', t('❌ Something went wrong. Please try again, or email hello@batheatelier.com directly.'));
   }
   // A6(2026-09-02)：Basic 送出成功後按鈕保持鎖定並顯示 Submitted ✓，直到客人改參數
   // A6c(2026-09-02)：改既有文字節點而不是整個換掉，節點身份不變，i18nNodes 裡的條目才對得上
@@ -757,7 +763,7 @@ async function exportCadPackZip(btn){
     showDlToast(a.download);
   } catch(e){
     console.error(e);
-    alert(t('❌ Something went wrong — please try again, or email hello@batheatelier.com directly.'));
+    alert(t('❌ Something went wrong. Please try again, or email hello@batheatelier.com directly.'));
   }
   if(btn){
     btn.disabled = false;
@@ -771,7 +777,7 @@ function showCadGate(){
   const b = document.getElementById('quoteBanner');
   b.style.display = 'block';
   b.style.background = '#fdf8ee'; b.style.border = '1px solid #d9c48f'; b.style.color = '#6b5518';
-  b.textContent = t('The manufacturing CAD pack — dimensioned DXF three-views plus the full spec file — is emailed together with your firm quote after you submit your design below.');
+  b.textContent = t('The manufacturing CAD pack (dimensioned DXF three-views plus the full spec file) is emailed together with your firm quote after you submit your design below.');
   b.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
@@ -844,7 +850,7 @@ async function exportConceptPDF(btn){
     showDlToast(DESIGN_ID + '-concept.pdf');
   } catch(e){
     console.error(e);
-    alert(t('❌ Something went wrong — please try again, or email hello@batheatelier.com directly.'));
+    alert(t('❌ Something went wrong. Please try again, or email hello@batheatelier.com directly.'));
   }
   if(btn){
     btn.disabled = false;

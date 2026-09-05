@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="alternate icon" href="assets/favicon.ico">
 <meta name="robots" content="noindex">
-<title>Design Studio · Basic — Four Tubs Designed Around You | Bathe Atelier</title>
+<title>Design Studio · Basic: Four Tubs Designed Around You | Bathe Atelier</title>
 <meta name="description" content="Answer five questions and get four bathtub proposals sized to your space and body. Pick one, adjust size and colour, get a firm quote.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,10 +18,18 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <script src="shipping-rates.js"></script>
 <link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="studio-steps.css">
+<style id="basic-steps">
+/* S2(2026-09-04)：Basic 步驟化——Shape & comfort 在 Step 3 為主內容，不再折疊 */
+body.ss-on #moreAdj > summary{display:none}
+body.ss-on #moreAdj .row:first-of-type{margin-top:0}
+/* S7(2026-09-04)：該步無按鈕時整條工具列收起 */
+body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
+</style>
 </head>
 <body data-page="basic">
 <!-- 站上同一條導覽列（與其他頁完全一致，維持視覺連續性） -->
-<nav style="flex:none;height:70px;display:flex;align-items:center;background:rgba(244,241,234,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid #ddd8cc">
+<nav data-site-nav="studio" style="flex:none;height:70px;display:flex;align-items:center;background:rgba(244,241,234,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid #ddd8cc">
   <div style="width:100%;max-width:1280px;margin:0 auto;padding:0 clamp(20px,5vw,56px);display:flex;align-items:center;justify-content:space-between;gap:20px">
     <a href="index.html" style="text-decoration:none;color:#1b1a16;display:flex;align-items:baseline;gap:9px;letter-spacing:.28em;font-size:15px;font-weight:600">BATHE<span style="font-style:normal;letter-spacing:.01em;font-weight:700;color:#9a7b43;font-size:16px">Atelier</span></a>
     <div style="display:flex;align-items:center;gap:26px" data-nav-links>
@@ -40,38 +50,97 @@
     </div>
   </div>
 </nav>
+<script src="lib-site-nav.js"></script>
 <div class="studio-strip">
   <div>
-    <div class="eyebrow">The Design Studio — Basic</div>
+    <div class="eyebrow">The Design Studio: Basic</div>
     <h1>Answer 5 questions. Get 4 tubs designed around you.</h1>
-    <div class="sub">No tools to learn — we design four tubs for your space and body, you pick one and adjust size &amp; colour.</div>
+    <div class="sub">No tools to learn. We design four tubs for your space and body, you pick one and adjust size &amp; colour.</div>
   </div>
   <div class="btns">
     <!-- D2(2026-09-02)：手機版三顆按鈕改短字，桌面顯示長字 -->
-    <button class="btn btn-upl" onclick="openWizard()">✨ <span class="btn-long">Redesign — answer again</span><span class="btn-short">Redesign</span></button>
-    <button class="btn btn-dxf" onclick="exportConceptPDF(this)">⬇ <span class="btn-long">Concept PDF (free)</span><span class="btn-short">PDF</span></button>
+    <button class="btn btn-upl" onclick="openWizard()">✨ <span class="btn-long">Redesign: answer again</span><span class="btn-short">Redesign</span></button>
+    <button class="btn btn-dxf" data-step-show="4" onclick="exportConceptPDF(this)">⬇ <span class="btn-long">Concept PDF (free)</span><span class="btn-short">PDF</span></button>
     <!-- 2026-09-02，Lyric要求：AR預覽下放到Basic版(原本只有Medium/Pro有)。Basic用的是舊版
          lib-tub-*引擎，但tubGroup/DESIGN_ID/THREE.DoubleSide用法跟lib-edit3d-*核心相容，
          lib-edit3d-ar-export.js/lib-edit3d-ar-ui.js可以原樣接上，不用另外改寫 -->
-    <button class="btn btn-upl" onclick="openARPreview()">📱 <span class="btn-long">Preview in your space</span><span class="btn-short">AR</span></button>
+    <button class="btn btn-upl" data-step-show="4" onclick="openARPreview()">📱 <span class="btn-long">Preview in your space</span><span class="btn-short">AR</span></button>
   </div>
 </div>
 <main>
   <div id="panel">
-    <button class="preset" style="margin:0 0 12px;padding:11px" onclick="openWizard()">✨ Guided design — answer 5 questions, get 4 tailored tubs</button>
-    <div class="group">
+    <div id="wizModal" data-step="0" style="display:none;position:fixed;inset:0;background:rgba(15,25,35,.55);z-index:100;align-items:center;justify-content:center">
+      <div class="sk-box" style="width:min(680px,94vw)">
+        <div id="wizQ">
+          <h2>✨ Guided design</h2>
+          <div class="sk-sub">Answer 5 quick questions. We size four tubs to your space and body; pick one and adjust it, or skip and set everything yourself.</div>
+          <div class="wz-q">
+            <!-- W1(2026-09-02)：範圍收窄到常見尺寸，預設不再等於「不限」，題目改為明確指「浴缸要放的那塊地」 -->
+            <div class="rim-label" style="margin-top:0"><span class="wz-n">1</span>Where the tub will sit</div>
+            <div class="row"><label>Space length</label><input type="range" id="rSpL" min="1300" max="2400" step="50" value="1800"><div class="val"><input id="nSpL" value="1800"><span>mm</span></div></div>
+            <div class="row"><label>Space width</label><input type="range" id="rSpW" min="700" max="1400" step="50" value="1000"><div class="val"><input id="nSpW" value="1000"><span>mm</span></div></div>
+            <div class="tip">Measure the spot for the tub, not the whole room. We keep at least 50mm clearance on each side for installation and cleaning.</div>
+          </div>
+          <div class="wz-q">
+            <div class="rim-label"><span class="wz-n">2</span>Main bather's height</div>
+            <div class="row"><label>Height</label><input type="range" id="rBh" min="140" max="200" step="1" value="170"><div class="val"><input id="nBh" value="170"><span>cm</span></div></div>
+          </div>
+          <div class="wz-q">
+            <div class="rim-label"><span class="wz-n">3</span>How do you like to soak?</div>
+            <div class="drain-btns" id="postureBtns">
+              <button data-pos="recline" class="active">Recline, knees relaxed</button>
+              <button data-pos="stretch">Lie flat, legs straight</button>
+              <button data-pos="deep">Deep soak, seated</button>
+            </div>
+          </div>
+          <div class="wz-q">
+            <div class="rim-label"><span class="wz-n">4</span>Bathing for</div>
+            <div class="drain-btns" id="bathersBtns">
+              <button data-n="1" class="active">One person</button>
+              <button data-n="2">Two people</button>
+            </div>
+          </div>
+          <div class="wz-q">
+            <div class="rim-label"><span class="wz-n">5</span>Which look speaks to you?</div>
+            <div class="drain-btns" id="lookBtns">
+              <button data-look="organic" class="active">Soft organic</button>
+              <button data-look="rounded">Rounded ends</button>
+              <button data-look="linear">Clean lines</button>
+            </div>
+          </div>
+          <div class="sk-actions">
+            <button class="cancel" onclick="closeWizard()">Cancel</button>
+            <button class="ok" onclick="generateProposals()">✨ Design my four tubs →</button>
+          </div>
+        </div>
+        <div id="wizP" style="display:none">
+          <h2>Your four proposals</h2>
+          <div class="sk-sub">Built around your space and body. Pick one, then fine-tune it.</div>
+          <!-- A3(2026-09-02)：四款價格一致時的統一價格句（卡內不重複） -->
+          <div class="tip" id="propPriceLine" style="margin:-4px 0 10px"></div>
+          <div id="propGrid"></div>
+          <div class="tip" style="margin-top:10px">Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.</div>
+          <div class="sk-actions">
+            <button class="cancel" onclick="wizBack()">← Change answers</button>
+            <button class="cancel" onclick="closeWizard()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="preset" data-step="1" style="margin:0 0 12px;padding:11px" onclick="openWizard()">✨ Guided design: answer 5 questions, get 4 tailored tubs</button>
+    <div class="group" data-step="1">
       <h3>Dimensions (mm)</h3>
       <div class="row"><label>Overall length</label><input type="range" id="rL" min="1200" max="2200" step="10" value="1600"><div class="val"><input id="nL" value="1600"><span>mm</span></div></div>
       <div class="row"><label>Overall width</label><input type="range" id="rW" min="600" max="1200" step="10" value="800"><div class="val"><input id="nW" value="800"><span>mm</span></div></div>
       <!-- S2(2026-09-02) Basic v2：外部長寬滑桿下即時顯示內部尺寸與深度 -->
       <div id="dimsInner" class="tip"></div>
       <div id="warn">⚠ Invalid parameters: interior space too small, please adjust</div>
-      <div id="lenWarn" class="tip" style="display:none;color:#b3541e">⚠ Interior length under 950mm — only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).</div>
+      <div id="lenWarn" class="tip" style="display:none;color:#b3541e">⚠ Interior length under 950mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).</div>
       <!-- A2(2026-09-02)：選定提案後顯示長寬滑桿已按客人空間收斂上限 -->
       <div id="spaceCap" class="tip" style="display:none"></div>
-      <div id="thinWarn" class="tip" style="display:none;color:#b3541e">⚠ Wall thickness below 5mm between inner and outer shells — adjust base sizes or arc R.</div>
+      <div id="thinWarn" class="tip" style="display:none;color:#b3541e">⚠ Wall thickness below 5mm between inner and outer shells: adjust base sizes or arc R.</div>
     </div>
-    <div class="group">
+    <div class="group" data-step="2">
       <h3>Material & Colour</h3>
       <div class="drain-btns mat-btns" style="margin-bottom:10px">
         <button data-mat="acrylic" class="active" onclick="setMaterial('acrylic',this)">Acrylic (gloss)</button>
@@ -89,20 +158,42 @@
       <div id="colorNote" class="tip"></div>
       <div class="chk" style="margin-top:10px"><input type="checkbox" id="waterToggle"><label for="waterToggle">Show water level</label></div>
     </div>
-    <div class="group">
+    <div class="group" data-step="4" data-step-order="2" data-substeps>
       <h3>Your details</h3>
-      <input type="text" id="custName" placeholder="Customer name">
-      <!-- A5(2026-09-02)：Email 必填前置提示，客人送出前就知道要留信箱 -->
-      <div class="tip">We reply to this address with your quote.</div>
-      <input type="email" id="custEmail" placeholder="Email *">
-      <input type="text" id="custNote" placeholder="Notes (e.g. overflow drain required)">
+      <div class="yd-q" data-substep="1">
+        <div class="yd-label">What do you do?</div>
+        <div class="ss-opts" data-target="custRole"><button type="button" data-val="designer">Bathroom designer</button><button type="button" data-val="architect">Architect</button><button type="button" data-val="other">Other</button></div>
+        <input type="hidden" id="custRole" value="">
+        <div class="tip">So we send the right level of detail.</div>
+      </div>
+      <div class="yd-q" data-substep="2">
+        <div class="yd-label">Any previous experience with custom baths?</div>
+        <div class="ss-opts" data-target="custExp"><button type="button" data-val="first">First time</button><button type="button" data-val="some">Ordered custom before</button><button type="button" data-val="trade">Trade, I do this regularly</button></div>
+        <input type="hidden" id="custExp" value="">
+        <div class="tip">Optional. It helps us pitch the quote at the right level.</div>
+      </div>
+      <div class="yd-q" data-substep="3">
+        <div class="yd-label">Customer name</div>
+        <input type="text" id="custName" placeholder="Customer name">
+        <div class="tip">The name we put on the quote.</div>
+      </div>
+      <div class="yd-q" data-substep="4">
+        <div class="yd-label">Email</div>
+        <input type="email" id="custEmail" placeholder="Email *">
+        <div class="tip">We reply to this address with your quote.</div>
+      </div>
+      <div class="yd-q" data-substep="5">
+        <div class="yd-label">Any notes?</div>
+        <input type="text" id="custNote" placeholder="Notes (e.g. overflow drain required)">
+        <div class="tip">Anything the designer should know before quoting.</div>
+      </div>
     </div>
-    <div class="group">
+    <div class="group" data-step="4" data-step-order="1">
       <h3>Live Specifications</h3>
       <table id="spec"></table>
     </div>
     <!-- B4(2026-09-02)：Base slope 依上位規格 §3.1 不屬 Basic 三項微調，功能保留但收進摺疊、預設收起 -->
-    <details class="group" id="moreAdj">
+    <details class="group" id="moreAdj" data-step="3" open>
       <summary>Shape & comfort</summary>
       <!-- S1(2026-09-02) Basic v2：意圖層滑桿，由 lib-tub-basic-intent.js 映射到 P 並守門 -->
       <div class="row" style="margin-top:8px"><label>Base footprint</label><input type="range" id="rFoot" min="0" max="100" step="1" value="50"><div class="val"><input id="nFoot" value="50"><span>/100</span></div></div>
@@ -124,18 +215,18 @@
       <div class="row" style="margin-top:8px"><label>Base slope</label><input type="range" id="rBaseSlope" min="0" max="3" step="0.1" value="0"><div class="val"><input id="nBaseSlope" value="0"><span>°</span></div></div>
       <div class="tip">Tilts the whole tub base into a wedge shape (0° = standard flat base). For a tub that needs to sit on an angled surface or a deliberate sloped-base look.</div>
     </details>
-    <div class="group">
+    <div class="group" data-step="4" data-step-order="3">
       <h3>Price & Quote</h3>
       <div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0 2px">
-        <span style="font-size:12.5px;color:#8a8478">Tier</span>
+        <span style="font-size:12.5px;color:#66614f">Tier</span>
         <b id="tierName" style="font-weight:700;font-size:18px;color:#9a7b43"></b>
       </div>
       <div id="tierDesc" class="tip" style="margin-bottom:8px"></div>
       <label style="display:flex;gap:8px;align-items:flex-start;font-size:13px;margin-bottom:12px;cursor:pointer">
         <input type="checkbox" id="optOneOfOne" style="margin-top:2px;accent-color:#9a7b43">
-        <span>Make it exclusive — mould retired after your tub, with certificate</span>
+        <span>Make it exclusive: mould retired after your tub, with certificate</span>
       </label>
-      <div style="font-size:12.5px;color:#8a8478;margin-bottom:5px">Options</div>
+      <div style="font-size:12.5px;color:#66614f;margin-bottom:5px">Options</div>
       <label style="display:flex;gap:8px;align-items:center;font-size:13px;margin-bottom:5px;cursor:pointer">
         <input type="checkbox" id="optBackrest" style="accent-color:#9a7b43">
         <span>Heated backrest</span>
@@ -148,26 +239,27 @@
       </label>
       <div id="priceRows" style="font-size:13px;border-top:1px solid #ddd8cc;padding-top:7px"></div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;padding:7px 0 10px;border-bottom:2px solid #1b1a16;margin-bottom:10px">
-        <span style="font-size:12.5px;color:#8a8478">Estimated price</span>
+        <span style="font-size:12.5px;color:#66614f">Estimated price</span>
         <b id="fromTotal" style="font-weight:700;font-size:20px;color:#9a7b43"></b>
       </div>
       <div style="margin:2px 0 12px">
-        <div style="font-size:12.5px;color:#8a8478;margin-bottom:5px">Ship to</div>
+        <div style="font-size:12.5px;color:#66614f;margin-bottom:5px">Ship to</div>
         <select id="shipDest" style="width:100%;padding:8px 10px;font-size:13px;border:1px solid #ddd8cc;border-radius:8px;background:#fff;color:#1b1a16"></select>
         <div id="shipEst" style="display:none;margin-top:9px;font-size:13.5px">
-          <div style="display:flex;justify-content:space-between"><span style="color:#8a8478">Est. shipping</span><b id="shipVal"></b></div>
-          <div style="display:flex;justify-content:space-between;margin-top:3px"><span style="color:#8a8478">Est. total</span><b id="totVal" style="color:#9a7b43"></b></div>
-          <div class="tip" style="margin-top:6px">Door-to-door estimate — confirmed on your firm quote.</div>
+          <div style="display:flex;justify-content:space-between"><span style="color:#66614f">Est. shipping</span><b id="shipVal"></b></div>
+          <div style="display:flex;justify-content:space-between;margin-top:3px"><span style="color:#66614f">Est. total</span><b id="totVal" style="color:#9a7b43"></b></div>
+          <div class="tip" style="margin-top:6px">Door-to-door estimate, confirmed on your firm quote.</div>
         </div>
       </div>
-      <div class="tip" style="margin-bottom:10px">USD $399 design fee — fully credited to any tier. Final price is confirmed on your firm quote.</div>
+      <div class="tip" style="margin-bottom:10px">USD $399 design fee, fully credited to any tier. Final price is confirmed on your firm quote.</div>
       <button id="quoteBtn" onclick="sendQuote(this)" style="width:100%;background:#1b1a16;color:#f4f1ea;border:none;padding:14px;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer">Submit design & get a firm quote →</button>
+      <div class="tip" id="consentLine" style="margin-top:8px"><span>By submitting, you agree to our</span> <a href="terms.html" target="_blank" rel="noopener">Terms</a> <span>and</span> <a href="privacy.html" target="_blank" rel="noopener">Privacy policy</a>.</div>
       <div id="quoteBanner" style="display:none;margin-top:10px;padding:12px;border-radius:10px;font-size:13px;line-height:1.5"></div>
     </div>
   </div>
   <div id="viewer">
     <canvas id="canvas3d"></canvas>
-    <div id="extBanner">Viewing external CAD model — adjust any parameter to return to the parametric model</div>
+    <div id="extBanner">Viewing external CAD model. Adjust any parameter to return to the parametric model</div>
     <div id="hint">Drag = 360° free orbit (incl. bottom view) | Scroll = zoom</div>
   </div>
 </main>
@@ -175,54 +267,6 @@
 <div id="mobileCta">
   <div class="mc-price"><span class="mc-label">Estimated price</span><b id="mobileCtaPrice"></b></div>
   <button type="button" class="mc-btn" onclick="mobileCtaGo()">Get a firm quote →</button>
-</div>
-<div id="wizModal" style="display:none;position:fixed;inset:0;background:rgba(15,25,35,.55);z-index:100;align-items:center;justify-content:center">
-  <div class="sk-box" style="width:min(680px,94vw)">
-    <div id="wizQ">
-      <h2>✨ Guided design</h2>
-      <div class="sk-sub">Answer a few questions — we design four tubs around you, then you fine-tune the one you like.</div>
-      <!-- W1(2026-09-02)：範圍收窄到常見尺寸，預設不再等於「不限」，題目改為明確指「浴缸要放的那塊地」 -->
-      <div class="rim-label" style="margin-top:0">Where the tub will sit</div>
-      <div class="row"><label>Space length</label><input type="range" id="rSpL" min="1300" max="2400" step="50" value="1800"><div class="val"><input id="nSpL" value="1800"><span>mm</span></div></div>
-      <div class="row"><label>Space width</label><input type="range" id="rSpW" min="700" max="1400" step="50" value="1000"><div class="val"><input id="nSpW" value="1000"><span>mm</span></div></div>
-      <div class="tip">Measure the spot for the tub, not the whole room. We keep at least 50mm clearance on each side for installation and cleaning.</div>
-      <div class="rim-label">Main bather's height</div>
-      <div class="row"><label>Height</label><input type="range" id="rBh" min="140" max="200" step="1" value="170"><div class="val"><input id="nBh" value="170"><span>cm</span></div></div>
-      <div class="rim-label">How do you like to soak?</div>
-      <div class="drain-btns" id="postureBtns">
-        <button data-pos="recline" class="active">Recline, knees relaxed</button>
-        <button data-pos="stretch">Lie flat, legs straight</button>
-        <button data-pos="deep">Deep soak, seated</button>
-      </div>
-      <div class="rim-label">Bathing for</div>
-      <div class="drain-btns" id="bathersBtns">
-        <button data-n="1" class="active">One person</button>
-        <button data-n="2">Two people</button>
-      </div>
-      <div class="rim-label">Which look speaks to you?</div>
-      <div class="drain-btns" id="lookBtns">
-        <button data-look="organic" class="active">Soft organic</button>
-        <button data-look="rounded">Rounded ends</button>
-        <button data-look="linear">Clean lines</button>
-      </div>
-      <div class="sk-actions">
-        <button class="cancel" onclick="closeWizard()">Cancel</button>
-        <button class="ok" onclick="generateProposals()">✨ Design my four tubs →</button>
-      </div>
-    </div>
-    <div id="wizP" style="display:none">
-      <h2>Your four proposals</h2>
-      <div class="sk-sub">Built around your space and body — pick one, then fine-tune it.</div>
-      <!-- A3(2026-09-02)：四款價格一致時的統一價格句（卡內不重複） -->
-      <div class="tip" id="propPriceLine" style="margin:-4px 0 10px"></div>
-      <div id="propGrid"></div>
-      <div class="tip" style="margin-top:10px">Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one — everything stays adjustable.</div>
-      <div class="sk-actions">
-        <button class="cancel" onclick="wizBack()">← Change answers</button>
-        <button class="cancel" onclick="closeWizard()">Cancel</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- 2026-09-02，Lyric要求：AR預覽下放到Basic版，跟medium.html/pro.html逐字同一份modal -->
@@ -237,7 +281,7 @@
       <div class="sk-sub">Scan with an iPhone or iPad to view this design in AR.</div>
       <img id="arQrImg" style="width:220px;height:220px;margin:10px auto;display:block">
       <div id="arQrError" class="tip" style="display:none;color:#b3541e"></div>
-      <div class="tip">Android AR support is on our roadmap — for now, this works on iPhone/iPad.</div>
+      <div class="tip">Android AR support is on our roadmap. For now, this works on iPhone/iPad.</div>
     </div>
     <div class="sk-actions"><button class="cancel" onclick="closeARPreview()">Close</button></div>
   </div>
@@ -245,7 +289,7 @@
 
 <script>
   // 三版本設定（必須在 lib 之前）
-  window.PAGE_ID_PREFIX='BA-B'; window.PAGE_TAG='design-studio-basic'; window.PAGE_AUTO_WIZARD=true; window._noHandles=true; window.PAGE_SPEC_COMPACT=true;
+  window.PAGE_ID_PREFIX='BA-B'; window.PAGE_TAG='design-studio-basic'; window._noHandles=true; window.PAGE_SPEC_COMPACT=true; window.PAGE_STEPS=true; window.PAGE_STEP_TITLES={0:'We design four tubs around you',1:'Dimensions (mm)',2:'Material & Colour',3:'Shape & comfort',4:'Summary'};
 </script>
 <script src="lib-tub-state.js"></script>
 <script src="lib-tub-i18n.js"></script>
@@ -262,6 +306,17 @@
 <script src="lib-edit3d-ar-ui.js"></script>
 <script src="lib-tub-basic-mobile.js"></script>
 <script src="lib-tub-basic-intent.js"></script>
+<script src="lib-studio-steps.js"></script>
+<script>
+// S2(2026-09-04)：手機底部 CTA 先切到 Step 4 再捲到送出鈕（送出鈕只在 Step 4 可見）
+// S8b(2026-09-04) 補：Your details 已拆五題子步，email 欄位可能被子步藏住（display:none 時
+// 原生 focus() 會失敗），改呼叫 revealSub 直接切到 email 那一題（內部含 reveal 切主步驟）
+(function(){ if(typeof mobileCtaGo !== 'function') return; const _go = mobileCtaGo; window.mobileCtaGo = function(){ if(window.StudioSteps){ const em = document.getElementById('custEmail'); if(em && StudioSteps.revealSub) StudioSteps.revealSub(em); else StudioSteps.reveal(document.getElementById('quoteBtn')); } _go.apply(this, arguments); }; })();
+</script>
+<script>
+// S9b(2026-09-04)：精靈改為 Step 0——開精靈＝到 Step 0，關精靈／選卡帶入＝到 Step 1
+(function(){ if(!window.StudioSteps || StudioSteps.steps().indexOf(0) === -1) return; const _open = openWizard, _close = closeWizard; window.openWizard = function(){ _open(); StudioSteps.go(0); }; window.closeWizard = function(){ _close(); if(StudioSteps.current() === 0) StudioSteps.go(1); }; })();
+</script>
 <script>
 /* 2026-09-02，Lyric要求：分支比對期間，designers.html/portfolio.html/start.html這三個
    還沒套新皮膚的導覽項目直接從導覽列拿掉；logo(BATHE Atelier)連去index.html也還沒套新皮膚，

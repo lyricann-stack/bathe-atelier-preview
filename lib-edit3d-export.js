@@ -541,8 +541,9 @@ async function sendQuote(btn){
     banner.textContent = msg;
   };
   // 頁面設 window.PAGE_EMAIL_OPTIONAL=true（medium.html）→ Email 非必填，不擋送出
+  // S4-0c(2026-09-04)：⑥ 已改名 Your details（不再是 Order Info），被擋句改用 Basic B2b 版本；舊鍵保留不刪
   if(!window.PAGE_EMAIL_OPTIONAL && (!email || email.indexOf('@') < 1)){
-    show('#fdf3ee', '#e0b39a', '#8a4a2b', t('Please enter your email under "Order Info" so our designer can reply with your quote and 3D render.'));
+    show('#fdf3ee', '#e0b39a', '#8a4a2b', t('Please enter your email so we can reply with your quote.'));
     return;
   }
   const s = computeSpec();
@@ -591,9 +592,16 @@ async function sendQuote(btn){
     fd.append('options', optList.join('; ') || 'none');
     fd.append('est_total', shipR != null ? 'from USD $' + (pp.total + shipR).toLocaleString('en-US') : '-');
     fd.append('estimate_range', 'from USD $' + pp.total.toLocaleString('en-US') + ' + shipping (tier pricing per 2026-07 structure; $399 design fee credited)');
+    // S8e(2026-09-04)：Your details 前兩題（選項制），頁面沒有欄位時送 (not asked)
+    const _role = document.getElementById('custRole'), _exp = document.getElementById('custExp');
+    fd.append('cust_role', _role ? (_role.value || '(not given)') : '(not asked)');
+    fd.append('cust_experience', _exp ? (_exp.value || '(not given)') : '(not asked)');
     // M4(2026-09-02)：Medium 詢價主旨帶頁面與編號，業務一眼分流；其他頁沿用舊主旨
+    // S4-0f(2026-09-04)：Pro 主旨比照 Medium 帶頁面與編號；inspire 等其他頁沿用舊句
     const subj = window.PAGE_TAG === 'design-studio-medium'
       ? 'Bathe Atelier — Design Studio enquiry (Medium) [' + DESIGN_ID + ']'
+      : window.PAGE_TAG === 'design-studio-pro'
+      ? 'Bathe Atelier — Design Studio enquiry (Pro) [' + DESIGN_ID + ']'
       : 'Bathe Atelier — Design Studio (designer quote)';
     fd.append('_subject', subj);
     fd.append('_template', 'table');
@@ -614,7 +622,9 @@ async function sendQuote(btn){
         手繪俯視輪廓_normalized: P.customPts, 手繪內缸口輪廓_normalized: P.customPtsInner, 手繪側牆剖面_k: P.customProfile },
       計算規格: { 滿水容量_L: +s.fullVol.toFixed(1), 估計重量_kg: +s.weight.toFixed(1) },
       // M9(2026-09-02)：五題答案（走過精靈才有值；JSON.stringify 會自動略過 undefined）
-      需求問答: (typeof BRIEF_APPLIED !== 'undefined') ? BRIEF_APPLIED : undefined
+      需求問答: (typeof BRIEF_APPLIED !== 'undefined') ? BRIEF_APPLIED : undefined,
+      // S8e(2026-09-04)：Your details 前兩題身份/經驗，沒走過該欄位時 undefined（JSON.stringify 略過）
+      客戶身份: (typeof _role !== 'undefined' && _role) ? { role: _role.value || null, experience: _exp ? (_exp.value || null) : null } : undefined
     };
     fd.append('attachment', new Blob([JSON.stringify(spec, null, 2)], {type:'application/json'}), 'design-spec.json');
     // 六角度 3D 渲染圖（郵件用 1200×900 JPEG，總量約 1MB）；截圖失敗不影響送單
@@ -648,7 +658,7 @@ async function sendQuote(btn){
     if(window.PAGE_QUOTE_FEEDBACK === true){ btn.dataset.sent = '1'; btn.dataset.sentEmail = email; }
   } catch(e){
     console.error(e);
-    show('#fdf3ee', '#e0b39a', '#8a4a2b', t('❌ Something went wrong — please try again, or email hello@batheatelier.com directly.'));
+    show('#fdf3ee', '#e0b39a', '#8a4a2b', t('❌ Something went wrong. Please try again, or email hello@batheatelier.com directly.'));
   }
   // M7(2026-09-02)：送出成功後按鈕保持鎖定並顯示 Submitted ✓，直到客人改參數；逐字複製 lib-tub-export.js 的 A6c 版本
   // M7(2026-09-02)：改既有文字節點而不是整個換掉，節點身份不變，i18nNodes 裡的條目才對得上
@@ -786,7 +796,7 @@ async function exportCadPackZip(btn){
     showDlToast(a.download);
   } catch(e){
     console.error(e);
-    alert(t('❌ Something went wrong — please try again, or email hello@batheatelier.com directly.'));
+    alert(t('❌ Something went wrong. Please try again, or email hello@batheatelier.com directly.'));
   }
   if(btn){
     btn.disabled = false;
@@ -800,7 +810,7 @@ function showCadGate(){
   const b = document.getElementById('quoteBanner');
   b.style.display = 'block';
   b.style.background = '#fdf8ee'; b.style.border = '1px solid #d9c48f'; b.style.color = '#6b5518';
-  b.textContent = t('The manufacturing CAD pack — dimensioned DXF three-views plus the full spec file — is emailed together with your firm quote after you submit your design below.');
+  b.textContent = t('The manufacturing CAD pack (dimensioned DXF three-views plus the full spec file) is emailed together with your firm quote after you submit your design below.');
   b.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
@@ -872,7 +882,7 @@ async function exportConceptPDF(btn){
     showDlToast(DESIGN_ID + '-concept.pdf');
   } catch(e){
     console.error(e);
-    alert(t('❌ Something went wrong — please try again, or email hello@batheatelier.com directly.'));
+    alert(t('❌ Something went wrong. Please try again, or email hello@batheatelier.com directly.'));
   }
   if(btn){
     btn.disabled = false;
