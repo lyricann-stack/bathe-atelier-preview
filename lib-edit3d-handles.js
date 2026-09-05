@@ -280,7 +280,7 @@ if(EDIT_MODE){ (function(){
   function recomputeAll(){ recomputeData(); requestBuild(); syncNodePanel(); }
 
   // ---- 硬防呆：外殼任何取樣點不得進入內殼＋壁厚 ----
-  function shellsOK(){
+  function shellsOK(dminBefore){
     const o = outMM(), q = innMM(), minGap = Math.max(5, P.t);
     // a) 缸口平面：內輪廓在外輪廓之內且距離足夠（僅在獨立內輪廓時需檢查）
     if(P.customPtsInner){
@@ -292,7 +292,8 @@ if(EDIT_MODE){ (function(){
           const a=o[j], b=o[k];
           if((a[1]>q[i][1])!==(b[1]>q[i][1]) && q[i][0] < (b[0]-a[0])*(q[i][1]-a[1])/(b[1]-a[1])+a[0]) inside=!inside;
         }
-        if(!inside || dmin < minGap) return false;
+        // L4d(2026-09-06)：不得變差規則，避免預設 lip=t 時 inner 邊零餘裕全被拒
+        if(!inside || (dmin < minGap && (dminBefore===undefined || dmin < dminBefore-0.01))) return false;
       }
     }
     // b) 側壁全高度：外殼半徑 ≥ 內殼半徑＋間隙（v × 8 方位取樣）
@@ -319,15 +320,28 @@ if(EDIT_MODE){ (function(){
   // （例如 outer 拖曳給 {dx,dy,dz}，side 給 {dk,v}，面板數值輸入通常只給單一屬性）。
   function applyChecked(nd, before, after){
     const keys = Object.keys(after);
+    // L4d(2026-09-06)：不得變差規則——先算變更前(nd 目前值)的 inner 邊最小間距 dminBefore，
+    // 傳給 shellsOK 判定用，同一套 outMM／innMM 計算，只算這一次
+    recomputeData();
+    let dminBefore;
+    if(P.customPtsInner){
+      const o0 = outMM(), q0 = innMM();
+      dminBefore = Infinity;
+      for(let i=0;i<q0.length;i+=2){
+        let d0=Infinity;
+        for(let j=0;j<o0.length;j++){ const d=Math.hypot(o0[j][0]-q0[i][0], o0[j][1]-q0[i][1]); if(d<d0)d0=d; }
+        if(d0<dminBefore) dminBefore=d0;
+      }
+    }
     keys.forEach(k=>{ nd[k]=after[k]; });
     recomputeData();
-    if(shellsOK()) return true;
+    if(shellsOK(dminBefore)) return true;
     let lo=0, hi=1;
     for(let iter=0; iter<7; iter++){
       const mid=(lo+hi)/2;
       keys.forEach(k=>{ nd[k]=before[k]+(after[k]-before[k])*mid; });
       recomputeData();
-      if(shellsOK()) lo=mid; else hi=mid;
+      if(shellsOK(dminBefore)) lo=mid; else hi=mid;
     }
     keys.forEach(k=>{ nd[k]=before[k]+(after[k]-before[k])*lo; });
     recomputeData();
@@ -475,6 +489,7 @@ if(EDIT_MODE){ (function(){
     syncNodePanel();
   }
   // L4(2026-09-05)：邊線下拉＋加節點按鈕（PAGE_EDGE_SELECT 旗標守門，鍵盤／螢幕閱讀器可操作 Edge Editing）
+  // L4c(2026-09-06)：取點改面向相機頂點＋不可動時退避
   if(window.PAGE_EDGE_SELECT === true){
     const edgeSelect = $('edgeSelect');
     if(edgeSelect) edgeSelect.addEventListener('change', ()=>{
@@ -482,15 +497,107 @@ if(EDIT_MODE){ (function(){
       Object.keys(hiTubes).forEach(k=>{ hiTubes[k].material.opacity = k===selectedEdge ? 0.95 : 0; });
       showNodePanel();
     });
+    // L4c：舊版用geometry.boundingSphere.center取點——蛋形等不對稱輪廓時，球心投影到
+    // addNode()最近點搜尋常落在內外殼最窄處，二分搜尋(applyChecked)兩向都被shellsOK()擋住，
+    // 新節點卡死動不了。改成：在該邊線pick geometry的頂點裡(每圈只取1點，radialSegments
+    // 固定6圈見buildEdges)，挑離相機最近的一點當取點——等同使用者「看得到」的那段邊。
+    function edgeAddNodeCamPoint(mesh){
+      const pos = mesh.geometry.attributes.position;
+      const ring = 7; // 每圈頂點數(radialSegments+1=6+1，見buildEdges的TubeGeometry呼叫)
+      let best = null, bestD = Infinity;
+      const v = new THREE.Vector3();
+      for(let i=0; i<pos.count; i+=ring){
+        v.fromBufferAttribute(pos, i);
+        const wp = v.clone(); mesh.localToWorld(wp);
+        const d = wp.distanceToSquared(camera.position);
+        if(d < bestD){ bestD = d; best = wp; }
+      }
+      return best;
+    }
+    // L4c：recomputeOutline()在算完新輪廓後，若形心偏離0會直接原地平移baseO.pts/baseI.pts
+    // 校正回中心(既有邏輯，見該函式)——這對「真的要套用的變更」是對的，但拿來做「先試跑看看能
+    // 不能動、試完要還原」的探測時，就會把探測期間算出的臨時形心平移永久烙進baseO.pts/baseI.pts，
+    // 就算之後把節點的dx/dy/dL/dW調回0，這個平移也不會自己消失——等於每測一次、缸體基準就悄悄
+    // 偏移一點，形狀被污染。这裡用快照/還原取代「調回0靠recomputeData自然還原」，把試探會動到
+    // 的欄位整組存下來、跑完直接蓋回去，才是真正不留副作用。
+    function edgeAddNodeSnapshot(){
+      return {
+        L:P.L, W:P.W, obL:P.obL, obW:P.obW, ibL:P.ibL, ibW:P.ibW,
+        customPts: P.customPts ? P.customPts.map(pt=>pt.slice()) : null,
+        customPtsInner: P.customPtsInner ? P.customPtsInner.map(pt=>pt.slice()) : null,
+        wallMod: P.wallMod ? P.wallMod.slice() : null,
+        rimMod: P.rimMod ? P.rimMod.slice() : null,
+        baseOpts: baseO ? baseO.pts.map(pt=>pt.slice()) : null,
+        baseIpts: baseI ? baseI.pts.map(pt=>pt.slice()) : null
+      };
+    }
+    function edgeAddNodeRestore(s){
+      P.L=s.L; P.W=s.W; P.obL=s.obL; P.obW=s.obW; P.ibL=s.ibL; P.ibW=s.ibW;
+      P.customPts = s.customPts; P.customPtsInner = s.customPtsInner;
+      P.wallMod = s.wallMod; P.rimMod = s.rimMod;
+      if(baseO && s.baseOpts) baseO.pts = s.baseOpts;
+      if(baseI && s.baseIpts) baseI.pts = s.baseIpts;
+    }
+    // L4c：新節點建立後試探是否兩向都動不了——直接借用applyChecked()本身跑一次跟面板滑桿
+    // 同規格的±20試探(跟shellsOK()單點判定不同，shellsOK在極窄縫隙仍可能對1mm级微擾判"過"，
+    // 但那種次毫米級的可動範圍換算成面板整數顯示值等於沒動，使用者一樣感覺卡死；改用
+    // applyChecked實際跑一次二分搜尋，量測結果跟顯示值一樣四捨五入到整數再比較，才是使用者
+    // 真正會感受到的「動了沒」)。試完把節點屬性＋整套幾何快照還原，不留副作用。
+    function edgeAddNodeCanMove(nd){
+      if(!nd) return false;
+      const snap = edgeAddNodeSnapshot();
+      const axes = nd.edge==='base' ? ['dL','dW'] : (nd.edge==='outer' || nd.edge==='inner') ? ['dx','dy'] : ['dk'];
+      const origVals = {}; axes.forEach(k=>{ origVals[k] = nd[k] || 0; });
+      let moved = false;
+      for(const key of axes){
+        if(moved) break;
+        const orig = origVals[key];
+        const scale = key==='dk' ? 20/Math.max(50, rRawAt(nd)) : 20;
+        for(const sign of [1,-1]){
+          const before = {}; before[key] = orig;
+          const after = {}; after[key] = orig + sign*scale;
+          applyChecked(nd, before, after);
+          if(Math.abs((nd[key]||0) - orig) >= Math.abs(scale)*0.1){ moved = true; break; }
+        }
+      }
+      axes.forEach(k=>{ nd[k] = origVals[k]; });
+      edgeAddNodeRestore(snap);
+      recomputeData();
+      return moved;
+    }
     const edgeAddNodeBtn = $('edgeAddNodeBtn');
     if(edgeAddNodeBtn) edgeAddNodeBtn.addEventListener('click', ()=>{
-      if(selectedEdge && tubes[selectedEdge]){
-        const g = tubes[selectedEdge].geometry;
-        g.computeBoundingSphere();
-        const p = g.boundingSphere.center.clone();
-        tubes[selectedEdge].localToWorld(p);
-        addNode(selectedEdge, p);
+      if(!(selectedEdge && tubes[selectedEdge])) return;
+      const p = edgeAddNodeCamPoint(tubes[selectedEdge]);
+      if(!p) return;
+      const prevLen = nodes.length;
+      addNode(selectedEdge, p);
+      const nd = selNode;
+      const wasNew = nodes.length > prevLen && nodes[nodes.length-1] === nd;
+      let ok = edgeAddNodeCanMove(nd);
+      if(!ok && wasNew && nd.edge !== 'side'){
+        // 卡死且是這次新建的節點(不是重用既有節點)：沿輪廓索引往兩側交替試最多6個位置，
+        // 取第一個可動的重新建立節點；都不行則還原成原節點。
+        const o = nd.edge==='inner' ? innMM() : outMM();
+        const total = o.length, i0 = nd.i0;
+        const k0 = nd.edge==='base' ? shellKxy(0,false) : null;
+        nodes.splice(nodes.indexOf(nd), 1); recomputeData();
+        for(let step=1; step<=6 && !ok; step++){
+          for(const dir of [1,-1]){
+            const cand = ((i0 + dir*step) % total + total) % total;
+            const pl = k0 ? new THREE.Vector3(o[cand][0]*k0[0], 0, o[cand][1]*k0[1])
+                          : new THREE.Vector3(o[cand][0], 0, o[cand][1]);
+            const beforeLen = nodes.length;
+            addNode(selectedEdge, pl);
+            const cnd = selNode;
+            if(edgeAddNodeCanMove(cnd)){ ok = true; break; }
+            if(nodes.length > beforeLen && nodes[nodes.length-1] === cnd) nodes.splice(nodes.indexOf(cnd), 1);
+            recomputeData();
+          }
+        }
+        if(!ok) addNode(selectedEdge, p); // 都不行：還原成原節點
       }
+      if(!ok) $('edgeTip').innerHTML = '⚠ Inner bowl rim is outside / too close to the outer rim (min edge = wall thickness). Pull it back in.';
     });
   }
   function rRawAt(nd){
