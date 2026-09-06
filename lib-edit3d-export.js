@@ -1,5 +1,5 @@
 // ===================== lib-edit3d-export.js =====================
-// Phase 5合併(2026-08-20)：以lib-tub-export.js為底(已去Kreiner化、支援PAGE_CAD_GATE/PAGE_TAG/
+// Phase 5合併(2026-08-20)：以lib-tub-export.js為底(已去舊品牌化、支援PAGE_CAD_GATE/PAGE_TAG/
 // PAGE_EMAIL_OPTIONAL/EXTRA_QUOTE_ATTACH旗標)，疊上Edit3D節點編輯版新增的4處差異：
 // innerOutlinePts()升級(支援獨立手繪內缸口輪廓)x2、exportJSON()新增3個節點編輯狀態欄位
 // (手繪內缸口輪廓_normalized/側壁外形修飾_33/缸緣高度修飾_96)、詢價物件同步帶內輪廓欄位。
@@ -585,7 +585,8 @@ async function sendQuote(btn){
     fd.append('est_shipping', shipR != null ? 'USD $' + shipR : '-');
     const pp = priceParts();
     const optList = [];
-    if((P.color || '').toLowerCase() !== STD_COLOR) optList.push('custom colour +$' + PRICING.color);
+    // L15(2026-09-06)：鏡射 basic F1——送出欄位有具名色票就用色票名，找不到才算 custom colour（英文欄位，不走 t()）
+    if((P.color || '').toLowerCase() !== STD_COLOR) optList.push((typeof activeColorName==='function' && activeColorName() ? ('colour ' + activeColorName()) : 'custom colour') + ' +$' + PRICING.color);
     if(OPTS.backrest) optList.push('heated backrest +$' + PRICING.backrest);
     if(OPTS.basin) optList.push('matching basin +$' + PRICING.basin[P.material==='solid'?1:0]);
     fd.append('tier', PRICING.tiers[pp.tk][0] + ' (from USD $' + PRICING.tiers[pp.tk][P.material==='solid'?2:1].toLocaleString('en-US') + ')');

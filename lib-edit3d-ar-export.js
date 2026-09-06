@@ -1,11 +1,11 @@
 // ===================== lib-edit3d-ar-export.js =====================
 // Phase 8 M8-1a(2026-08-21)：3D場景匯出成AR通用格式(glb/usdz)，供iOS Safari原生AR Quick Look／
 // Android Chrome原生Scene Viewer使用。本檔只做「匯出器接線＋單位校正＋桌面驗證」——真正面向
-// 使用者的「在你的空間查看」按鈕＋QR code流程是M8-1b，需要Lyric的iPhone實機驗收，尚未做。
+// 使用者的「在你的空間查看」按鈕＋QR code流程是M8-1b，需要業主的iPhone實機驗收，尚未做。
 // 依賴：GLTFExporter.js／USDZExporter.js(three.js r128官方examples，UMD版，掛在THREE命名空間下，
 // 跟本專案既有的three.min.js CDN載入方式一致，不需要改成ES module架構)。
 
-// 2026-09-02，Lyric真機AR Quick Look實測回報：浴缸看起來像一片薄殼(看不到缸緣厚度、
+// 2026-09-02，業主真機AR Quick Look實測回報：浴缸看起來像一片薄殼(看不到缸緣厚度、
 // 內缸凹陷)，繞著走時外形還會隨角度跳來跳去。查證：缸體的缸壁/缸緣/底這些薄殼網格在
 // 編輯器裡本來就是material.side=THREE.DoubleSide(雙面渲染，否則邊緣稍微透視角度就會看穿)，
 // 但無論新舊版本的three.js USDZExporter都只會印警告「USDZ does not support double sided
@@ -41,8 +41,8 @@ function makeBackfaceClone(mesh){
 // 匯出用的場景複本：結構性clone(幾何/材質仍共用參照，純讀取安全)，縮放0.001把mm轉成m
 // (glTF/USDZ/AR生態系統的慣例單位，1.6m的缸在AR裡才會真的量出1.6m)——不改動原始tubGroup，
 // 編輯器繼續正常運作。
-// 2026-09-02 Lyric決定：水位模擬('waterSim')改成保留、一起匯出，不再濾掉——之前(*本行以上的
-// 舊註解*)認為水只是編輯器預覽輔助、不該進AR，但實際測試後Lyric覺得AR裡看到水面效果更好，
+// 2026-09-02 業主決定：水位模擬('waterSim')改成保留、一起匯出，不再濾掉——之前(*本行以上的
+// 舊註解*)認為水只是編輯器預覽輔助、不該進AR，但實際測試後業主覺得AR裡看到水面效果更好，
 // 明確要求保留。water本身material.side本來就是THREE.DoubleSide，下面雙面材質補背面的迴圈
 // 會自動把它也一併處理，不用額外寫特例。
 function buildExportGroup(){

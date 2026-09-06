@@ -173,12 +173,21 @@ _el('skirtToggle').addEventListener('change', e=>{ P.skirt = e.target.checked; s
 _el('ovfToggle').addEventListener('change', e=>{ P.ovf = e.target.checked; buildTub(); });
 _el('faucetToggle').addEventListener('change', e=>{ P.faucet = e.target.checked; buildTub(); });
 
+// L15(2026-09-06)：鏡射 basic F1——具名色票用自己的名字，找不到才算 Custom colour
+if(typeof window.activeColorName!=='function'){
+  window.activeColorName = function activeColorName(){
+    const c = (P.color || '').toLowerCase();
+    const sw = Array.from(document.querySelectorAll('.sw')).find(x => (x.dataset.c || '').toLowerCase() === c);
+    return sw ? (sw.getAttribute('title') || null) : null;
+  };
+}
+
 // M6(2026-09-02)：色票下方即時提示客製色加價（金額讀 PRICING，元素不存在直接 return）
 function updateColorNote(){
   const el = document.getElementById('colorNote');
   if(!el || typeof PRICING === 'undefined') return;
   const std = (P.color || '').toLowerCase() === STD_COLOR;
-  el.textContent = std ? t('Classic White, included') : (t('Custom colour') + ' +USD $' + PRICING.color.toLocaleString('en-US'));
+  el.textContent = std ? t('Classic White, included') : ((activeColorName() ? t(activeColorName()) : t('Custom colour')) + ' +USD $' + PRICING.color.toLocaleString('en-US'));
 }
 
 // M7(2026-09-02)：客人改任何參數（滑桿／材質／顏色／選項／節點編輯）→ 解鎖詢價按鈕、清掉成功 banner；逐字複製 lib-tub-ui.js 版本

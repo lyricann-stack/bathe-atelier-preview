@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..800;1,400&family=Noto+Sans+TC:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<!-- 2026-08-22：Medium展示型功能下放(Lyric本人裁定)——AR預覽(M8-1b)+照片合成(M8-2a)，
+<!-- 2026-08-22：Medium展示型功能下放(業主本人裁定)——AR預覽(M8-1b)+照片合成(M8-2a)，
      照pro.html同一組CDN(glb/usdz匯出器+QR產生器)，photo2tub AI重建維持Pro-only不下放 -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/GLTFExporter.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fflate@0.7.4/umd/index.js"></script>
@@ -308,7 +308,7 @@
     <div class="sub">Sculpt it yourself. Drag the edges in 3D, pick material & colour, get a firm quote.</div>
   </div>
   <div class="btns">
-    <button class="btn btn-dxf" data-keep="1" data-step-show="4" onclick="exportConceptPDF(this)">⬇ <span class="btn-long">Concept PDF (free)</span><span class="btn-short">PDF</span></button>
+    <button class="btn btn-upl" data-keep="1" data-step-show="4" onclick="exportConceptPDF(this)">⬇ <span class="btn-long">Concept PDF (free)</span><span class="btn-short">PDF</span></button>
     <!-- 2026-08-22：Medium展示型功能下放，比照pro.html -->
     <button class="btn btn-upl" data-step-show="4" onclick="openARPreview()">📱 <span class="btn-long">Preview in your space</span><span class="btn-short">AR</span></button>
     <button class="btn btn-upl" data-step-show="4" onclick="openPhotoCompose()">🛋 <span class="btn-long">Place in a photo</span><span class="btn-short">Photo</span></button>
@@ -378,7 +378,7 @@
         </div>
       </div>
     </div>
-    <!-- 靠牆缸下放Medium(2026-08-22，Lyric裁定)：入口設計跟pro.html同一套——直接是#panel的子元素、
+    <!-- 靠牆缸下放Medium(2026-08-22，業主裁定)：入口設計跟pro.html同一套——直接是#panel的子元素、
          故意不用class="group"，避開lib-edit3d-handles.js的EDIT_MODE面板收合邏輯(只收':scope > .group')。
          Medium原本沒有這個select，這裡是新增不是搬移；chooseTubType()/wallmount.js本來就在Medium的
          script清單裡(共用核心)，這裡只補UI入口。 -->
@@ -480,7 +480,7 @@
       <div class="tip">Drain marker (and overflow marker, once enabled) can be dragged directly in the 3D view to reposition.</div>
       <div class="chk" id="ovfChk" style="margin-top:10px"><input type="checkbox" id="ovfToggle"><label for="ovfToggle">Overflow drain (factory standard, 75mm below rim)</label></div>
       <div class="chk" id="faucetChk" style="margin-top:10px"><input type="checkbox" id="faucetToggle"><label for="faucetToggle">Faucet hole (drag on the rim to position)</label></div>
-      <!-- 缸底斜面下放Medium(2026-08-22，Lyric裁定為基本功能)：HTML/wording跟pro.html一致 -->
+      <!-- 缸底斜面下放Medium(2026-08-22，業主裁定為基本功能)：HTML/wording跟pro.html一致 -->
       <div class="row" style="margin-top:12px"><label>Base slope</label><input type="range" id="rBaseSlope" min="0" max="3" step="0.1" value="0"><div class="val"><input id="nBaseSlope" value="0"><span>°</span></div></div>
       <div class="tip">Tilts the whole tub base into a wedge shape (0° = standard flat base). For a tub that needs to sit on an angled surface or a deliberate sloped-base look.</div>
     </div>
@@ -505,7 +505,7 @@
       <h3>Your details</h3>
       <div class="yd-q" data-substep="1">
         <div class="yd-label">What do you do?</div>
-        <div class="ss-opts" data-target="custRole"><button type="button" data-val="designer">Bathroom designer</button><button type="button" data-val="architect">Architect</button><button type="button" data-val="other">Other</button></div>
+        <div class="ss-opts" data-target="custRole"><button type="button" data-val="homeowner">Homeowner</button><button type="button" data-val="designer">Bathroom designer</button><button type="button" data-val="architect">Architect</button><button type="button" data-val="other">Other</button></div>
         <input type="hidden" id="custRole" value="">
         <div class="tip">So we send the right level of detail.</div>
       </div>
@@ -590,7 +590,7 @@
   </div>
 </main>
 <!-- M15b(2026-09-03)：手機版固定底部 CTA——面板在 375px 可視高不到 200px 卻要捲 2400px 以上，客人找不到送出按鈕；桌面 display:none -->
-<div id="mobileCta">
+<div id="mobileCta" onclick="if(!event.target.closest('.mc-btn')) mobileCtaGo()" style="cursor:pointer">
   <div class="mc-price"><span class="mc-label">Estimated price</span><b id="mobileCtaPrice"></b></div>
   <button type="button" class="mc-btn" onclick="mobileCtaGo()">Get a firm quote →</button>
 </div>
@@ -652,7 +652,7 @@
   </div>
 </div>
 
-<!-- 2026-08-22：Medium展示型功能下放(Lyric本人裁定)——逐字複製自pro.html，跟共用邏輯
+<!-- 2026-08-22：Medium展示型功能下放(業主本人裁定)——逐字複製自pro.html，跟共用邏輯
      (lib-edit3d-ar-ui.js/lib-edit3d-photocompose.js)完全對應，不另外設計新UI -->
 <div id="arModal" style="display:none;position:fixed;inset:0;background:rgba(15,25,35,.55);z-index:100;align-items:center;justify-content:center">
   <div class="sk-box" style="width:min(420px,92vw);text-align:center">

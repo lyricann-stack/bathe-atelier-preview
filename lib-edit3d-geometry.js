@@ -275,7 +275,7 @@ function shellKxy(v, inner){
 // 側壁修飾層取值：33 點線性內插
 // Phase 7(2026-08-21)：缸底連動修正——原本這裡直接回傳插值，v=0(缸底)那端如果Gaussian
 // 節點的影響範圍剛好蓋到底部，會讓缸底footprint被側壁編輯意外拖動變形(既有缺口，非新問題，
-// 對應Masa會議Stanley的設計原則「邊緣拉、底部不縮」)。修法：乘上v本身當衰減係數——
+// 對應管理層會議廠方的設計原則「邊緣拉、底部不縮」)。修法：乘上v本身當衰減係數——
 // v=0(缸底)強制歸零(不管節點的Gaussian插值算出什麼，缸底一律不受側壁編輯影響)、
 // v=1(缸緣)保持100%不衰減、中間線性內插。只影響這個取值函式，不改變`recomputeSide()`
 // 產生節點Gaussian delta的邏輯本身，所以拖曳手感(节点在v多少位置有多大峰值)不變，
@@ -327,7 +327,7 @@ function minWallGap(){
 }
 
 // ===================== 浴缸設計基本原則約束層(Phase 7 §3，2026-08-21) =====================
-// 目的：把散落各處的既有可製造性/設計原則檢核集中登記成一份清冊，方便之後Stanley的四項製造
+// 目的：把散落各處的既有可製造性/設計原則檢核集中登記成一份清冊，方便之後廠方的四項製造
 // 參數／人造石供應商生產限制數字到位時，直接掛進同一份清冊，而不是再各自新增獨立warn div。
 // 盤點結果(2026-08-21)：規格書§3(a)點名的四類原則裡，三類其實已經是既有上線功能——
 // 最小內缸人體空間＝lenWarn(inn.L<950)、壁厚＝thinWarn(minWallGap()<5)、脫模角＝undercutWarn
@@ -342,7 +342,7 @@ function designPrincipleChecks(){
   return [
     { id:'base-decay', label:'Base floor stays flat when shaping walls',
       status:'ok', source:'wallModAt()衰減乘數(結構性保證，非可能失敗的執行期檢查)',
-      detail:'Stanley：邊緣拉、底部不縮——Phase 7 Step 0，commit 941a16e' },
+      detail:'廠方：邊緣拉、底部不縮——Phase 7 Step 0，commit 941a16e' },
     { id:'base-slope-thickness', label:'Base thickness preserved when tilting the base (advanced)',
       status:'ok', source:'outerBaseZ()安全clamp(結構性保證，2026-08-22佇列項11實測發現minWallGap()' +
         '不涵蓋此風險後補上)', detail:'缸底斜面下沉端最多吃掉70%缸底厚度，clamp在幾何層面強制執行，不是只警告' },
@@ -358,12 +358,12 @@ function designPrincipleChecks(){
     { id:'floor-slope', label:'Floor drain slope',
       status:'ok', source:'滑桿range防呆(#rSlope min=1.3 max=1.5)',
       detail:`目前${P.slope}°，落在工廠標準1.3–1.5°範圍內(滑桿本身無法超出)` },
-    { id:'stanley-params', label:"Stanley's 4 manufacturing parameters (R角/進出角/抽真空角度/S曲線上下限)",
+    { id:'stanley-params', label:"Factory's 4 manufacturing parameters (R角/進出角/抽真空角度/S曲線上下限)",
       status:'pending', source:'待補研究',
-      detail:'2026-08-19已確認Lyric出差未拿到，Stanley 2026-08-26參展後預計補回' },
+      detail:'2026-08-19已確認業主出差未拿到，廠方 2026-08-26參展後預計補回' },
     { id:'solid-surface-supplier-limits', label:'Solid-surface supplier forming limits',
       status:'pending', source:'待補研究',
-      detail:'2026-08-21 Masa會議交辦詢問供應商，用來收斂入口一參數滑桿上下限' },
+      detail:'2026-08-21 管理層會議交辦詢問供應商，用來收斂入口一參數滑桿上下限' },
   ];
 }
 

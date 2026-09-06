@@ -99,6 +99,9 @@ async function generateProposals(){
   const T = briefTargets();
   const shape = LOOK_SHAPE[BRIEF.look] || 'ellipse';
   const wBase = T.two ? 760 : 600;   // 內口寬目標
+  // L16(2026-09-06)：鏡射 basic F2——人體目標長度（夾回前）；被空間上限壓短時卡上要說
+  const wantL = key => Math.round((T.innerL[key] + 40 + (T.two ? 150 : 0)) / 10) * 10;
+  const ERGO = { compact:'recline', stretch:'stretch', deep:'deep', sculpt:'recline' };
   const defs = [
     // M11(2026-09-02)：每張提案卡加 why（推薦理由）與 shot（縮圖視角，差異化四張縮圖）
     { key:'compact', name:'Compact fit',  L:T.clampL(T.innerL.recline), W:T.clampW(wBase - 40), D:450, extra:{shape}, why:'Fits your space, knees relaxed', shot:[Math.PI/4, Math.PI/3.2] },
@@ -118,8 +121,16 @@ async function generateProposals(){
     const price = priceParts().total;
     const img = (await captureRenders({ w:520, h:390, mime:'image/jpeg', q:0.82, shots:[['thumb', d.shot[0], d.shot[1]]], noWatermark:true }))[0][1];
     // M11(2026-09-02)：why/whyHeight 供卡片顯示推薦理由；note 標註 Deep soak 撞下限的情況
+    // L16(2026-09-06)：鏡射 basic F2——note 加空間上限壓短提示；stretch 卡被壓短時 why/whyHeight 改文案，避免「Lie flat at」失真
+    const limited = d.L < wantL(ERGO[d.key]) && d.L === T.maxL;
     PROPS.push({ name:d.name, params, img, dims:`${d.L} × ${d.W} × ${params.H} mm`, depth:d.D, cap:spec.fullVol.toFixed(0), price,
-      why: d.why, whyHeight: d.key==='stretch', note: (d.key==='deep' && d.L===1200 && (T.innerL.deep + 40) < 1200) ? 'Minimum length applied' : null });
+      why: (d.key==='stretch' && limited) ? 'Sized to your space' : d.why, whyHeight: d.key==='stretch' && !limited,
+      note: (function(){
+        const want = wantL(ERGO[d.key]);
+        if(d.L < want && d.L === T.maxL) return 'Limited by your space';      // L16：空間上限壓短
+        if(d.L === 1200 && want < 1200) return 'Minimum length applied';       // 原 deep 規則放寬到四卡（結果對 deep 不變）
+        return null;
+      })() });
   }
   Object.keys(saved).forEach(k=>{ P[k] = saved[k]; });
   syncUI(); buildTub();

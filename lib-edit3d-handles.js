@@ -170,7 +170,7 @@ if(EDIT_MODE){ (function(){
   }
   function ensureBaseB(){
     captureOrig();
-    // customPtsInner 快照(2026-09-02，Lyric要求：調底部時內缸要跟著動)：獨立內輪廓
+    // customPtsInner 快照(2026-09-02，業主要求：調底部時內缸要跟著動)：獨立內輪廓
     // (照片重建常見)存的是「佔 P.L/P.W 的比例」，不是佔 obL/obW——沒有自己的快照就沒有
     // 穩定的縮放基準可以算，recomputeBase()每次都要從「這次調整開始前」的原始形狀去縮放，
     // 不能拿上一次recompute後已經被縮放過的當基準(不然會疊加縮放、越滾越大/越滾越小)。
@@ -264,7 +264,7 @@ if(EDIT_MODE){ (function(){
     P.obW = Math.max(200, Math.min(P.W-40, Math.round(baseB.obW+dW)));
     P.ibL = Math.min(P.obL-10, Math.round(P.obL*baseB.ibL/baseB.obL));
     P.ibW = Math.min(P.obW-10, Math.round(P.obW*baseB.ibW/baseB.obW));
-    // 內缸跟著底部一起調整(2026-09-02，Lyric要求)：上面 ibL/ibW 只在「簡單參數化內缸」時
+    // 內缸跟著底部一起調整(2026-09-02，業主要求)：上面 ibL/ibW 只在「簡單參數化內缸」時
     // 看得出效果——有獨立內輪廓(customPtsInner，照片重建常見)時，innerOutlinePts()/innerDims()
     // 一律優先讀 customPtsInner、完全不理 ibL/ibW(見 lib-edit3d-geometry.js)，導致調底部時
     // 外殼變了、內缸卻凍結原地不動。這裡照 obL/obW 同一個縮放比例，把 customPtsInner 的快照
@@ -309,7 +309,7 @@ if(EDIT_MODE){ (function(){
     return true;
   }
   // 套用變更並驗證；違反內外缸限制就「停在邊界」，不是整套打回原狀（2026-09-02 修正，
-  // Lyric回報：多節點編輯時第二個點、甚至base底部線常常整個不能拖——舊版只要這次改動讓
+  // 業主回報：多節點編輯時第二個點、甚至base底部線常常整個不能拖——舊版只要這次改動讓
   // 任何一處壁厚不夠，就把這個節點的屬性整組打回這次拖曳前的狀態，跟超出邊界多少無關。
   // 照片重建的浴缸內外殼本來就常常比較貼近下限（不像參數化浴缸內外形狀成比例、壁厚寬鬆），
   // 稍微再往同方向調一點點就整個被打回去，使用者看起來就是「這個點拖不動」，即使還有一點
@@ -1142,7 +1142,7 @@ if(EDIT_MODE){ (function(){
 
   // ---- 透視校正（半自動）：斜拍照上點缸口 4 極點＋實際長寬 → 單應變換攤平成俯視再描 ----
   // 基準面＝缸口平面（4 點都在缸緣上）。攤平後把缸口 bbox 以外像素塗成背景色，
-  // 近側側壁殘影（低仰角時剪影超出缸緣的部分）直接裁掉——Lyric 2026-08-10 的基準線思路。
+  // 近側側壁殘影（低仰角時剪影超出缸緣的部分）直接裁掉——業主 2026-08-10 的基準線思路。
   let _lastPhotoSrc = null, _perspPts = [];
   const PERSP_STEPS = [
     '① Click the FAR END of the outer rim (one end of the tub\'s length)',

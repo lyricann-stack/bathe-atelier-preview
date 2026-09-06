@@ -90,7 +90,7 @@
     '⚠ The width refinement scan hit an unexpected error — the width shown keeps the earlier estimate unchanged.': ['⚠ 宽度精算扫描过程发生非预期错误——显示的宽度维持先前的估计值不变。', 'เกิดข้อผิดพลาดที่ไม่คาดคิดระหว่างการสแกนคำนวณความกว้างอย่างละเอียด — ค่าความกว้างที่แสดงยังคงเป็นค่าประมาณการก่อนหน้า', '⚠ 寬度精算掃描過程發生非預期錯誤——顯示的寬度維持先前的估計值不變。'],
     '⚠ The multi-photo joint fit couldn\'t find a good match for this photo set (fit residual too high) — falling back to the existing single/limited-angle method. The outline may be affected by glare or obstructions in the photos; try again with cleaner, unobstructed shots.': ['⚠ 多照片联合拟合这次没能找到够好的匹配(拟合残差过大)——已改用既有的单张/有限角度估计方式。轮廓可能受画面反光或遮挡物影响，建议换一批背景干净、没有遮挡的照片重新上传。', 'การประมวลผลรูปทรงร่วมจากหลายรูปถ่ายไม่พบผลลัพธ์ที่แม่นยำเพียงพอในครั้งนี้ (ค่าความคลาดเคลื่อนสูงเกินไป) — ระบบจึงใช้วิธีประมาณการแบบมุมเดียว/มุมจำกัดแทน รูปทรงที่ได้อาจได้รับผลกระทบจากแสงสะท้อนหรือสิ่งกีดขวางในภาพ แนะนำให้ถ่ายรูปใหม่โดยพื้นหลังชัดเจนไม่มีสิ่งกีดขวาง', '⚠ 多照片聯合擬合這次沒能找到夠好的匹配(擬合殘差過大)——已改用既有的單張/有限角度估計方式。輪廓可能受畫面反光或遮擋物影響，建議換一批背景乾淨、沒有遮擋的照片重新上傳。'],
     'The multi-photo joint fit wasn\'t used this time — falling back to the existing estimation method.': ['多照片联合拟合这次未被采用——已改用既有的估计方式。', 'การประมวลผลรูปทรงร่วมจากหลายรูปถ่ายไม่ได้ถูกใช้ในครั้งนี้ — ระบบใช้วิธีประมาณการแบบเดิมแทน', '多照片聯合擬合這次未被採用——已改用既有的估計方式。'],
-    // 單照片救援包招1(2026-08-23，Lyric拍板1b)：R3因照片不足被擋下時，除了上面那句升級警示，
+    // 單照片救援包招1(2026-08-23，業主拍板1b)：R3因照片不足被擋下時，除了上面那句升級警示，
     // 再補3題快問快答當約束，答案直接patch data.spec後重新importSpecJSON()，純前端不動後端。
     'A few quick questions can improve the estimate (optional — skip any you\'re not sure about):': ['几个简单问题可以改善估计(可选——不确定的可以跳过)：', 'คำถามสั้นๆ ช่วยปรับปรุงการประมาณ (ไม่บังคับ — ข้ามข้อที่ไม่แน่ใจได้)：', '幾個簡單問題可以改善估計(可選——不確定的可以跳過)：'],
     'About how long is it (external length)? You can fine-tune with the slider below afterward.': ['大概的外部长度是多少？之后还能用下面滑杆微调。', 'ความยาวภายนอกโดยประมาณเท่าไหร่? ปรับละเอียดได้ภายหลังด้วยสไลเดอร์ด้านล่าง', '大概的外部長度是多少？之後還能用下面滑桿微調。'],
@@ -106,7 +106,7 @@
     'Looking from above, is the base much narrower than the rim?': ['由上往下看，缸底是不是比缸口窄很多？', 'เมื่อมองจากด้านบน ฐานแคบกว่าขอบมากหรือไม่?', '由上往下看，缸底是不是比缸口窄很多？'],
     'Nearly vertical (base ≈ rim width)': ['几乎垂直(缸底缸口差不多宽)', 'เกือบตั้งตรง (ฐานกว้างใกล้เคียงขอบ)', '幾乎垂直(缸底缸口差不多寬)'],
     'Tapers inward a lot (base much narrower, like a flowerpot)': ['有明显往内收(缸底窄很多，像花盆)', 'สอบเข้าด้านในมาก (ฐานแคบกว่ามาก คล้ายกระถางต้นไม้)', '有明顯往內收(缸底窄很多，像花盆)'],
-    // H比例直算估計器(2026-08-24，Lyric親自指定方法)：無可用正交側視照片時高度沿用580mm預設，
+    // H比例直算估計器(2026-08-24，業主親自指定方法)：無可用正交側視照片時高度沿用580mm預設，
     // 這裡補第4題讓使用者手動估計——跟Q1(長度)同一種"快問快答+可再用滑桿微調"設計，觸發條件
     // 獨立於Q1-3(too_few_photos/low_diversity)：只看後端spec的H_source==='default_no_side_view'，
     // 見handlePhotoUpload()裡的heightDefaulted判斷。
@@ -121,7 +121,7 @@
     'symmetry (confirmed symmetric)': ['对称性(已确认对称)', 'ความสมมาตร (ยืนยันสมมาตรแล้ว)', '對稱性(已確認對稱)'],
     'base taper (confirmed nearly vertical)': ['底部收缩(已确认接近直壁)', 'ความสอบของฐาน (ยืนยันเกือบตั้งตรงแล้ว)', '底部收縮(已確認接近直壁)'],
     'height (your estimate)': ['高度(你的估计)', 'ความสูง (ค่าประมาณของคุณ)', '高度(你的估計)'],
-    // 招2「型錄檢索借參數」建議式借用UI(2026-08-23，Lyric裁定的安全轉向：單照片/ambiguous情境
+    // 招2「型錄檢索借參數」建議式借用UI(2026-08-23，業主裁定的安全轉向：單照片/ambiguous情境
     // 一律「建議+使用者確認」，不自動套用——見scripts/m6_catalog_match.py的三條安全紅線)。
     'We found a similar shape in our catalog — want to try it?': ['我们在型录里找到相似的造型——要套用看看吗？', 'เราพบรูปทรงที่คล้ายกันในแคตตาล็อกของเรา — ต้องการลองใช้ไหม?', '我們在型錄裡找到相似的造型——要套用看看嗎？'],
     // v1安全裁定(2026-08-23)：would_be_auto案例(N≥2+confident+不ambiguous)用語氣更肯定的文案，
@@ -179,7 +179,7 @@
       ${detailsHtml || ''}`;
   }
 
-  // 追問卡片改彈窗(2026-09-02，Lyric實測回報：卡片內嵌在#p2tBanner裡會把下方studio-strip／
+  // 追問卡片改彈窗(2026-09-02，業主實測回報：卡片內嵌在#p2tBanner裡會把下方studio-strip／
   // 3D檢視器往下推，body是height:100vh+overflow:hidden的單一視窗版面，推出視窗外的部分完全
   // 捲不到)。改成蓋在頁面上的彈窗——p2t-hint-card／p2t-catalog-card這兩種卡片本身的HTML／
   // class／data屬性、applyHint()等既有邏輯完全不動，只改「插進DOM的哪個容器」跟「怎麼關掉」。
@@ -319,7 +319,7 @@
     applyHint(btn.dataset.q, btn.dataset.opt, btn);
   });
 
-  // ===== 單照片救援包招2(2026-08-23，Lyric拍板+安全轉向)：型錄檢索借參數，建議式借用 =====
+  // ===== 單照片救援包招2(2026-08-23，業主拍板+安全轉向)：型錄檢索借參數，建議式借用 =====
   // 獨立的Modal App(跟/reconstruct物理隔離，見api/modal_catalog_match.py)，只在照片數<3時
   // 額外打一次這個輕量endpoint，跟主要的/reconstruct呼叫平行進行、互不阻擋。三條安全紅線
   // (N=1永遠suggestion、ambiguous永遠降級suggestion、只回參數不回款名)全部在後端

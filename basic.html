@@ -60,7 +60,7 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
   <div class="btns">
     <!-- D2(2026-09-02)：手機版三顆按鈕改短字，桌面顯示長字 -->
     <button class="btn btn-upl" onclick="openWizard()">✨ <span class="btn-long">Redesign: answer again</span><span class="btn-short">Redesign</span></button>
-    <button class="btn btn-dxf" data-step-show="4" onclick="exportConceptPDF(this)">⬇ <span class="btn-long">Concept PDF (free)</span><span class="btn-short">PDF</span></button>
+    <button class="btn btn-upl" data-step-show="4" onclick="exportConceptPDF(this)">⬇ <span class="btn-long">Concept PDF (free)</span><span class="btn-short">PDF</span></button>
     <!-- 2026-09-02，業主要求：AR預覽下放到Basic版(原本只有Medium/Pro有)。Basic用的是舊版
          lib-tub-*引擎，但tubGroup/DESIGN_ID/THREE.DoubleSide用法跟lib-edit3d-*核心相容，
          lib-edit3d-ar-export.js/lib-edit3d-ar-ui.js可以原樣接上，不用另外改寫 -->
@@ -162,7 +162,7 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
       <h3>Your details</h3>
       <div class="yd-q" data-substep="1">
         <div class="yd-label">What do you do?</div>
-        <div class="ss-opts" data-target="custRole"><button type="button" data-val="designer">Bathroom designer</button><button type="button" data-val="architect">Architect</button><button type="button" data-val="other">Other</button></div>
+        <div class="ss-opts" data-target="custRole"><button type="button" data-val="homeowner">Homeowner</button><button type="button" data-val="designer">Bathroom designer</button><button type="button" data-val="architect">Architect</button><button type="button" data-val="other">Other</button></div>
         <input type="hidden" id="custRole" value="">
         <div class="tip">So we send the right level of detail.</div>
       </div>
@@ -264,7 +264,7 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
   </div>
 </main>
 <!-- D1(2026-09-02)：手機版固定底部 CTA——面板在 375px 只剩約 250px 高卻要捲 1800px，客人找不到送出按鈕；桌面 display:none -->
-<div id="mobileCta">
+<div id="mobileCta" onclick="if(!event.target.closest('.mc-btn')) mobileCtaGo()" style="cursor:pointer">
   <div class="mc-price"><span class="mc-label">Estimated price</span><b id="mobileCtaPrice"></b></div>
   <button type="button" class="mc-btn" onclick="mobileCtaGo()">Get a firm quote →</button>
 </div>

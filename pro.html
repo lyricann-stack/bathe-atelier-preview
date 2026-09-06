@@ -45,7 +45,7 @@
   .p2t-hint-pill:hover { border-color:#9a7b43; color:#1b1a16; }
   .p2t-hint-pill-selected { background:#9a7b43; border-color:#9a7b43; color:#fff; font-weight:600; }
   .p2t-hint-status { color:#5a8a5a; font-size:11.5px; margin-top:4px; min-height:14px; }
-  /* 追問卡片改彈窗(2026-09-02，Lyric回報：卡片內嵌在版面裡會把下方3D模型往下推，
+  /* 追問卡片改彈窗(2026-09-02，業主回報：卡片內嵌在版面裡會把下方3D模型往下推，
      捲不到；改成蓋在頁面上的彈窗，答完按「完成」關掉，不佔版面高度)。 */
   #p2tHintModal { position:fixed; inset:0; z-index:200; display:none; align-items:center; justify-content:center; padding:20px; }
   #p2tHintModal.open { display:flex; }
@@ -59,7 +59,7 @@
   #p2tHintModal .p2t-modal-done { border:none; background:#1b1a16; color:#fff; padding:10px 22px; border-radius:999px;
     font-size:13px; font-weight:600; cursor:pointer; }
   #p2tHintModal .p2t-modal-done:hover { opacity:.9; }
-  /* 2026-09-02，Lyric回報：頁首說明太多、擠壓下方3D模型可視空間——三條上傳提示改成
+  /* 2026-09-02，業主回報：頁首說明太多、擠壓下方3D模型可視空間——三條上傳提示改成
      預設收合，按「ⓘ Upload notes」才彈出浮層，不佔版面高度(用position:absolute浮動，
      不會把main/#viewer往下推)。 */
   .notes-toggle { font:inherit; font-size:12px; color:#7a5f2f; background:none; border:1px solid #ddd8cc; border-radius:999px; padding:4px 12px; cursor:pointer; margin-top:4px; }
@@ -160,7 +160,7 @@
     <button class="btn btn-upl" id="photo2tubBtn" data-step-show="1" onclick="document.getElementById('photo2tubFiles').click()">📷 <span class="btn-long">Generate 3D from photos</span><span class="btn-short">Photos</span></button>
     <input type="file" id="photo2tubFiles" accept="image/png,image/jpeg,image/jpg,image/webp" multiple style="display:none">
     <button class="btn btn-upl" data-step-show="1" onclick="document.getElementById('cadFile').click()">⬆ <span class="btn-long">Upload CAD File</span><span class="btn-short">Upload</span></button>
-    <button class="btn btn-dxf" data-keep="1" data-step-show="4" onclick="exportConceptPDF(this)">⬇ <span class="btn-long">Concept PDF (free)</span><span class="btn-short">PDF</span></button>
+    <button class="btn btn-upl" data-keep="1" data-step-show="4" onclick="exportConceptPDF(this)">⬇ <span class="btn-long">Concept PDF (free)</span><span class="btn-short">PDF</span></button>
     <button class="btn btn-upl" data-step-show="4" id="cadPackBtn" onclick="requestCadPack(this)">⬇ CAD pack (DXF + spec + renders)</button>
     <button class="btn btn-upl" data-step-show="4" onclick="openARPreview()">📱 <span class="btn-long">Preview in your space</span><span class="btn-short">AR</span></button>
     <!-- Phase 8 M8-2a(2026-08-21)：照片合成(貼紙式)——跟上面T5「Site photo notes」是兩個不同功能
@@ -325,7 +325,7 @@
       <div class="tip">Tub floor slopes towards the drain, drain at the lowest point (factory standard 1.3–1.5°). Drain detail follows the factory standard fitting, applied at mould stage.</div>
       <div class="chk" id="ovfChk" style="margin-top:10px"><input type="checkbox" id="ovfToggle"><label for="ovfToggle">Overflow drain (factory standard, 75mm below rim)</label></div>
       <div class="chk" id="faucetChk" style="margin-top:10px"><input type="checkbox" id="faucetToggle"><label for="faucetToggle">Faucet hole (drag on the rim to position)</label></div>
-      <!-- 佇列項11(2026-08-22)原為Pro專屬進階選項，Lyric裁定改列基本功能，同批下放Medium/Basic，
+      <!-- 佇列項11(2026-08-22)原為Pro專屬進階選項，業主裁定改列基本功能，同批下放Medium/Basic，
            這裡順手拿掉"(advanced)"/"Experimental"措辭，跟三版本頁統一。
            0°=平底(預設，跟現行零改動)，範圍0-3°對應「非平整底」的斜面底例子，不做任意自訂輪廓(v2 backlog)。 -->
       <div class="row" style="margin-top:12px"><label>Base slope</label><input type="range" id="rBaseSlope" min="0" max="3" step="0.1" value="0"><div class="val"><input id="nBaseSlope" value="0"><span>°</span></div></div>
@@ -352,7 +352,7 @@
       <h3>Your details</h3>
       <div class="yd-q" data-substep="1">
         <div class="yd-label">What do you do?</div>
-        <div class="ss-opts" data-target="custRole"><button type="button" data-val="designer">Bathroom designer</button><button type="button" data-val="architect">Architect</button><button type="button" data-val="other">Other</button></div>
+        <div class="ss-opts" data-target="custRole"><button type="button" data-val="homeowner">Homeowner</button><button type="button" data-val="designer">Bathroom designer</button><button type="button" data-val="architect">Architect</button><button type="button" data-val="other">Other</button></div>
         <input type="hidden" id="custRole" value="">
         <div class="tip">So we send the right level of detail.</div>
       </div>
@@ -437,7 +437,7 @@
   </div>
 </main>
 <!-- S4-0d(2026-09-04)：手機版固定底部 CTA——面板在 375px 可視高不到 200px 卻要捲 2400px 以上，客人找不到送出按鈕；桌面 display:none -->
-<div id="mobileCta">
+<div id="mobileCta" onclick="if(!event.target.closest('.mc-btn')) mobileCtaGo()" style="cursor:pointer">
   <div class="mc-price"><span class="mc-label">Estimated price</span><b id="mobileCtaPrice"></b></div>
   <button type="button" class="mc-btn" onclick="mobileCtaGo()">Get a firm quote →</button>
 </div>
