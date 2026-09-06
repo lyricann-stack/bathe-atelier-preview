@@ -1,0 +1,93 @@
+<div id="bath-view">
+  <div class="stage" role="img" aria-label="依照片重建的白色浴缸 3D 模型，可拖曳旋轉與滾輪縮放"></div>
+  <div class="viz-controls">
+    <label class="form-label">觀看角度 <select class="form-select" id="bath-angle"><option value="perspective">立體</option><option value="side">側面</option><option value="top">俯視</option><option value="end">端面</option></select></label>
+    <label class="form-label">縮放 <input class="form-range" id="bath-zoom" type="range" min="1.7" max="4.8" step="0.05" value="3.1" aria-label="模型縮放"></label>
+  </div>
+  <div class="viz-controls" id="bath-shape-controls">
+    <label class="form-label">長度 <output id="length-value" class="tabular-nums">1800 mm</output><input class="form-range" type="range" id="shape-length" aria-label="浴缸長度" min="1300" max="2200" step="10" value="1800"></label>
+    <label class="form-label">寬度 <output id="width-value" class="tabular-nums">800 mm</output><input class="form-range" type="range" id="shape-width" aria-label="浴缸寬度" min="650" max="1100" step="10" value="800"></label>
+    <label class="form-label">中央高度 <output id="height-value" class="tabular-nums">550 mm</output><input class="form-range" type="range" id="shape-height" aria-label="浴缸中央高度" min="400" max="750" step="10" value="550"></label>
+    <label class="form-label">右端抬升 <output id="right-value" class="tabular-nums">205 mm</output><input class="form-range" type="range" id="shape-right" aria-label="右端抬升" min="0" max="350" step="5" value="205"></label>
+    <label class="form-label">左端抬升 <output id="left-value" class="tabular-nums">15 mm</output><input class="form-range" type="range" id="shape-left" aria-label="左端抬升" min="0" max="350" step="5" value="15"></label>
+    <label class="form-label">輪廓方圓 <output id="round-value" class="tabular-nums">20% 方形</output><input class="form-range" type="range" id="shape-round" aria-label="輪廓方圓，零為橢圓，一百為圓角方形" min="0" max="100" step="1" value="20"></label>
+    <label class="form-label">缸邊厚度 <output id="rim-value" class="tabular-nums">24 mm</output><input class="form-range" type="range" id="shape-rim" aria-label="缸邊厚度" min="12" max="65" step="1" value="24"></label>
+  </div>
+  <span class="sr-only" id="bath-status" aria-live="polite"></span>
+</div>
+<style>
+#bath-view .stage {width:100%;height:460px;touch-action:none;cursor:grab;}
+#bath-view .stage:active {cursor:grabbing;}
+#bath-view canvas {display:block;width:100%;height:100%;}
+@media(max-width:480px){#bath-view .stage{height:340px;}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script>
+(function(){
+const root=document.getElementById('bath-view'),stage=root.querySelector('.stage'),status=root.querySelector('#bath-status');
+if(typeof THREE==='undefined'){status.className='';status.textContent='3D 元件未能載入，請重新開啟預覽。';return;}
+const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(35,1,.01,50);
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.92;stage.appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xffffff,0x787c83,.85));
+function light(x,y,z,intensity){const l=new THREE.DirectionalLight(0xffffff,intensity);l.position.set(x,y,z);scene.add(l);}
+light(-3,5,4,1.5);light(3,3,-3,.9);light(1,1,4,.22);
+const ceramic=new THREE.MeshPhysicalMaterial({color:0xf5f5f2,roughness:.24,metalness:0,clearcoat:.32,clearcoatRoughness:.22,side:THREE.DoubleSide});
+// Closed cross section: underside, rounded foot, outer wall, rolled thin lip, inner basin.
+// Each row gives ellipse radii, baseline height and contribution of the raised end.
+const profile=[
+[0,0,.022,0],[.40,.14,.022,0],[.62,.235,.022,0],[.686,.272,.041,0],[.732,.298,.094,.025],[.791,.331,.216,.13],[.843,.365,.365,.43],[.880,.387,.480,.80],[.899,.399,.536,1],[.8995,.3995,.542,1],[.895,.395,.546,1],[.885,.385,.545,1],[.879,.379,.540,1],[.876,.376,.528,.99],[.861,.364,.465,.80],[.827,.337,.343,.47],[.777,.301,.231,.16],[.716,.257,.156,.025],[.658,.222,.132,0],[.550,.182,.127,0],[.33,.11,.126,0],[0,0,.126,0]
+];
+const N=192,S=8;
+function sample(i,t,k){const a=profile[Math.max(0,i-1)][k],b=profile[i][k],c=profile[Math.min(profile.length-1,i+1)][k],d=profile[Math.min(profile.length-1,i+2)][k];return .5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t*t+(-a+3*b-3*c+d)*t*t*t);}
+const shape={length:1800,width:800,height:550,right:205,left:15,round:20,rim:24};
+const tub=new THREE.Mesh(new THREE.BufferGeometry(),ceramic);scene.add(tub);
+function point(i,t,theta){
+ const a=sample(i,t,0),b=sample(i,t,1),h=sample(i,t,2),w=sample(i,t,3);
+ const u=Math.max(0,Math.min(1,(i+t-9)/4));const inner=u*u*(3-2*u);
+ const extra=(shape.rim-24)/1000*inner;
+ const aa=a*(shape.length/1799)-extra*(a/.879),bb=b*(shape.width/799)-extra*(b/.379);
+ const c=Math.cos(theta),sn=Math.sin(theta),power=1-shape.round*.007;
+ const x=Math.sign(c)*Math.pow(Math.abs(c),power),z=Math.sign(sn)*Math.pow(Math.abs(sn),power);
+ const rise=shape.right/1000*Math.pow(Math.max(0,x),2.1)+shape.left/1000*Math.pow(Math.max(0,-x),2);
+ return [aa*x,h*shape.height/546+w*rise,bb*z];
+}
+function rebuild(){
+ const pos=[],idx=[];
+ for(let i=0;i<profile.length-1;i++)for(let s=0;s<S;s++)for(let j=0;j<=N;j++)pos.push(...point(i,s/S,j/N*Math.PI*2));
+ for(let j=0;j<=N;j++)pos.push(0,.126*shape.height/546,0);
+ const rows=pos.length/3/(N+1);
+ for(let i=0;i<rows-1;i++)for(let j=0;j<N;j++){const a=i*(N+1)+j,b=a+N+1;idx.push(a,a+1,b,b,a+1,b+1);}
+ const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));geo.setIndex(idx);geo.computeVertexNormals();tub.geometry.dispose();tub.geometry=geo;
+ drain.position.set(-.23*shape.length/1800,.126*shape.height/546+.002,0);
+ const q=point(14,.45,Math.PI*1.5),r=point(14,.46,Math.PI*1.5);
+ slot.position.set(0,q[1],q[2]+.0015);slot.rotation.x=-Math.atan2(r[2]-q[2],q[1]-r[1]);
+ shadow.scale.set(shape.length/1800,shape.width/800,1);
+ target.y=(shape.height+Math.max(shape.right,shape.left)*.5)/2000;
+ draw();
+}
+// Recessed drain and the small overflow slot visible on the far inner wall.
+const metal=new THREE.MeshStandardMaterial({color:0xa8acaf,metalness:.82,roughness:.25});
+const drain=new THREE.Mesh(new THREE.CylinderGeometry(.027,.027,.002,48),metal);drain.position.set(-.23,.128,0);scene.add(drain);
+const slot=new THREE.Mesh(new THREE.BoxGeometry(.068,.006,.0018),new THREE.MeshStandardMaterial({color:0x777c80,roughness:.6}));slot.position.set(-.15,.421,-.351);slot.rotation.x=-.24;scene.add(slot);
+// Soft contact shadow without a visible floor plane.
+const shadowCanvas=document.createElement('canvas');shadowCanvas.width=256;shadowCanvas.height=256;const ctx=shadowCanvas.getContext('2d');const gradient=ctx.createRadialGradient(128,128,4,128,128,128);gradient.addColorStop(0,'rgba(0,0,0,.24)');gradient.addColorStop(.5,'rgba(0,0,0,.13)');gradient.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=gradient;ctx.fillRect(0,0,256,256);
+const shadow=new THREE.Mesh(new THREE.PlaneGeometry(2,.9),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(shadowCanvas),transparent:true,depthWrite:false}));shadow.rotation.x=-Math.PI/2;shadow.position.y=.004;scene.add(shadow);
+let az=.23,el=.38,distance=3.1;const target=new THREE.Vector3(0,.32,0);
+function draw(){camera.position.set(distance*Math.sin(az)*Math.cos(el),target.y+distance*Math.sin(el),distance*Math.cos(az)*Math.cos(el));camera.lookAt(target);renderer.render(scene,camera);}
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.fov=w<480?46:35;camera.updateProjectionMatrix();draw();}new ResizeObserver(resize).observe(stage);
+const zoom=root.querySelector('#bath-zoom');zoom.addEventListener('input',()=>{distance=Number(zoom.value);draw();});
+root.querySelector('#bath-angle').addEventListener('change',e=>{const views={perspective:[.23,.38],side:[0,0],top:[0,Math.PI/2-.001],end:[Math.PI/2,0]};[az,el]=views[e.target.value];draw();});
+const pointers=new Map();let pinch=0;
+stage.addEventListener('pointerdown',e=>{stage.setPointerCapture(e.pointerId);pointers.set(e.pointerId,[e.clientX,e.clientY]);pinch=0;});
+stage.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;const old=pointers.get(e.pointerId);pointers.set(e.pointerId,[e.clientX,e.clientY]);if(pointers.size===1){az-=(e.clientX-old[0])*.008;el=Math.max(-.35,Math.min(1.56,el+(e.clientY-old[1])*.008));}else{const p=[...pointers.values()],d=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);if(pinch)distance=Math.max(1.7,Math.min(4.8,distance*pinch/d));pinch=d;zoom.value=distance;}draw();});
+for(const event of ['pointerup','pointercancel'])stage.addEventListener(event,e=>{pointers.delete(e.pointerId);pinch=0;});
+stage.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(1.7,Math.min(4.8,distance*Math.exp(e.deltaY*.001)));zoom.value=distance;draw();},{passive:false});
+let pending=false;
+for(const key of Object.keys(shape)){
+ const input=root.querySelector('#shape-'+key),output=root.querySelector('#'+key+'-value');
+ input.addEventListener('input',()=>{shape[key]=Number(input.value);output.textContent=key==='round'?shape[key]+'% 方形':shape[key]+' mm';if(!pending){pending=true;requestAnimationFrame(()=>{pending=false;rebuild();});}});
+ input.addEventListener('change',()=>{status.textContent='浴缸形狀已更新';});
+}
+rebuild();resize();
+})();
+</script>
