@@ -56,3 +56,6 @@ body.ss-on #panel > #wizModal .rim-label{margin-top:0}
   body.ss-on #ssBar{margin:-12px -12px 12px}
   body.ss-on #panel > #wizModal .sk-box{width:auto}
 }
+
+/* F10(2026-09-06) */
+body.ss-on .ss-dup-title{display:none}

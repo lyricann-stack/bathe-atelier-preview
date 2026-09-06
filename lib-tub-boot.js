@@ -24,7 +24,7 @@ if(q.get('clean') === '1'){
   scene.background = new THREE.Color(cream);
   floor.visible = false;
   grid.visible = false;
-  const hd = document.querySelector('header');
+  const hd = document.querySelector('header, nav.site-nav-studio, nav[data-site-nav]'); // F6(2026-09-06)：R15 後工作室頁用 <nav data-site-nav> 取代 <header>，攝影棚模式一併隱藏
   if(hd) hd.style.display = 'none';
   document.getElementById('panel').style.display = 'none';
   document.getElementById('hint').style.display = 'none';

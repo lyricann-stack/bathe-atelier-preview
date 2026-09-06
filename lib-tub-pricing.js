@@ -13,7 +13,8 @@ function tierKey(){
 function priceParts(){
   const tk = tierKey(), mi = P.material === 'solid' ? 1 : 0;
   const parts = [[t(PRICING.tiers[tk][0]), PRICING.tiers[tk][1+mi]]];
-  if((P.color || '').toLowerCase() !== STD_COLOR) parts.push([t('Custom colour'), PRICING.color]);
+  // F1(2026-09-06)：具名色票在價格列用自己的名字，找不到才算 Custom colour
+  if((P.color || '').toLowerCase() !== STD_COLOR) parts.push([(typeof activeColorName==='function' && activeColorName()) ? t(activeColorName()) : t('Custom colour'), PRICING.color]);
   if(OPTS.backrest) parts.push([t('Heated backrest'), PRICING.backrest]);
   if(OPTS.basin) parts.push([t('Matching basin'), PRICING.basin[mi]]);
   return { tk, parts, total: parts.reduce((a,p)=>a+p[1], 0) };

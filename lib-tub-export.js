@@ -489,13 +489,24 @@ async function sendQuote(btn){
     banner.textContent = msg;
   };
   // 頁面設 window.PAGE_EMAIL_OPTIONAL=true（medium.html）→ Email 非必填，不擋送出
-  if(!window.PAGE_EMAIL_OPTIONAL && (!email || email.indexOf('@') < 1)){
+  if(!window.PAGE_EMAIL_OPTIONAL && !email){
     // B2b(2026-09-02)：Basic 的區塊標題已改 Your details，被擋訊息不再引用「Order Info」；其他頁沿用舊句
     const blockMsg = window.PAGE_TAG === 'design-studio-basic'
       ? t('Please enter your email so we can reply with your quote.')
       : t('Please enter your email under "Order Info" so our designer can reply with your quote and 3D render.');
     show('#fdf3ee', '#e0b39a', '#8a4a2b', blockMsg);
     // A5(2026-09-02)：被擋時把視線帶回 Email 欄，標紅並捲動聚焦
+    const emailEl = document.getElementById('custEmail');
+    if(emailEl){
+      emailEl.classList.add('field-err');
+      emailEl.scrollIntoView({behavior:'smooth', block:'center'});
+      emailEl.focus();
+    }
+    return;
+  }
+  // F8(2026-09-06)：格式錯與空白分開提示
+  if(!window.PAGE_EMAIL_OPTIONAL && email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    show('#fdf3ee', '#e0b39a', '#8a4a2b', t('Please check your email address, it looks incomplete.'));
     const emailEl = document.getElementById('custEmail');
     if(emailEl){
       emailEl.classList.add('field-err');
@@ -547,7 +558,8 @@ async function sendQuote(btn){
     fd.append('est_shipping', shipR != null ? 'USD $' + shipR : '-');
     const pp = priceParts();
     const optList = [];
-    if((P.color || '').toLowerCase() !== STD_COLOR) optList.push('custom colour +$' + PRICING.color);
+    // F1(2026-09-06)：送出欄位有具名色票就用色票名，找不到才算 custom colour（英文欄位，不走 t()）
+    if((P.color || '').toLowerCase() !== STD_COLOR) optList.push((typeof activeColorName==='function' && activeColorName() ? ('colour ' + activeColorName()) : 'custom colour') + ' +$' + PRICING.color);
     if(OPTS.backrest) optList.push('heated backrest +$' + PRICING.backrest);
     if(OPTS.basin) optList.push('matching basin +$' + PRICING.basin[P.material==='solid'?1:0]);
     fd.append('tier', PRICING.tiers[pp.tk][0] + ' (from USD $' + PRICING.tiers[pp.tk][P.material==='solid'?2:1].toLocaleString('en-US') + ')');

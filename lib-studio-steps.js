@@ -107,6 +107,10 @@
     if(titleEl){
       const titles = window.PAGE_STEP_TITLES;
       titleEl.textContent = (titles && titles[cur]) ? t(titles[cur]) : '';
+      // F10(2026-09-06)：步驟標題與該步第一個 h3 同字時藏 h3（R14 不重複講）
+      panel.querySelectorAll('.ss-dup-title').forEach(h => h.classList.remove('ss-dup-title'));
+      const firstH3 = panel.querySelector('[data-step="' + cur + '"] h3');
+      if(firstH3 && titleEl.textContent && firstH3.textContent.trim() === titleEl.textContent.trim()) firstH3.classList.add('ss-dup-title');
     }
     const backBtn = document.getElementById('ssBack');
     if(backBtn){

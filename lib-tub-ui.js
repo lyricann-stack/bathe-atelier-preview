@@ -13,6 +13,17 @@ const sliderMap = [
   ['rLip','nLip','lip'], ['rObL','nObL','obL'], ['rObW','nObW','obW'], ['rIbL','nIbL','ibL'], ['rIbW','nIbW','ibW'],
   ['rRiL','nRiL','riL'], ['rRiW','nRiW','riW'], ['rRoL','nRoL','roL'], ['rRoW','nRoW','roW']
 ];
+// F3(2026-09-06)：數字框超出範圍被夾回時給一句提示，4 秒後自動消失
+function showClampNote(inputEl, v, unit){
+  const row = inputEl.closest('.row'); if(!row) return;
+  let note = row.nextElementSibling;
+  if(!note || !note.classList.contains('clamp-note')){
+    note = document.createElement('div'); note.className = 'tip clamp-note'; row.insertAdjacentElement('afterend', note);
+  }
+  note.textContent = t('Adjusted to the nearest allowed value') + ': ' + v + ' ' + unit;
+  note.style.display = '';
+  clearTimeout(note._t); note._t = setTimeout(() => { note.style.display = 'none'; }, 4000);
+}
 sliderMap.forEach(([rid,nid,key])=>{
   const r=document.getElementById(rid), n=document.getElementById(nid);
   if(!r || !n) return;   // 該版本頁沒有這組控制項
@@ -23,7 +34,13 @@ sliderMap.forEach(([rid,nid,key])=>{
     buildTub();
   });
   n.addEventListener('change', ()=>{
+    const rawVal = n.value, rawNum = +rawVal;
     let v=Math.max(+r.min, Math.min(+r.max, +n.value || +r.min));
+    // F3(2026-09-06)：夾回後的值與原輸入不同（含非數字輸入）才提示
+    if(rawVal === '' || isNaN(rawNum) || rawNum !== v){
+      const row = n.closest('.row'), span = row && row.querySelector('.val span');
+      showClampNote(n, v, span ? span.textContent : 'mm');
+    }
     P[key]=v;
     enforceBaseOrder(key);
     n.value=P[key]; r.value=P[key];
@@ -151,12 +168,20 @@ _el('ovfToggle').addEventListener('change', e=>{ P.ovf = e.target.checked; build
 // A5(2026-09-02)：Email 欄一有輸入就清掉送出被擋時標的紅框（元素不存在時 _el 回傳 no-op stub）
 _el('custEmail').addEventListener('input', () => { _el('custEmail').classList.remove('field-err'); });
 
+// F1(2026-09-06)：具名色票用自己的名字，找不到才算 Custom colour
+function activeColorName(){
+  const c = (P.color || '').toLowerCase();
+  const sw = Array.from(document.querySelectorAll('.sw')).find(x => (x.dataset.c || '').toLowerCase() === c);
+  return sw ? (sw.getAttribute('title') || null) : null;
+}
+window.activeColorName = activeColorName;
+
 // B6(2026-09-02)：色票下方即時提示客製色加價（金額讀 PRICING，元素不存在直接 return）
 function updateColorNote(){
   const el = document.getElementById('colorNote');
   if(!el || typeof PRICING === 'undefined') return;
   const std = (P.color || '').toLowerCase() === STD_COLOR;
-  el.textContent = std ? t('Classic White, included') : (t('Custom colour') + ' +USD $' + PRICING.color.toLocaleString('en-US'));
+  el.textContent = std ? t('Classic White, included') : ((activeColorName() ? t(activeColorName()) : t('Custom colour')) + ' +USD $' + PRICING.color.toLocaleString('en-US'));
 }
 
 // A6(2026-09-02)：客人改任何參數（滑桿／材質／顏色／選項）→ 解鎖詢價按鈕、清掉成功 banner

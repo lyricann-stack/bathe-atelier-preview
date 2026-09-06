@@ -362,7 +362,7 @@ function capGeometry(pts, kx, ky, z, z0f){
   return g;
 }
 
-// 缸底整體傾斜(單一斜率參數，2026-08-22原為Pro專屬進階選項，Lyric裁定改列基本功能下放Medium/Basic)。
+// 缸底整體傾斜(單一斜率參數，2026-08-22原為Pro專屬進階選項，業主裁定改列基本功能下放Medium/Basic)。
 // 只沿長軸(X)方向線性傾斜，+X端墊高、−X端下沉。P.baseSlope=0時回傳恆為0，等同沒有這個函式存在。
 // 安全clamp：下沉端最多吃掉70%的P.b(缸底厚度)，跟lib-edit3d-geometry.js的outerBaseZ()同一份邏輯，
 // 逐字複製過來(Basic是獨立引擎，沒有共用模組可以直接reuse)。

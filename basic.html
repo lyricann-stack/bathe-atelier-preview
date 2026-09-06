@@ -61,7 +61,7 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
     <!-- D2(2026-09-02)：手機版三顆按鈕改短字，桌面顯示長字 -->
     <button class="btn btn-upl" onclick="openWizard()">✨ <span class="btn-long">Redesign: answer again</span><span class="btn-short">Redesign</span></button>
     <button class="btn btn-dxf" data-step-show="4" onclick="exportConceptPDF(this)">⬇ <span class="btn-long">Concept PDF (free)</span><span class="btn-short">PDF</span></button>
-    <!-- 2026-09-02，Lyric要求：AR預覽下放到Basic版(原本只有Medium/Pro有)。Basic用的是舊版
+    <!-- 2026-09-02，業主要求：AR預覽下放到Basic版(原本只有Medium/Pro有)。Basic用的是舊版
          lib-tub-*引擎，但tubGroup/DESIGN_ID/THREE.DoubleSide用法跟lib-edit3d-*核心相容，
          lib-edit3d-ar-export.js/lib-edit3d-ar-ui.js可以原樣接上，不用另外改寫 -->
     <button class="btn btn-upl" data-step-show="4" onclick="openARPreview()">📱 <span class="btn-long">Preview in your space</span><span class="btn-short">AR</span></button>
@@ -69,10 +69,10 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
 </div>
 <main>
   <div id="panel">
-    <div id="wizModal" data-step="0" style="display:none;position:fixed;inset:0;background:rgba(15,25,35,.55);z-index:100;align-items:center;justify-content:center">
+    <div id="wizModal" role="dialog" aria-modal="true" aria-labelledby="wizTitle" data-step="0" style="display:none;position:fixed;inset:0;background:rgba(15,25,35,.55);z-index:100;align-items:center;justify-content:center">
       <div class="sk-box" style="width:min(680px,94vw)">
         <div id="wizQ">
-          <h2>✨ Guided design</h2>
+          <h2 id="wizTitle">✨ Guided design</h2>
           <div class="sk-sub">Answer 5 quick questions. We size four tubs to your space and body; pick one and adjust it, or skip and set everything yourself.</div>
           <div class="wz-q">
             <!-- W1(2026-09-02)：範圍收窄到常見尺寸，預設不再等於「不限」，題目改為明確指「浴缸要放的那塊地」 -->
@@ -211,7 +211,7 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
         <button type="button" data-lip="30">Wide</button>
       </div>
       <div class="tip">The flat lip around the top. Slim feels modern; wide is easier to lean on.</div>
-      <!-- 2026-08-22：缸底斜面下放Basic(Lyric裁定為基本功能，跟Pro/Medium拿掉"advanced"/"Experimental"措辭一致) -->
+      <!-- 2026-08-22：缸底斜面下放Basic(業主裁定為基本功能，跟Pro/Medium拿掉"advanced"/"Experimental"措辭一致) -->
       <div class="row" style="margin-top:8px"><label>Base slope</label><input type="range" id="rBaseSlope" min="0" max="3" step="0.1" value="0"><div class="val"><input id="nBaseSlope" value="0"><span>°</span></div></div>
       <div class="tip">Tilts the whole tub base into a wedge shape (0° = standard flat base). For a tub that needs to sit on an angled surface or a deliberate sloped-base look.</div>
     </details>
@@ -269,7 +269,7 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
   <button type="button" class="mc-btn" onclick="mobileCtaGo()">Get a firm quote →</button>
 </div>
 
-<!-- 2026-09-02，Lyric要求：AR預覽下放到Basic版，跟medium.html/pro.html逐字同一份modal -->
+<!-- 2026-09-02，業主要求：AR預覽下放到Basic版，跟medium.html/pro.html逐字同一份modal -->
 <div id="arModal" style="display:none;position:fixed;inset:0;background:rgba(15,25,35,.55);z-index:100;align-items:center;justify-content:center">
   <div class="sk-box" style="width:min(420px,92vw);text-align:center">
     <h2>📱 Preview in your space</h2>
@@ -279,7 +279,7 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
     </div>
     <div id="arDesktopPanel" style="display:none">
       <div class="sk-sub">Scan with an iPhone or iPad to view this design in AR.</div>
-      <img id="arQrImg" style="width:220px;height:220px;margin:10px auto;display:block">
+      <img id="arQrImg" alt="QR code: scan with your phone to view this tub in AR" style="width:220px;height:220px;margin:10px auto;display:block">
       <div id="arQrError" class="tip" style="display:none;color:#b3541e"></div>
       <div class="tip">Android AR support is on our roadmap. For now, this works on iPhone/iPad.</div>
     </div>

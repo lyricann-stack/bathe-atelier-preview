@@ -8,8 +8,8 @@
   if(!cta || !priceEl || !src) return;
 
   // S10b：BASE＝頁面預設規格的起價文字（#fromTotal 第一次出現含數字的文字），原樣沿用。
-  let BASE = null;
-  const captureBase = (text) => { if(BASE === null && /\d/.test(text)) BASE = text; };
+  let BASE = null, BASE_PRICE = null;
+  const captureBase = (text) => { if(BASE === null && /\d/.test(text)){ BASE = text; const m = text.replace(/,/g,'').match(/\d+(\.\d+)?/); BASE_PRICE = m ? +m[0] : null; } };
   captureBase(src.textContent);
 
   const stepsEnabled = window.PAGE_STEPS === true;
@@ -36,6 +36,15 @@
   // 不监听其方法；改監聽 lib-studio-steps.js 的 go() 內既有派發的 'studiostep' CustomEvent
   // （next()/back()/dots/hashchange/revealSub 最終都經過 go()，故都會觸發），不需侵入包一層 go。
   window.addEventListener('studiostep', sync);
+  // F9(2026-09-06)：切語言後用同一個起價數字重算 BASE 字串（fromStr 是 lib-tub-pricing.js 的全域格式化函式）；沒有 fromStr 就在下一輪從 #fromTotal 重抓
+  document.addEventListener('change', (e) => {
+    if(!e.target || e.target.id !== 'langSel') return;
+    setTimeout(() => {
+      if(BASE_PRICE !== null && typeof fromStr === 'function') BASE = fromStr(BASE_PRICE);
+      else { BASE = null; captureBase(src.textContent); }
+      sync();
+    }, 0);
+  });
   // 深連結／初次載入即落在非 Step 0 的情況（此時尚無 'studiostep' 事件可觸發）：
   // 等 DOM 解析完（lib-studio-steps.js 屆時已同步執行完成、StudioSteps 已就緒）再補跑一次。
   if(document.readyState === 'loading'){

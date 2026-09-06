@@ -32,7 +32,7 @@ scene.add(dir2);
 
 // 地板（單面Material：轉到下方仰視時地板自動消失，不會擋住視線）
 // 深色底座（2026-09-02 改回：淺色底座跟白色缸體同色系疊在一起，輪廓看不清楚，
-// Lyric 實測回報後改回深色圓盤——場景背景本身仍是亮色 0xf4f1ea，
+// 實測回報後改回深色圓盤——場景背景本身仍是亮色 0xf4f1ea，
 // 圓盤在淺色面板裡浮出一塊深色舞台，跟 home-motion.html 的深色卡片同一手法）
 const floor = new THREE.Mesh(
   new THREE.CircleGeometry(5000, 64),

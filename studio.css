@@ -194,6 +194,8 @@ body[data-page="basic"] #mobileCta{display:none}
   body[data-page="basic"] #mobileCta .mc-btn{background:#1b1a16;color:#f4f1ea;border:none;padding:11px 16px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
   body[data-page="basic"] #panel{padding-bottom:72px}
   body[data-page="basic"] #viewer{height:30vh;min-height:200px}
+  /* F4(2026-09-06)：步驟模式下 #ssNav 黏在價格條上方，任何捲動位置都不被蓋 */
+  body[data-page="basic"].ss-on #ssNav{position:sticky;bottom:calc(65px + env(safe-area-inset-bottom));background:rgba(250,248,242,.96);padding-bottom:8px;z-index:40}
 }
 
 /* ===== Basic v2（2026-09-02）：Shape & comfort ===== */
