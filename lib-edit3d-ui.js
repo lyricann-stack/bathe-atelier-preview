@@ -22,6 +22,17 @@ const sliderMap = [
   ['rRiL','nRiL','riL'], ['rRiW','nRiW','riW'], ['rRoL','nRoL','roL'], ['rRoW','nRoW','roW'],
   ['rBaseSlope','nBaseSlope','baseSlope']   // 佇列項11(2026-08-22)：缸底斜面v1，只在pro.html加HTML，Medium/basic無對應元素時sliderMap自動略過(既有防禦性guard)
 ];
+// F15(2026-09-06)：數字框超出範圍被夾回時給一句提示，4 秒後自動消失（鏡射 basic F3）
+function showClampNote(inputEl, v, unit){
+  const row = inputEl.closest('.row'); if(!row) return;
+  let note = row.nextElementSibling;
+  if(!note || !note.classList.contains('clamp-note')){
+    note = document.createElement('div'); note.className = 'tip clamp-note'; row.insertAdjacentElement('afterend', note);
+  }
+  note.textContent = t('Adjusted to the nearest allowed value') + ': ' + v + ' ' + unit;
+  note.style.display = '';
+  clearTimeout(note._t); note._t = setTimeout(() => { note.style.display = 'none'; }, 4000);
+}
 sliderMap.forEach(([rid,nid,key])=>{
   const r=document.getElementById(rid), n=document.getElementById(nid);
   if(!r || !n) return;   // 該版本頁沒有這組控制項
@@ -31,7 +42,13 @@ sliderMap.forEach(([rid,nid,key])=>{
     buildTub();
   });
   n.addEventListener('change', ()=>{
+    const rawVal = n.value, rawNum = +rawVal;
     let v=Math.max(+r.min, Math.min(+r.max, +n.value || +r.min));
+    // F15(2026-09-06)：夾回後的值與原輸入不同（含非數字輸入）才提示
+    if(rawVal === '' || isNaN(rawNum) || rawNum !== v){
+      const row = n.closest('.row'), span = row && row.querySelector('.val span');
+      showClampNote(n, v, span ? span.textContent : 'mm');
+    }
     P[key]=v;
     enforceBaseOrder(key);
     n.value=P[key]; r.value=P[key];
@@ -104,6 +121,8 @@ function setRim(r, btn){
 // 照片款預設：不對稱蛋形缸（後緣高、蛋形口、底部內收）
 function applyPhotoPreset(){
   Object.assign(P, { shape:'ellipse', L:1700, W:850, H:520, t:15, b:40, dH:130, egg:12, taper:72, drain:'front', wallMode:'curve', ovf:false });
+  P.customPts = null; P.customPtsInner = null; P.customProfile = null; P.wallMod = null; P.rimMod = null;   // F31(2026-09-06)：預設款是純參數外形，清掉節點編輯
+  if(typeof window.resetEdgeEditingUI === 'function') window.resetEdgeEditingUI();
   syncUI();
   document.querySelectorAll('.drain-btns button[data-drain]').forEach(b=>b.classList.toggle('active', b.dataset.drain===P.drain));
   buildTub();
@@ -120,6 +139,8 @@ const CLASSICS = {
 function applyClassic(k){
   Object.assign(P, CLASSICS[k]);
   P.customPts = null; P.customPtsInner = null; P.customProfile = null; P.wallMod = null; P.rimMod = null;
+  // F31(2026-09-06)：同步清 Edge Editing 的節點骨架與面板（與 wizard applyProposal 的 F18 相同；無 handles 的頁略過）
+  if(typeof window.resetEdgeEditingUI === 'function') window.resetEdgeEditingUI();
   P.drainPos = null; P.ovfPos = null;   // Phase 7：套用經典款時清掉拖曳留下的自訂座標，改用經典款自己的固定位置
   P.faucet = false; P.faucetPos = null; // 龍頭孔是全新配件，經典款本來就沒有這個欄位，切換時重置為關閉
   P.baseSlope = 0;                      // 佇列項11：缸底斜面是全新進階選項，經典款本來就沒有，切換時重置為平底
@@ -209,7 +230,7 @@ function refreshDimsInner(){
   const el = document.getElementById('dimsInner');
   if(!el || typeof innerDims !== 'function') return;
   const inn = innerDims();
-  el.textContent = t('Interior') + ' ' + inn.L + ' × ' + inn.W + ' mm · ' + t('depth') + ' ' + (P.H - P.b) + ' mm';
+  el.textContent = t('Interior') + ' ' + Math.round(inn.L) + ' × ' + Math.round(inn.W) + ' mm · ' + t('depth') + ' ' + (P.H - P.b) + ' mm';   // F16(2026-09-06)
 }
 (function(){
   const spec = document.getElementById('spec');

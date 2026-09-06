@@ -64,7 +64,7 @@
 
   function buildIndicator(){
     if(document.getElementById('ssBar')) return;
-    panel.insertAdjacentHTML('afterbegin', '<div id="ssBar" class="group" data-step="all"><div class="ss-top"><span class="ss-label"></span><span class="ss-dots"></span></div><div class="ss-title"></div></div>');
+    panel.insertAdjacentHTML('afterbegin', '<div id="ssBar" class="group" data-step="all"><div class="ss-top"><span class="ss-label"></span><span class="ss-dots"></span></div><div class="ss-title" role="heading" aria-level="2"></div></div>'); // F23(2026-09-06)：步驟標題給語意 heading
     panel.insertAdjacentHTML('beforeend', '<div id="ssNav" data-step="all"><button type="button" id="ssBack" class="ss-btn ss-back"></button><button type="button" id="ssNext" class="ss-btn ss-next"></button></div>');
     document.getElementById('ssBack').addEventListener('click', function(){ back(); });
     document.getElementById('ssNext').addEventListener('click', function(){ next(); });
@@ -112,6 +112,7 @@
       const firstH3 = panel.querySelector('[data-step="' + cur + '"] h3');
       if(firstH3 && titleEl.textContent && firstH3.textContent.trim() === titleEl.textContent.trim()) firstH3.classList.add('ss-dup-title');
     }
+    document.body.classList.toggle('ss-wizard', cur === steps[0]); // F30(2026-09-06)：Step 0（精靈內聯）時標記 body，CSS 讓 #ssNav 不黏底、不蓋住精靈送出鈕
     const backBtn = document.getElementById('ssBack');
     if(backBtn){
       if(cur === steps[0]) backBtn.classList.add('ss-hide'); else backBtn.classList.remove('ss-hide');
@@ -342,6 +343,18 @@
       ssBar.setAttribute('aria-label', 'Design steps');
     }
   }
+
+  // F29(2026-09-06)：精靈 modal focus trap（L9）——Tab／Shift+Tab 只在 #wizModal 內循環；焦點在外時 Tab 進 modal 第一個可聚焦元素。不改點擊行為。
+  document.addEventListener('keydown', function(e){
+    if(e.key !== 'Tab') return;
+    const modal = document.getElementById('wizModal');
+    if(!modal || getComputedStyle(modal).display === 'none') return;
+    const f = Array.prototype.filter.call(modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'), function(el){ return !el.disabled && el.offsetParent !== null; });
+    if(!f.length) return;
+    const first = f[0], last = f[f.length - 1], inside = modal.contains(document.activeElement);
+    if(e.shiftKey){ if(!inside || document.activeElement === first){ e.preventDefault(); last.focus(); } }
+    else { if(!inside || document.activeElement === last){ e.preventDefault(); first.focus(); } }
+  });
 
   // 選項按鈕：點擊→同組 active＋設 #<data-target>.value；不 dispatch 事件（避免觸發 unlockQuoteBtn）。
   document.addEventListener('click', function(e){

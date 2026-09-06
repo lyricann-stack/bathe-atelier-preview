@@ -358,9 +358,9 @@ function designPrincipleChecks(){
     { id:'floor-slope', label:'Floor drain slope',
       status:'ok', source:'滑桿range防呆(#rSlope min=1.3 max=1.5)',
       detail:`目前${P.slope}°，落在工廠標準1.3–1.5°範圍內(滑桿本身無法超出)` },
-    { id:'stanley-params', label:"Factory's 4 manufacturing parameters (R角/進出角/抽真空角度/S曲線上下限)",
+    { id:'factory-params', label:"Factory's 4 manufacturing parameters (R角/進出角/抽真空角度/S曲線上下限)",
       status:'pending', source:'待補研究',
-      detail:'2026-08-19已確認業主出差未拿到，廠方 2026-08-26參展後預計補回' },
+      detail:'待廠方提供四項參數後補回' },
     { id:'solid-surface-supplier-limits', label:'Solid-surface supplier forming limits',
       status:'pending', source:'待補研究',
       detail:'2026-08-21 管理層會議交辦詢問供應商，用來收斂入口一參數滑桿上下限' },
@@ -752,7 +752,7 @@ function updateSpec(){
     ['Overall size (L×W)', t('Overall size (L×W)'), `${P.L} × ${P.W} mm`],
     ['Rim height front / rear', t('Rim height front / rear'), `${P.H} / ${P.H+P.dH} mm`],
     ['Rim profile', t('Rim profile'), t({flat:'Flat', round:'Rounded', bevel:'Beveled'}[P.rim])],
-    ['Interior size (L×W)', t('Interior size (L×W)'), `${s.inn.L} × ${s.inn.W} mm`],
+    ['Interior size (L×W)', t('Interior size (L×W)'), `${Math.round(s.inn.L)} × ${Math.round(s.inn.W)} mm`],   // F16(2026-09-06)：節點編輯後為浮點，顯示取整
     ['Interior depth (front)', t('Interior depth (front)'), `${s.inn.D} mm`],
     ...(isFactory() ? [
       ['Rim edge width', t('Rim edge width'), `${P.lip} mm`],
@@ -796,11 +796,11 @@ function updateSpec(){
   }
   // 會議規範警示：內長 <950 只能坐姿／蹲姿；壓克力＋倒扣＝左右合模高成本
   const lw = document.getElementById('lenWarn');
-  if(lw){ lw.style.display = (s.inn.L < 950) ? 'block' : 'none'; lw.textContent = t('⚠ Interior length under 950mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).'); }
+  if(lw){ lw.style.display = (s.inn.L < 950) ? 'block' : 'none'; lw.textContent = t('⚠ Interior length under 950 mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900 mm).'); }
   const uw = document.getElementById('undercutWarn');
   if(uw){ uw.style.display = (P.undercut && P.material==='acrylic') ? 'block' : 'none'; uw.textContent = t('⚠ Undercut on acrylic needs a split mould and hand-finished seams: high cost. Consider solid surface, or continue as premium bespoke.'); }
   const tw = document.getElementById('thinWarn');
-  if(tw){ tw.style.display = (minWallGap() < 5) ? 'block' : 'none'; tw.textContent = t('⚠ Wall thickness below 5mm between inner and outer shells: adjust base sizes or arc R.'); }
+  if(tw){ tw.style.display = (minWallGap() < 5) ? 'block' : 'none'; tw.textContent = t('⚠ Wall thickness below 5 mm between inner and outer shells: adjust base sizes or arc R.'); }
   updatePrice();
 }
 

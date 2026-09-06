@@ -542,8 +542,19 @@ async function sendQuote(btn){
   };
   // 頁面設 window.PAGE_EMAIL_OPTIONAL=true（medium.html）→ Email 非必填，不擋送出
   // S4-0c(2026-09-04)：⑥ 已改名 Your details（不再是 Order Info），被擋句改用 Basic B2b 版本；舊鍵保留不刪
-  if(!window.PAGE_EMAIL_OPTIONAL && (!email || email.indexOf('@') < 1)){
+  if(!window.PAGE_EMAIL_OPTIONAL && !email){
     show('#fdf3ee', '#e0b39a', '#8a4a2b', t('Please enter your email so we can reply with your quote.'));
+    return;
+  }
+  // F20(2026-09-06)：格式錯與空白分開提示（鏡射 basic F8）
+  if(!window.PAGE_EMAIL_OPTIONAL && email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    show('#fdf3ee', '#e0b39a', '#8a4a2b', t('Please check your email address, it looks incomplete.'));
+    const emailEl = document.getElementById('custEmail');
+    if(emailEl){
+      emailEl.classList.add('field-err');
+      emailEl.scrollIntoView({behavior:'smooth', block:'center'});
+      emailEl.focus();
+    }
     return;
   }
   const s = computeSpec();

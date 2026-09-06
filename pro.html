@@ -94,6 +94,7 @@
     #mobileCta .mc-btn{background:#1b1a16;color:#f4f1ea;border:none;padding:11px 16px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
     #panel{padding-bottom:72px}
     #viewer{height:30vh;min-height:200px}
+    body.ss-on #ssNav{position:sticky;bottom:calc(65px + env(safe-area-inset-bottom));background:rgba(250,248,242,.96);padding-bottom:8px;z-index:40}/* F21(2026-09-06)：鏡射 basic F4——步驟模式下 #ssNav 黏在價格條上方，任何捲動位置都不被 #mobileCta 蓋住 */
   }
   /* M13(2026-09-02)：Upload → 3D 說明卡本文收進摺疊 */
   #editIntro details summary{cursor:pointer;font-size:12px;color:#7a5f2f;padding:4px 0;list-style:none} #editIntro details summary::-webkit-details-marker{display:none} #editIntro details summary::before{content:'+ '} #editIntro details[open] summary::before{content:'− '}
@@ -181,7 +182,7 @@
             <div class="rim-label" style="margin-top:0"><span class="wz-n">1</span>Installation space</div>
             <div class="row"><label>Space length</label><input type="range" id="rSpL" min="1300" max="4000" step="50" value="2400"><div class="val"><input id="nSpL" value="2400"><span>mm</span></div></div>
             <div class="row"><label>Space width</label><input type="range" id="rSpW" min="700" max="3000" step="50" value="1600"><div class="val"><input id="nSpW" value="1600"><span>mm</span></div></div>
-            <div class="tip">We keep at least 50mm clearance on each side for installation and cleaning.</div>
+            <div class="tip">We keep at least 50 mm clearance on each side for installation and cleaning.</div>
           </div>
           <div class="wz-q">
             <div class="rim-label"><span class="wz-n">2</span>Main bather's height</div>
@@ -220,7 +221,7 @@
           <div class="sk-sub">Built around your space and body. Pick one, then fine-tune it.</div>
           <div class="tip" id="propPriceLine" style="margin:-4px 0 10px"></div>
           <div id="propGrid"></div>
-          <div class="tip" style="margin-top:10px">Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.</div>
+          <div class="tip" style="margin-top:10px">Sized for your space with 50 mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.</div>
           <div class="sk-actions">
             <button class="cancel" onclick="wizBack()">← Change answers</button>
             <button class="cancel" onclick="closeWizard()">Cancel</button>
@@ -240,7 +241,7 @@
     </div>
     <button class="preset" data-keep="1" data-step="1" style="margin:0 0 12px;padding:11px" onclick="openWizard()">✨ Guided design: answer 5 questions, get 4 tailored tubs</button>
     <div class="group" data-keep="1" data-step="1">
-      <h3>Tub Shape (Freestanding)</h3>
+      <h3>Tub Shape</h3>
       <div class="shape-btns">
         <button data-shape="rect" onclick="setShape('rect',this)">Rounded Rect</button>
         <button data-shape="stadium" onclick="setShape('stadium',this)">Rounded Ends</button>
@@ -277,8 +278,8 @@
       <div class="row" id="obLRow"><label>Outer base length</label><input type="range" id="rObL" min="600" max="2000" step="2" value="1190"><div class="val"><input id="nObL" value="1190"><span>mm</span></div></div>
       <div class="row" id="obWRow"><label>Outer base width</label><input type="range" id="rObW" min="300" max="1000" step="2" value="600"><div class="val"><input id="nObW" value="600"><span>mm</span></div></div>
       <div id="warn">⚠ Invalid parameters: interior space too small, please adjust</div>
-      <div id="lenWarn" class="tip" style="display:none;color:#b3541e">⚠ Interior length under 950mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).</div>
-      <div id="thinWarn" class="tip" style="display:none;color:#b3541e">⚠ Wall thickness below 5mm between inner and outer shells: adjust base sizes or arc R.</div>
+      <div id="lenWarn" class="tip" style="display:none;color:#b3541e">⚠ Interior length under 950 mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900 mm).</div>
+      <div id="thinWarn" class="tip" style="display:none;color:#b3541e">⚠ Wall thickness below 5 mm between inner and outer shells: adjust base sizes or arc R.</div>
     </div>
     <div class="group" data-keep="1" data-step="2" data-step-order="4">
       <h3>Asymmetry Parameters</h3>
@@ -323,7 +324,7 @@
       </div>
       <div class="row" style="margin-top:12px"><label>Floor drain slope</label><input type="range" id="rSlope" min="1.3" max="1.5" step="0.05" value="1.5"><div class="val"><input id="nSlope" value="1.5"><span>°</span></div></div>
       <div class="tip">Tub floor slopes towards the drain, drain at the lowest point (factory standard 1.3–1.5°). Drain detail follows the factory standard fitting, applied at mould stage.</div>
-      <div class="chk" id="ovfChk" style="margin-top:10px"><input type="checkbox" id="ovfToggle"><label for="ovfToggle">Overflow drain (factory standard, 75mm below rim)</label></div>
+      <div class="chk" id="ovfChk" style="margin-top:10px"><input type="checkbox" id="ovfToggle"><label for="ovfToggle">Overflow drain (factory standard, 75 mm below rim)</label></div>
       <div class="chk" id="faucetChk" style="margin-top:10px"><input type="checkbox" id="faucetToggle"><label for="faucetToggle">Faucet hole (drag on the rim to position)</label></div>
       <!-- 佇列項11(2026-08-22)原為Pro專屬進階選項，業主裁定改列基本功能，同批下放Medium/Basic，
            這裡順手拿掉"(advanced)"/"Experimental"措辭，跟三版本頁統一。
@@ -363,7 +364,7 @@
         <div class="tip">Optional. It helps us pitch the quote at the right level.</div>
       </div>
       <div class="yd-q" data-substep="3">
-        <div class="yd-label">Customer name</div>
+        <div class="yd-label">Customer name (optional)</div>
         <input type="text" id="custName" placeholder="Customer name">
         <div class="tip">The name we put on the quote.</div>
       </div>
@@ -484,7 +485,7 @@
     </div>
     <div id="arDesktopPanel" style="display:none">
       <div class="sk-sub">Scan with an iPhone or iPad to view this design in AR.</div>
-      <img id="arQrImg" style="width:220px;height:220px;margin:10px auto;display:block">
+      <img id="arQrImg" alt="QR code: scan with your phone to view this tub in AR" style="width:220px;height:220px;margin:10px auto;display:block">
       <div id="arQrError" class="tip" style="display:none;color:#b3541e"></div>
       <div class="tip">Android AR support is on our roadmap. For now, this works on iPhone/iPad.</div>
     </div>
@@ -532,6 +533,10 @@
   document.addEventListener('click', (e)=>{
     const pop = document.getElementById('uploadNotesPopover');
     if(pop && pop.classList.contains('open') && !e.target.closest('.notes-wrap')) pop.classList.remove('open');
+  });
+  // F33(2026-09-06)：Esc 關閉 Upload notes 浮層
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){ const pop = document.getElementById('uploadNotesPopover'); if(pop && pop.classList.contains('open')) pop.classList.remove('open'); }
   });
 </script>
 <!-- Phase 5(2026-08-20)：換底Edit3D共用核心(lib-edit3d-*.js)，取代lib-tub-engine/export/import/

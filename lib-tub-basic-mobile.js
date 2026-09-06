@@ -1,11 +1,12 @@
 // lib-tub-basic-mobile.js — D1(2026-09-02)：Basic 手機版固定底部 CTA。basic.html、medium.html（M15b 2026-09-03）與 pro.html（S4-0d 2026-09-04）載入。
 // 價格同步：不改 lib-tub-pricing.js（medium/pro 共用），改用 MutationObserver 監看 #fromTotal 的文字變化。
-// S10b(2026-09-05)：Step 0–3 顯示起價、Step 4 顯示實價（M1=b）
+// S10b(2026-09-05)：Step 0–3 顯示起價、Step 4 顯示實價（M1=b）；F27(2026-09-06)：Step 4 實價改鏡射 #totVal（含運費，裁決 4b）
 (function(){
   const cta = document.getElementById('mobileCta');
   const priceEl = document.getElementById('mobileCtaPrice');
   const src = document.getElementById('fromTotal');
   if(!cta || !priceEl || !src) return;
+  const tot = document.getElementById('totVal');   // F27(2026-09-06)：Step 4 鏡射含運費實價；沒有 #totVal 的頁退回 #fromTotal
 
   // S10b：BASE＝頁面預設規格的起價文字（#fromTotal 第一次出現含數字的文字），原樣沿用。
   let BASE = null, BASE_PRICE = null;
@@ -27,10 +28,11 @@
       priceEl.textContent = src.textContent;
       return;
     }
-    priceEl.textContent = isSummary() ? src.textContent : (BASE !== null ? BASE : src.textContent);
+    priceEl.textContent = isSummary() ? ((tot && /\d/.test(tot.textContent)) ? tot.textContent : src.textContent) : (BASE !== null ? BASE : src.textContent);
   };
   sync();
   new MutationObserver(sync).observe(src, { childList:true, characterData:true, subtree:true });
+  if(tot) new MutationObserver(sync).observe(tot, { childList:true, characterData:true, subtree:true });   // F27
 
   // 步驟切換重新同步：本檔在 lib-studio-steps.js 之前載入，此時 window.StudioSteps 尚不存在，
   // 不监听其方法；改監聽 lib-studio-steps.js 的 go() 內既有派發的 'studiostep' CustomEvent

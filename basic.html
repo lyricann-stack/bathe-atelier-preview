@@ -79,7 +79,7 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
             <div class="rim-label" style="margin-top:0"><span class="wz-n">1</span>Where the tub will sit</div>
             <div class="row"><label>Space length</label><input type="range" id="rSpL" min="1300" max="2400" step="50" value="1800"><div class="val"><input id="nSpL" value="1800"><span>mm</span></div></div>
             <div class="row"><label>Space width</label><input type="range" id="rSpW" min="700" max="1400" step="50" value="1000"><div class="val"><input id="nSpW" value="1000"><span>mm</span></div></div>
-            <div class="tip">Measure the spot for the tub, not the whole room. We keep at least 50mm clearance on each side for installation and cleaning.</div>
+            <div class="tip">Measure the spot for the tub, not the whole room. We keep at least 50 mm clearance on each side for installation and cleaning.</div>
           </div>
           <div class="wz-q">
             <div class="rim-label"><span class="wz-n">2</span>Main bather's height</div>
@@ -119,7 +119,7 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
           <!-- A3(2026-09-02)：四款價格一致時的統一價格句（卡內不重複） -->
           <div class="tip" id="propPriceLine" style="margin:-4px 0 10px"></div>
           <div id="propGrid"></div>
-          <div class="tip" style="margin-top:10px">Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.</div>
+          <div class="tip" style="margin-top:10px">Sized for your space with 50 mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.</div>
           <div class="sk-actions">
             <button class="cancel" onclick="wizBack()">← Change answers</button>
             <button class="cancel" onclick="closeWizard()">Cancel</button>
@@ -135,10 +135,10 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
       <!-- S2(2026-09-02) Basic v2：外部長寬滑桿下即時顯示內部尺寸與深度 -->
       <div id="dimsInner" class="tip"></div>
       <div id="warn">⚠ Invalid parameters: interior space too small, please adjust</div>
-      <div id="lenWarn" class="tip" style="display:none;color:#b3541e">⚠ Interior length under 950mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).</div>
+      <div id="lenWarn" class="tip" style="display:none;color:#b3541e">⚠ Interior length under 950 mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900 mm).</div>
       <!-- A2(2026-09-02)：選定提案後顯示長寬滑桿已按客人空間收斂上限 -->
       <div id="spaceCap" class="tip" style="display:none"></div>
-      <div id="thinWarn" class="tip" style="display:none;color:#b3541e">⚠ Wall thickness below 5mm between inner and outer shells: adjust base sizes or arc R.</div>
+      <div id="thinWarn" class="tip" style="display:none;color:#b3541e">⚠ Wall thickness below 5 mm between inner and outer shells: adjust base sizes or arc R.</div>
     </div>
     <div class="group" data-step="2">
       <h3>Material & Colour</h3>
@@ -173,7 +173,7 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
         <div class="tip">Optional. It helps us pitch the quote at the right level.</div>
       </div>
       <div class="yd-q" data-substep="3">
-        <div class="yd-label">Customer name</div>
+        <div class="yd-label">Customer name (optional)</div>
         <input type="text" id="custName" placeholder="Customer name">
         <div class="tip">The name we put on the quote.</div>
       </div>
@@ -204,7 +204,7 @@ body.ss-on .studio-strip .btns:not(:has(.btn:not(.ss-hide))){display:none}
       <div class="tip">How deep you sit in the water. 450 mm is our standard.</div>
       <div class="row"><label>Backrest</label><input type="range" id="rBack" min="0" max="150" step="10" value="0"><div class="val"><input id="nBack" value="0"><span>mm</span></div></div>
       <div class="tip">Raises the rear rim for a reclined, cradled feel.</div>
-      <div class="rim-label">Rim edge</div>
+      <div class="rim-label">◐ Rim Profile</div>
       <div class="drain-btns rim-edge-btns">
         <button type="button" data-lip="15">Slim</button>
         <button type="button" data-lip="20" class="active">Standard</button>

@@ -449,51 +449,55 @@ if(EDIT_MODE){ (function(){
   // ---- 面板 ----
   const $ = id=>document.getElementById(id);
   const TIP0 = 'Editable edges: <b style="color:#7a5f2f">outer rim</b> (gold, drag in any direction: sideways reshapes, <b>up/down changes local rim height</b>), <b style="color:#8f5424">inner bowl</b> (copper), <b style="color:#4f6f8a">base</b> (blue), <b style="color:#4c6e48">side profiles</b> (green: drag <b>out/in = bulge</b>, <b>up/down = move it along the wall</b>).<br>① Click an edge to <b>select</b> ② click again to <b>add a node</b> ③ <b>drag</b> to reshape. <b>Double-click the tub wall adds a side profile right there</b>. Not just at the four centers. <b>Double-click a node deletes it</b> and the curve springs back.';
+  const _t = (window.PAGE_EDGE_SELECT === true && typeof t === 'function') ? t : (s=>s);   // F19(2026-09-06)：只在設旗標的 medium／pro 翻譯 Edge Editing 文字；inspire 逐位元不變
   function showNodePanel(){
+    // F19b(2026-09-06)：面板標籤走 _t（inspire 無旗標＝identity）
     $('nodePanel').style.display = selNode ? 'block' : 'none';
     if(selNode){
-      $('nodeEdgeLabel').textContent = '● ' + EDGE_DEF[selNode.edge].label +
-        (selNode.edge==='side' ? ' (whole shell)' : ', node #'+selNode.i0);
+      $('nodeEdgeLabel').textContent = '● ' + _t(EDGE_DEF[selNode.edge].label) +
+        (selNode.edge==='side' ? _t(' (whole shell)') : _t(', node #')+selNode.i0);
       $('rowD').style.display = selNode.edge==='outer' ? '' : 'none';
       if(selNode.edge==='side'){
-        $('labA').textContent='Height position'; $('unitA').textContent='%';
+        $('labA').textContent=_t('Height position'); $('unitA').textContent='%';
         $('rNodeA').min=5; $('rNodeA').max=95;
-        $('labB').textContent='Bulge (out +/in −)'; $('unitB').textContent='mm';
+        $('labB').textContent=_t('Bulge (out +/in −)'); $('unitB').textContent='mm';
         $('rNodeB').min=-300; $('rNodeB').max=500;
-        $('labC').textContent='Influence (height)'; $('unitC').textContent='%';
+        $('labC').textContent=_t('Influence (height)'); $('unitC').textContent='%';
         $('rNodeC').min=4; $('rNodeC').max=40;
         $('rowC').style.display='';
       } else if(selNode.edge==='base'){
-        $('labA').textContent='Outer base length'; $('unitA').textContent='mm';
+        $('labA').textContent=_t('Outer base length'); $('unitA').textContent='mm';
         $('rNodeA').min=300; $('rNodeA').max=Math.round(P.L-40);
-        $('labB').textContent='Outer base width'; $('unitB').textContent='mm';
+        $('labB').textContent=_t('Outer base width'); $('unitB').textContent='mm';
         $('rNodeB').min=200; $('rNodeB').max=Math.round(P.W-40);
         $('rowC').style.display='none';
       } else {
-        $('labA').textContent='Node X (length)'; $('unitA').textContent='mm';
+        $('labA').textContent=_t('Node X (length)'); $('unitA').textContent='mm';
         $('rNodeA').min=-Math.round(P.L*0.75); $('rNodeA').max=Math.round(P.L*0.75);
-        $('labB').textContent='Node Y (width)'; $('unitB').textContent='mm';
+        $('labB').textContent=_t('Node Y (width)'); $('unitB').textContent='mm';
         $('rNodeB').min=-Math.round(P.W*0.75); $('rNodeB').max=Math.round(P.W*0.75);
-        $('labC').textContent='Influence range'; $('unitC').textContent='pt';
+        $('labC').textContent=_t('Influence range'); $('unitC').textContent='pt';
         $('rNodeC').min=2; $('rNodeC').max=24;
         $('rowC').style.display='';
       }
     }
     $('edgeTip').innerHTML = selectedEdge
-      ? (selNode ? 'Drag the node on the model, or fine-tune below. <b>Double-click a node deletes it</b> and restores the curve. Outer shell stops at the inner-bowl limit automatically.'
-                 : ('<b>'+EDGE_DEF[edgeType(selectedEdge)].label+'</b> selected. Click anywhere on it to <b>add a node</b>. Click another edge to switch.'))
-      : TIP0;
+      ? (selNode ? _t('Drag the node on the model, or fine-tune below. <b>Double-click a node deletes it</b> and restores the curve. Outer shell stops at the inner-bowl limit automatically.')
+                 : ('<b>'+_t(EDGE_DEF[edgeType(selectedEdge)].label)+'</b> '+_t('selected. Click anywhere on it to <b>add a node</b>. Click another edge to switch.')))
+      : _t(TIP0);
     // S5(2026-09-04)
     const _ed = $('edgeEditDetails'); if(_ed) _ed.open = !!selectedEdge;
     if(selectedEdge && window.PAGE_EDGE_COLLAPSED === true && window.StudioSteps && typeof StudioSteps.reveal === 'function') StudioSteps.reveal($('edgeEditGroup'));
     syncNodePanel();
   }
+  if(window.PAGE_EDGE_SELECT === true) window.refreshEdgeTip = showNodePanel;   // F19(2026-09-06)：語言切換時重繪提示
   // L4(2026-09-05)：邊線下拉＋加節點按鈕（PAGE_EDGE_SELECT 旗標守門，鍵盤／螢幕閱讀器可操作 Edge Editing）
   // L4c(2026-09-06)：取點改面向相機頂點＋不可動時退避
   if(window.PAGE_EDGE_SELECT === true){
     const edgeSelect = $('edgeSelect');
     if(edgeSelect) edgeSelect.addEventListener('change', ()=>{
       selectedEdge = edgeSelect.value || null;
+      selNode = null;   // F31(2026-09-06)：換邊就放掉舊節點，面板不再指向上一條邊
       Object.keys(hiTubes).forEach(k=>{ hiTubes[k].material.opacity = k===selectedEdge ? 0.95 : 0; });
       showNodePanel();
     });
@@ -669,6 +673,14 @@ if(EDIT_MODE){ (function(){
     _lastL=P.L; _lastW=P.W;
     requestBuild(); showNodePanel();
   });
+
+  // F18(2026-09-06)：精靈套用提案後由 wizard 呼叫——清掉 Edge Editing 的節點骨架、選邊與面板（資料層 P.customPts 等由 wizard 清）；origSnap 歸零讓「Reset all edits」以新造型為基準
+  window.resetEdgeEditingUI = function(){
+    nodes=[]; baseO=null; baseI=null; baseB=null; selNode=null; selectedEdge=null; hoverKey=null; origSnap=null;
+    _lastL=P.L; _lastW=P.W;
+    const es = $('edgeSelect'); if(es) es.value = '';
+    recomputeAll(); showNodePanel();
+  };
 
   // ---- 加節點 ----
   function addNode(key, pt){

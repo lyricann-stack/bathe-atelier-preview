@@ -55,6 +55,7 @@ body.ss-on #panel > #wizModal .rim-label{margin-top:0}
   body.ss-on .drain-btns button{flex:1 1 45%}
   body.ss-on #ssBar{margin:-12px -12px 12px}
   body.ss-on #panel > #wizModal .sk-box{width:auto}
+  body.ss-on.ss-wizard #ssNav{position:static} /* F30(2026-09-06)：精靈步不黏底（三頁 F4／F21 的 sticky 會蓋住送出鈕） */
 }
 
 /* F10(2026-09-06) */

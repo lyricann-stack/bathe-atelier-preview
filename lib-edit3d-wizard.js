@@ -95,7 +95,13 @@ function spaceCapText(capL, capW){
 // 沒有EDIT_MODE、同一段呼叫本來就相容，新架構才會炸)——同一個bug目前確認也存在於現正上線的
 // medium.html(EDIT_MODE版)，屬於使用者可直接踩到的活躍bug，需另外通知盡快修正上線頁。
 // 修法：generateProposals()改async，await captureRenders()。
+// F17(2026-09-06)：併發守門——連按／連呼時只跑一份，避免 PROPS 交錯寫入產生 12 張卡
 async function generateProposals(){
+  if(generateProposals._busy) return;
+  generateProposals._busy = true;
+  try { await _generateProposalsImpl(); } finally { generateProposals._busy = false; }
+}
+async function _generateProposalsImpl(){
   const T = briefTargets();
   const shape = LOOK_SHAPE[BRIEF.look] || 'ellipse';
   const wBase = T.two ? 760 : 600;   // 內口寬目標
@@ -168,6 +174,8 @@ function applyProposal(i){
   BRIEF_APPLIED = Object.assign({}, BRIEF, { proposal: p.name });
   Object.assign(P, p.params);
   P.customPts = null; P.customPtsInner = null; P.customProfile = null; P.wallMod = null; P.rimMod = null;
+  // F18(2026-09-06)：同步清 Edge Editing 的節點骨架與面板（handles 提供；無 handles 的頁面略過）
+  if(typeof window.resetEdgeEditingUI === 'function') window.resetEdgeEditingUI();
   // 靠牆缸下放Medium(2026-08-22)迴歸實測發現的同一個狀態同步問題(見applyClassic()同段註解)：
   // 精靈提案永遠是獨立缸造型，套用時要清掉wall模式狀態，避免UI下拉選單停在「Wall-mounted」
   if(typeof wallFaceMode !== 'undefined' && wallFaceMode){
@@ -192,4 +200,6 @@ function applyProposal(i){
   syncUI(); updateRowVis(); buildTub();
   if(typeof updateColorNote === 'function') updateColorNote();
   closeWizard();
+  // F28(2026-09-06)：套用提案後直接到 Step 2 Shape 看尺寸（頁面包裝的 closeWizard 先 go(1)；Basic 的 Step 1 本身就是尺寸，lib-tub-wizard 不動）
+  if(window.PAGE_STEPS === true && window.StudioSteps && typeof StudioSteps.go === 'function' && StudioSteps.steps().indexOf(2) !== -1) StudioSteps.go(2);
 }

@@ -6,7 +6,7 @@
 // ===================== 多語系 i18n（英文 en ＝原文；[0]=简中 zhS, [1]=泰文 th, [2]=繁中 zhT） =====================
 let LANG = 'en';
 const I18N = {
-  '⚠ Please upload photos of a bathtub only — basins, shower trays, or washbasins cannot be reliably detected and will be reconstructed as an incorrect bathtub shape.': ['⚠ 请仅上传浴缸照片——系统目前无法可靠辨识底盆/淋浴盆/洗手盆，这类照片仍会被重建成一个错误的浴缸模型', '⚠ กรุณาอัปโหลดเฉพาะรูปถ่ายอ่างอาบน้ำ — ระบบไม่สามารถแยกแยะอ่างล้างหน้า/ถาดอาบน้ำได้อย่างน่าเชื่อถือ ภาพเหล่านี้จะถูกสร้างเป็นโมเดลอ่างอาบน้ำที่ผิดพลาด', '⚠ 請僅上傳浴缸照片——系統目前無法可靠辨識底盆/淋浴盆/洗手盆，這類照片仍會被重建成一個錯誤的浴缸模型'],
+  '⚠ Please upload photos of a bathtub only — basins, shower trays, or washbasins cannot be reliably detected and will be reconstructed as an incorrect bathtub shape.': ['⚠ 请仅上传浴缸照片。系统目前无法可靠辨识底盆/淋浴盆/洗手盆，这类照片仍会被重建成一个错误的浴缸模型', '⚠ กรุณาอัปโหลดเฉพาะรูปถ่ายอ่างอาบน้ำ ระบบไม่สามารถแยกแยะอ่างล้างหน้า/ถาดอาบน้ำได้อย่างน่าเชื่อถือ ภาพเหล่านี้จะถูกสร้างเป็นโมเดลอ่างอาบน้ำที่ผิดพลาด', '⚠ 請僅上傳浴缸照片。系統目前無法可靠辨識底盆/淋浴盆/洗手盆，這類照片仍會被重建成一個錯誤的浴缸模型'],
   // Phase 5(2026-08-21)：這3個key是pro.html這輪新增的photo2tub上傳UI字串(缸型選單+按鈕)，
   // 之前沒接進字典——Freestanding/Wall-mounted從wallface-test.html既有翻譯搬過來，
   // Generate 3D from photos是這輪新增文案，自己補譯(避免新債疊在平台已知舊債上)
@@ -14,9 +14,9 @@ const I18N = {
   'Wall-mounted': ['靠墙式', 'แบบติดผนัง', '靠牆式'],
   // Phase 8佇列(2026-08-22)：缸型切換提升為一級控制的新標籤文字
   'Tub Type': ['浴缸类型', 'ประเภทอ่างอาบน้ำ', '浴缸類型'],
-  '💡 Include one photo taken square-on to the side, level with the rim — this lets us automatically recreate the side-wall profile shape.': ['💡 建议加拍一张正对侧面、与缸缘同高的照片——这样系统可以自动还原侧壁曲线造型', '💡 แนะนำให้ถ่ายภาพหนึ่งใบจากด้านข้างตรงๆ ระดับเดียวกับขอบอ่าง — จะช่วยให้ระบบคืนรูปทรงผนังด้านข้างได้อัตโนมัติ', '💡 建議加拍一張正對側面、與缸緣同高的照片——這樣系統可以自動還原側壁曲線造型'],
+  '💡 Include one photo taken square-on to the side, level with the rim — this lets us automatically recreate the side-wall profile shape.': ['💡 建议加拍一张正对侧面、与缸缘同高的照片，这样系统可以自动还原侧壁曲线造型', '💡 แนะนำให้ถ่ายภาพหนึ่งใบจากด้านข้างตรงๆ ระดับเดียวกับขอบอ่าง จะช่วยให้ระบบคืนรูปทรงผนังด้านข้างได้อัตโนมัติ', '💡 建議加拍一張正對側面、與缸緣同高的照片，這樣系統可以自動還原側壁曲線造型'],
   // 雲端run-to-run非決定性已知限制的誠實預告(2026-08-24，8f裁定歸檔擱置＋補此提示，見R3_研究線總結案報告.md第16項)
-  '💡 Re-uploading the same photos may occasionally produce a slightly different result — if the shape looks off, try re-uploading or fine-tune it manually below.': ['💡 同一组照片重新上传，偶尔可能得到略有差异的结果——如果形状看起来不太对，可以试着重新上传，或在下方手动微调', '💡 การอัปโหลดรูปชุดเดิมซ้ำอาจได้ผลลัพธ์ที่แตกต่างเล็กน้อยในบางครั้ง — หากรูปทรงดูไม่ถูกต้อง ลองอัปโหลดใหม่ หรือปรับแต่งด้วยตนเองด้านล่าง', '💡 同一組照片重新上傳，偶爾可能得到略有差異的結果——如果形狀看起來不太對，可以試著重新上傳，或在下方手動微調'],
+  '💡 Re-uploading the same photos may occasionally produce a slightly different result — if the shape looks off, try re-uploading or fine-tune it manually below.': ['💡 同一组照片重新上传，偶尔可能得到略有差异的结果，如果形状看起来不太对，可以试着重新上传，或在下方手动微调', '💡 การอัปโหลดรูปชุดเดิมซ้ำอาจได้ผลลัพธ์ที่แตกต่างเล็กน้อยในบางครั้ง หากรูปทรงดูไม่ถูกต้อง ลองอัปโหลดใหม่ หรือปรับแต่งด้วยตนเองด้านล่าง', '💡 同一組照片重新上傳，偶爾可能得到略有差異的結果，如果形狀看起來不太對，可以試著重新上傳，或在下方手動微調'],
   '📷 Generate 3D from photos': ['📷 从照片生成 3D 模型', '📷 สร้างโมเดล 3D จากรูปถ่าย', '📷 從照片生成 3D 模型'],
   // Phase 8 M8-2a(2026-08-21)：照片合成(貼紙式)modal全部字串。
   // 注意：'📷 Upload photo'跟'Close'是既有UI(photoModal/arModal)也在用的字面，本來就欠翻
@@ -31,7 +31,7 @@ const I18N = {
   'Rotate': ['旋转', 'หมุน', '旋轉'],
   'Drag to move · pinch or scroll to resize · slider to rotate': ['拖动移动 · 双指或滚轮缩放 · 滑杆旋转', 'ลากเพื่อย้าย · บีบนิ้วหรือสกรอลล์เพื่อปรับขนาด · สไลเดอร์เพื่อหมุน', '拖曳移動 · 雙指或滾輪縮放 · 滑桿旋轉'],
   'Drag to orbit the tub · pinch or scroll to zoom': ['拖动环绕浴缸 · 双指或滚轮缩放视距', 'ลากเพื่อหมุนรอบอ่าง · บีบนิ้วหรือสกรอลล์เพื่อซูม', '拖曳環繞浴缸 · 雙指或滾輪縮放視距'],
-  'Sizing here is visual only — for true-to-scale placement, use AR.': ['此处大小仅为视觉示意——要看真实尺寸请用 AR。', 'ขนาดในภาพเป็นเพียงภาพประกอบ — หากต้องการขนาดจริงโปรดใช้ AR', '此處大小僅為視覺示意——要看真實尺寸請用 AR。'],
+  'Sizing here is visual only — for true-to-scale placement, use AR.': ['此处大小仅为视觉示意，要看真实尺寸请用 AR。', 'ขนาดในภาพเป็นเพียงภาพประกอบ หากต้องการขนาดจริงโปรดใช้ AR', '此處大小僅為視覺示意，要看真實尺寸請用 AR。'],
   '📱 View in AR instead': ['📱 改用 AR 查看', '📱 ดูใน AR แทน', '📱 改用 AR 查看'],
   '📤 Share': ['📤 分享', '📤 แชร์', '📤 分享'],
   '⬇ Download image': ['⬇ 下载合成图', '⬇ ดาวน์โหลดรูป', '⬇ 下載合成圖'],
@@ -42,11 +42,11 @@ const I18N = {
   // photoCountHint())+ i18n積欠批次補譯(M8-1b AR modal全部字串、T5 Site photo notes殘留字串、
   // strip副標、Phase 7龍頭孔checkbox標籤——皆為既有applyLang()掛鉤頁面(pro.html)的欠譯，
   // 一次補齊；不含photo2tub-app.html的上傳banner系統(該頁無i18n管線，屬另案，見交接檔)
-  'Expect only a rough proportional estimate — add more angles for shape detail.': ['仅能还原粗略比例，形状细节建议补拍更多角度。', 'คาดว่าจะได้เพียงสัดส่วนคร่าวๆ — เพิ่มมุมถ่ายภาพเพื่อรายละเอียดรูปทรง', '僅能還原粗略比例，形狀細節建議補拍更多角度。'],
-  'Expect basic proportions — shape detail depends on which angles you chose.': ['可还原基本比例，形状细节则视所选角度而定。', 'คาดว่าจะได้สัดส่วนพื้นฐาน — รายละเอียดรูปทรงขึ้นอยู่กับมุมที่เลือกถ่าย', '可還原基本比例，形狀細節則視所選角度而定。'],
+  'Expect only a rough proportional estimate — add more angles for shape detail.': ['仅能还原粗略比例，形状细节建议补拍更多角度。', 'คาดว่าจะได้เพียงสัดส่วนคร่าวๆ เพิ่มมุมถ่ายภาพเพื่อรายละเอียดรูปทรง', '僅能還原粗略比例，形狀細節建議補拍更多角度。'],
+  'Expect basic proportions — shape detail depends on which angles you chose.': ['可还原基本比例，形状细节则视所选角度而定。', 'คาดว่าจะได้สัดส่วนพื้นฐาน รายละเอียดรูปทรงขึ้นอยู่กับมุมที่เลือกถ่าย', '可還原基本比例，形狀細節則視所選角度而定。'],
   'Good chance of capturing the profile-curve shape, especially with a side-on and a top-down photo included.': ['有机会还原剖面曲线造型，若含正侧面与俯视照片效果更佳。', 'มีโอกาสดีที่จะจับรูปทรงเส้นโค้งด้านข้างได้ โดยเฉพาะถ้ามีภาพถ่ายด้านข้างตรงๆ และภาพมุมสูง', '有機會還原剖面曲線造型，若含正側面與俯視照片效果更佳。'],
   'The most complete shape reconstruction this tool supports.': ['可达到本工具支持的最完整形状还原。', 'การสร้างรูปทรงที่สมบูรณ์ที่สุดเท่าที่เครื่องมือนี้รองรับ', '可達到本工具支援的最完整形狀還原。'],
-  'The Design Studio — Pro': ['设计工作室 — 专业版', 'สตูดิโอออกแบบ — โปร', '設計工作室 — 專業版'],
+  'The Design Studio — Pro': ['设计工作室：专业版', 'สตูดิโอออกแบบ โปร', '設計工作室：專業版'],
   'Faucet hole (drag on the rim to position)': ['龙头孔(拖曳缸缘定位)', 'รูก๊อกน้ำ (ลากบนขอบอ่างเพื่อจัดตำแหน่ง)', '龍頭孔(拖曳缸緣定位)'],
   // 缸底斜面下放Medium/Basic(2026-08-22)：拿掉"advanced"/"Experimental"措辭後補譯(三版本頁共用此檔)
   'Base slope': ['缸底斜面', 'ความลาดเอียงของฐานอ่าง', '缸底斜面'],
@@ -60,14 +60,14 @@ const I18N = {
   'Tap below to view this design in AR, right where you\'re standing.': ['点击下方按钮，在你所在的位置以 AR 检视这个设计。', 'แตะด้านล่างเพื่อดูดีไซน์นี้ในโหมด AR ตรงตำแหน่งที่คุณยืนอยู่', '點擊下方按鈕，在你所在的位置以 AR 檢視這個設計。'],
   '👁 View in AR': ['👁 以 AR 检视', '👁 ดูใน AR', '👁 以 AR 檢視'],
   'Scan with an iPhone or iPad to view this design in AR.': ['用 iPhone 或 iPad 扫描以 AR 检视这个设计。', 'สแกนด้วย iPhone หรือ iPad เพื่อดูดีไซน์นี้ในโหมด AR', '用 iPhone 或 iPad 掃描以 AR 檢視這個設計。'],
-  'Android AR support is on our roadmap — for now, this works on iPhone/iPad.': ['Android 的 AR 支持规划中——目前仅支持 iPhone/iPad。', 'การรองรับ AR บน Android อยู่ในแผนงาน — ขณะนี้ใช้ได้กับ iPhone/iPad เท่านั้น', 'Android 的 AR 支援規劃中——目前僅支援 iPhone/iPad。'],
-  'AR preview currently supports iPhone/iPad — Android support is on our roadmap.': ['AR 预览目前支持 iPhone/iPad——Android 支持规划中。', 'ตัวอย่าง AR รองรับ iPhone/iPad ในขณะนี้ — การรองรับ Android อยู่ในแผนงาน', 'AR 預覽目前支援 iPhone/iPad——Android 支援規劃中。'],
+  'Android AR support is on our roadmap — for now, this works on iPhone/iPad.': ['Android 的 AR 支持规划中。目前仅支持 iPhone/iPad。', 'การรองรับ AR บน Android อยู่ในแผนงาน ขณะนี้ใช้ได้กับ iPhone/iPad เท่านั้น', 'Android 的 AR 支援規劃中。目前僅支援 iPhone/iPad。'],
+  'AR preview currently supports iPhone/iPad — Android support is on our roadmap.': ['AR 预览目前支持 iPhone/iPad。Android 支持规划中。', 'ตัวอย่าง AR รองรับ iPhone/iPad ในขณะนี้ การรองรับ Android อยู่ในแผนงาน', 'AR 預覽目前支援 iPhone/iPad。Android 支援規劃中。'],
   'Could not prepare the AR model for this design. Please try again.': ['无法为此设计准备 AR 模型，请重试。', 'ไม่สามารถเตรียมโมเดล AR สำหรับดีไซน์นี้ได้ กรุณาลองใหม่', '無法為此設計準備 AR 模型，請重試。'],
-  'This design is too complex to share as a QR code — try a simpler shape, or browse this page directly on your iPhone.': ['此设计过于复杂，无法生成 QR code 分享——请尝试简化造型，或直接用你的 iPhone 开启本页。', 'ดีไซน์นี้ซับซ้อนเกินกว่าจะแชร์เป็น QR code — ลองทำรูปทรงให้เรียบง่ายขึ้น หรือเปิดหน้านี้โดยตรงบน iPhone ของคุณ', '此設計過於複雜，無法生成 QR code 分享——請嘗試簡化造型，或直接用你的 iPhone 開啟本頁。'],
+  'This design is too complex to share as a QR code — try a simpler shape, or browse this page directly on your iPhone.': ['此设计过于复杂，无法生成 QR code 分享，请尝试简化造型，或直接用你的 iPhone 开启本页。', 'ดีไซน์นี้ซับซ้อนเกินกว่าจะแชร์เป็น QR code ลองทำรูปทรงให้เรียบง่ายขึ้น หรือเปิดหน้านี้โดยตรงบน iPhone ของคุณ', '此設計過於複雜，無法生成 QR code 分享，請嘗試簡化造型，或直接用你的 iPhone 開啟本頁。'],
   'Shape it. Watch it turn.': ['塑形它，看它转动。', 'ปั้นรูปทรง แล้วชมมันหมุน', '🛁 客製化浴缸互動設計系統'],
-  'Sketch any shape · sculpt it live in 3D · export designer-ready CAD — we build it from there': ['画出任何形状 · 3D 实时雕塑 · 一键导出设计师可修改的 CAD — 之后交给我们制造', 'วาดรูปทรงใดก็ได้ · ปั้นแบบ 3D เรียลไทม์ · ส่งออก CAD ที่นักออกแบบแก้ไขได้ — จากนั้นเราผลิตให้', '客戶自主設計 → 參數化 3D 預覽 → 一鍵輸出設計師可修改之 CAD (DXF) 圖檔 → 模具製造'],
+  'Sketch any shape · sculpt it live in 3D · export designer-ready CAD — we build it from there': ['画出任何形状 · 3D 实时雕塑 · 一键导出设计师可修改的 CAD，之后交给我们制造', 'วาดรูปทรงใดก็ได้ · ปั้นแบบ 3D เรียลไทม์ · ส่งออก CAD ที่นักออกแบบแก้ไขได้ จากนั้นเราผลิตให้', '客戶自主設計 → 參數化 3D 預覽 → 一鍵輸出設計師可修改之 CAD (DXF) 圖檔 → 模具製造'],
   '⬆ Upload CAD File': ['⬆ 上传 CAD 文件', '⬆ อัปโหลดไฟล์ CAD', '⬆ 上傳 CAD 檔案'],
-  'Viewing external CAD model — adjust any parameter to return to the parametric model': ['外部 CAD 模型查看中 — 调整任何参数即可返回参数化模型', 'กำลังแสดงโมเดล CAD ภายนอก — ปรับพารามิเตอร์ใดก็ได้เพื่อกลับสู่โมเดลพาราเมตริก', '外部 CAD 模型檢視中 — 調整任何參數即可返回參數化模型'],
+  'Viewing external CAD model — adjust any parameter to return to the parametric model': ['外部 CAD 模型查看中。调整任何参数即可返回参数化模型', 'กำลังแสดงโมเดล CAD ภายนอก ปรับพารามิเตอร์ใดก็ได้เพื่อกลับสู่โมเดลพาราเมตริก', '外部 CAD 模型檢視中。調整任何參數即可返回參數化模型'],
   '⚠ Could not parse this CAD file (supported: DXF from this tool, 2D outline DXF, STL, spec JSON from this tool)': ['⚠ 无法解析此 CAD 文件（支持：本系统 DXF、2D 轮廓 DXF、STL、本系统 JSON 规格表）', '⚠ ไม่สามารถอ่านไฟล์ CAD นี้ได้ (รองรับ: DXF จากระบบนี้, DXF โครงร่าง 2D, STL, JSON สเปกจากระบบนี้)', '⚠ 無法解析此 CAD 檔案（支援：本系統 DXF、2D 輪廓 DXF、STL、本系統 JSON 規格表）'],
   '⬇ Download CAD (DXF)': ['⬇ 下载 CAD 图档 (DXF)', '⬇ ดาวน์โหลด CAD (DXF)', '⬇ 下載 CAD 圖檔 (DXF)'],
   '⬇ Download Spec (JSON)': ['⬇ 下载规格表 (JSON)', '⬇ ดาวน์โหลดสเปก (JSON)', '⬇ 下載規格表 (JSON)'],
@@ -111,7 +111,7 @@ const I18N = {
   'Production Flow': ['制程流程', 'ขั้นตอนการผลิต', '製程流程'],
   'Drag = 360° free orbit (incl. bottom view) | Scroll = zoom': ['拖拽＝360° 自由旋转（含仰视）｜滚轮＝缩放', 'ลาก = หมุนอิสระ 360° (รวมมุมมองด้านล่าง) | สกรอลล์ = ซูม', '拖曳＝360° 自由旋轉（含仰視）｜滾輪＝縮放'],
   '✏️ Sketch Your Bathtub Shape': ['✏️ 手绘你的浴缸形状', '✏️ วาดรูปทรงอ่างของคุณ', '✏️ 手繪你的浴缸形狀'],
-  'Draw a one-of-a-kind bathtub — sketch lines are auto-smoothed into clean curves and built into a 3D model. All dimension parameters remain adjustable afterwards.': ['画出独一无二的浴缸 — 系统会自动把手绘线条转成流畅曲线并建成 3D 模型，之后仍可调整所有尺寸参数。', 'วาดอ่างที่มีเพียงหนึ่งเดียว — เส้นที่วาดจะถูกปรับให้เรียบและสร้างเป็นโมเดล 3D อัตโนมัติ และยังปรับขนาดทุกค่าได้ภายหลัง', '畫出獨一無二的浴缸 — 系統會自動把手繪線條轉成流暢曲線並建成 3D 模型，之後仍可調整所有尺寸參數。'],
+  'Draw a one-of-a-kind bathtub — sketch lines are auto-smoothed into clean curves and built into a 3D model. All dimension parameters remain adjustable afterwards.': ['画出独一无二的浴缸。系统会自动把手绘线条转成流畅曲线并建成 3D 模型，之后仍可调整所有尺寸参数。', 'วาดอ่างที่มีเพียงหนึ่งเดียว เส้นที่วาดจะถูกปรับให้เรียบและสร้างเป็นโมเดล 3D อัตโนมัติ และยังปรับขนาดทุกค่าได้ภายหลัง', '畫出獨一無二的浴缸。系統會自動把手繪線條轉成流暢曲線並建成 3D 模型，之後仍可調整所有尺寸參數。'],
   '① Top-View Rim Shape (required)': ['① 俯视缸口形状（必画）', '① โครงปากอ่างมุมมองบน (จำเป็น)', '① 俯視缸口形狀（必畫）'],
   '② Side Wall Profile (optional)': ['② 侧面墙壁剖面（选画）', '② โปรไฟล์ผนังด้านข้าง (ไม่บังคับ)', '② 側面牆壁剖面（選畫）'],
   'Clear': ['清除重画', 'ล้างและวาดใหม่', '清除重畫'],
@@ -135,7 +135,7 @@ const I18N = {
   'Select country / region…': ['选择国家 / 地区…', 'เลือกประเทศ / ภูมิภาค…', '選擇國家 / 地區…'],
   'Est. shipping': ['运费估算', 'ค่าส่งโดยประมาณ', '運費估算'],
   'Est. total': ['总价估算', 'ราคารวมโดยประมาณ', '總價估算'],
-  'Door-to-door estimate — confirmed on your firm quote.': ['含门到门运费；正式报价时确认。', 'ประมาณการแบบส่งถึงบ้าน — ยืนยันในใบเสนอราคา', '含門到門運費；正式報價時確認。'],
+  'Door-to-door estimate — confirmed on your firm quote.': ['含门到门运费；正式报价时确认。', 'ประมาณการแบบส่งถึงบ้าน ยืนยันในใบเสนอราคา', '含門到門運費；正式報價時確認。'],
   'Drain position': ['排水孔位置', 'ตำแหน่งท่อระบายน้ำ', '排水孔位置'],
   '✏️ Custom sketch': ['✏️ 手绘自定义', '✏️ วาดเอง', '✏️ 手繪自訂'],
   ' (sketched profile)': ['（手绘剖面）', ' (โปรไฟล์วาดเอง)', '（手繪剖面）'],
@@ -143,6 +143,7 @@ const I18N = {
   '⚠ No closed shape detected. Use a dark pen on white paper, with even lighting and clear contrast.': ['⚠ 检测不到封闭形状。请用深色笔在白纸上画封闭轮廓，光线均匀、对比清楚。', '⚠ ตรวจไม่พบรูปทรงแบบปิด กรุณาใช้ปากกาสีเข้มบนกระดาษขาว แสงสม่ำเสมอ คอนทราสต์ชัดเจน', '⚠ 偵測不到封閉形狀。請用深色筆在白紙上畫封閉輪廓，光線均勻、對比清楚。'],
   '⚠ Image processing failed: ': ['⚠ 图片处理失败：', '⚠ ประมวลผลรูปไม่สำเร็จ: ', '⚠ 圖片處理失敗：'],
   'Customer name': ['客户姓名 / Customer Name', 'ชื่อลูกค้า', '客戶姓名 / Customer Name'],
+  'Customer name (optional)': ['客户姓名（选填） / Customer Name (optional)', 'ชื่อลูกค้า (ไม่บังคับ)', '客戶姓名（選填） / Customer Name (optional)'],
   'Notes (e.g. overflow drain required)': ['备注 / Notes（例：需加装溢水口）', 'หมายเหตุ (เช่น ต้องการช่องน้ำล้น)', '備註 / Notes（例：需加裝溢水口）'],
   '⑧ Price & Quote': ['⑧ 价格与询价', '⑧ ราคาและใบเสนอราคา', '⑧ 價格與詢價'],
   'Price': ['价格', 'ราคา', '價格'],
@@ -160,15 +161,15 @@ const I18N = {
   'Bespoke': ['全定制开模', 'เปิดแม่พิมพ์ใหม่ (Bespoke)', '全客製開模'],
   'One-of-One': ['独一件 One-of-One', 'One-of-One (ชิ้นเดียวในโลก)', '獨一件 One-of-One'],
   'From our mold library, resized to your millimetre.': ['从我们的模具库出发，按你的毫米数改制。', 'จากคลังแม่พิมพ์ของเรา ปรับขนาดตามมิลลิเมตรของคุณ', '從我們的模具庫出發，按你的毫米數改製。'],
-  'Your shape — a new mold is made just for you.': ['你的造型——为你新开一副模具。', 'รูปทรงของคุณ — เปิดแม่พิมพ์ใหม่เพื่อคุณโดยเฉพาะ', '你的造型——為你新開一副模具。'],
-  'Mold retired after your tub — certificate included, never reproduced.': ['模具在你的浴缸完成后退役——附证书，永不复制。', 'แม่พิมพ์ปลดระวางหลังผลิตอ่างของคุณ — พร้อมใบรับรอง ไม่ผลิตซ้ำ', '模具在你的浴缸完成後退役——附證書，永不複製。'],
+  'Your shape — a new mold is made just for you.': ['你的造型，为你新开一副模具。', 'รูปทรงของคุณ เปิดแม่พิมพ์ใหม่เพื่อคุณโดยเฉพาะ', '你的造型，為你新開一副模具。'],
+  'Mold retired after your tub — certificate included, never reproduced.': ['模具在你的浴缸完成后退役，附证书，永不复制。', 'แม่พิมพ์ปลดระวางหลังผลิตอ่างของคุณ พร้อมใบรับรอง ไม่ผลิตซ้ำ', '模具在你的浴缸完成後退役，附證書，永不複製。'],
   'Make it One-of-One (mold retired + certificate)': ['升级为 One-of-One（模具退役＋证书）', 'อัปเกรดเป็น One-of-One (ปลดระวางแม่พิมพ์ + ใบรับรอง)', '升級為 One-of-One（模具退役＋證書）'],
   'Options': ['加值选项', 'ออปชันเสริม', '加值選項'],
   'Heated backrest': ['加热靠背', 'พนักพิงทำความร้อน', '加熱靠背'],
   'Matching basin': ['配套面盆', 'อ่างล้างหน้าเข้าชุด', '配套面盆'],
   'Custom colour': ['定制颜色', 'สีสั่งทำ', '客製顏色'],
   'Estimated price': ['估算价格', 'ราคาโดยประมาณ', '估算價格'],
-  'USD $399 design fee — fully credited to any tier. Final price is confirmed on your firm quote.': ['USD $399 设计费——可全额折抵任一层级。最终价格以正式报价确认。', 'ค่าออกแบบ USD $399 — หักคืนเต็มจำนวนในทุกระดับ ราคาสุดท้ายยืนยันในใบเสนอราคา', 'USD $399 設計費——可全額折抵任一層級。最終價格以正式報價確認。'],
+  'USD $399 design fee — fully credited to any tier. Final price is confirmed on your firm quote.': ['USD $399 设计费，可全额折抵任一层级。最终价格以正式报价确认。', 'ค่าออกแบบ USD $399 หักคืนเต็มจำนวนในทุกระดับ ราคาสุดท้ายยืนยันในใบเสนอราคา', 'USD $399 設計費，可全額折抵任一層級。最終價格以正式報價確認。'],
   'Product weight (est.)': ['产品重量（估）', 'น้ำหนักสินค้า (ประมาณ)', '產品重量（估）'],
   'Crated shipping weight (est.)': ['含木箱运送重量（估）', 'น้ำหนักรวมลังไม้ (ประมาณ)', '含木箱運送重量（估）'],
   'Email *': ['Email *', 'อีเมล *', 'Email *'],
@@ -178,7 +179,7 @@ const I18N = {
   'Short edge': ['短边', 'ด้านสั้น', '短邊'],
   'Floor drain slope': ['排水泄水角度', 'ความลาดเอียงพื้นอ่าง', '排水洩水角度'],
   'Tub floor slopes towards the drain, drain at the lowest point (factory standard 1.3–1.5°). Drain detail follows the factory standard fitting, applied at mould stage.': ['缸内底面向排水孔倾斜，排水孔位于最低点（工厂常规 1.3–1.5°）。排水孔细部按工厂标准件，开模时套用。', 'พื้นอ่างลาดเอียงไปทางท่อน้ำทิ้ง โดยท่ออยู่จุดต่ำสุด (มาตรฐานโรงงาน 1.3–1.5°) รายละเอียดท่อน้ำทิ้งใช้อะไหล่มาตรฐานโรงงาน ใส่ในขั้นตอนแม่พิมพ์', '缸內底面向排水孔傾斜，排水孔位於最低點（工廠常規 1.3–1.5°）。排水孔細部依工廠標準件，開模時套用。'],
-  'Allow undercut (bulge beyond rim — split mould: stone resin / premium)': ['允许倒扣（外鼓超过缸口，需左右合模：人造石/高价款）', 'อนุญาต undercut (ผนังป่องเกินปากอ่าง — แม่พิมพ์แยกซ้ายขวา: โซลิดเซอร์เฟซ/พรีเมียม)', '允許倒扣（外鼓超過缸口，需左右合模：人造石/高價款）'],
+  'Allow undercut (bulge beyond rim — split mould: stone resin / premium)': ['允许倒扣（外鼓超过缸口，需左右合模：人造石/高价款）', 'อนุญาต undercut (ผนังป่องเกินปากอ่าง แม่พิมพ์แยกซ้ายขวา: โซลิดเซอร์เฟซ/พรีเมียม)', '允許倒扣（外鼓超過缸口，需左右合模：人造石/高價款）'],
   'Vertical demoulding cannot have undercuts. Unchecked = walls auto-limited to never bulge beyond the rim (standard acrylic)': ['模具上下垂直出模时不可有倒扣；不勾选＝系统自动限制侧壁不外鼓超过缸口（常规亚克力款）', 'การถอดแม่พิมพ์แนวดิ่งต้องไม่มี undercut; ไม่ติ๊ก = ระบบจำกัดผนังไม่ให้ป่องเกินปากอ่างอัตโนมัติ (อะคริลิกมาตรฐาน)', '模具上下垂直出模時不可有倒扣；不勾選＝系統自動限制側壁不外鼓超過缸口（常規壓克力款）'],
   'Undercut': ['倒扣', 'Undercut', '倒扣'],
   'None (vertical demould)': ['无（垂直出模）', 'ไม่มี (ถอดแม่พิมพ์แนวดิ่ง)', '無（垂直出模）'],
@@ -191,7 +192,7 @@ const I18N = {
   'Side wall arc R': ['侧壁弧度 R', 'รัศมีโค้งผนังข้าง R', '側壁弧度 R'],
   'Designer mode': ['设计师模式', 'โหมดนักออกแบบ', '設計師模式'],
   'Simple mode': ['简易模式', 'โหมดง่าย', '簡易模式'],
-  'Drag the gold dots on the tub to shape it — everything else updates automatically.': ['拖动缸体上的金色圆点即可塑形——其余数值自动同步。', 'ลากจุดสีทองบนตัวอ่างเพื่อปรับรูปทรง — ค่าอื่น ๆ ปรับให้อัตโนมัติ', '拖曳缸體上的金色圓點即可塑形——其餘數值自動同步。'],
+  'Drag the gold dots on the tub to shape it — everything else updates automatically.': ['拖动缸体上的金色圆点即可塑形，其余数值自动同步。', 'ลากจุดสีทองบนตัวอ่างเพื่อปรับรูปทรง ค่าอื่น ๆ ปรับให้อัตโนมัติ', '拖曳缸體上的金色圓點即可塑形，其餘數值自動同步。'],
   'Factory arcs (per-side R)': ['工厂弧线（长短边独立 R）', 'ส่วนโค้งโรงงาน (R แยกด้านยาว/สั้น)', '工廠弧線（長短邊獨立 R）'],
   'Rim edge width': ['缸边宽', 'ความกว้างขอบอ่าง', '缸邊寬'],
   'Outer base length': ['外缸底长', 'ความยาวฐานนอก', '外缸底長'],
@@ -203,19 +204,23 @@ const I18N = {
   'Outer wall R — length section': ['外缸侧弧 R（长边剖面）', 'R ผนังนอก (หน้าตัดด้านยาว)', '外缸側弧 R（長邊剖面）'],
   'Outer wall R — width section': ['外缸侧弧 R（短边剖面）', 'R ผนังนอก (หน้าตัดด้านสั้น)', '外缸側弧 R（短邊剖面）'],
   'Overflow drain (factory standard, 75mm below rim)': ['溢水口（工厂标准件，距缸缘 75mm）', 'ช่องน้ำล้น (มาตรฐานโรงงาน ต่ำกว่าขอบ 75 มม.)', '溢水口（工廠標準件，距缸緣 75mm）'],
+  // F35(2026-09-06) 單位空格統一
+  'Overflow drain (factory standard, 75 mm below rim)': ['溢水口（工厂标准件，距缸缘 75 mm）', 'ช่องน้ำล้น (มาตรฐานโรงงาน ต่ำกว่าขอบ 75 มม.)', '溢水口（工廠標準件，距缸緣 75 mm）'],
   'Drain marker (and overflow marker, once enabled) can be dragged directly in the 3D view to reposition.': ['排水孔标记(启用溢水口后也含溢水孔标记)可以直接在3D画面上拖曳调整位置。', 'เครื่องหมายท่อระบายน้ำ (และเครื่องหมายช่องน้ำล้นเมื่อเปิดใช้งาน) สามารถลากในมุมมอง 3D เพื่อปรับตำแหน่งได้โดยตรง', '排水孔標記(啟用溢水口後也含溢水孔標記)可以直接在3D畫面上拖曳調整位置。'],
   'Outer base (L×W)': ['外缸底尺寸 (长×宽)', 'ฐานนอก (ยาว×กว้าง)', '外缸底尺寸 (長×寬)'],
   'Inner base (L×W)': ['内缸底尺寸 (长×宽)', 'ก้นอ่างใน (ยาว×กว้าง)', '內缸底尺寸 (長×寬)'],
   'Overflow': ['溢水口', 'ช่องน้ำล้น', '溢水口'],
   'Yes (factory std)': ['有（工厂标准件）', 'มี (มาตรฐานโรงงาน)', '有（工廠標準件）'],
-  '⚠ Wall thickness below 5mm between inner and outer shells — adjust base sizes or arc R.': ['⚠ 内外缸之间壁厚不足 5mm——请调整底部尺寸或弧度 R。', '⚠ ความหนาผนังระหว่างเปลือกในและนอกต่ำกว่า 5 มม. — โปรดปรับขนาดฐานหรือรัศมี R', '⚠ 內外缸之間壁厚不足 5mm——請調整底部尺寸或弧度 R。'],
-  '✨ Guided design — answer 5 questions, get 4 tailored tubs': ['✨ 引导设计——回答 5 个问题，获得 4 款量身方案', '✨ ออกแบบพร้อมไกด์ — ตอบ 5 ข้อ รับอ่าง 4 แบบ', '✨ 引導設計——回答 5 個問題，獲得 4 款量身方案'],
+  '⚠ Wall thickness below 5mm between inner and outer shells — adjust base sizes or arc R.': ['⚠ 内外缸之间壁厚不足 5mm：请调整底部尺寸或弧度 R。', '⚠ ความหนาผนังระหว่างเปลือกในและนอกต่ำกว่า 5 มม. โปรดปรับขนาดฐานหรือรัศมี R', '⚠ 內外缸之間壁厚不足 5mm：請調整底部尺寸或弧度 R。'],
+  '✨ Guided design — answer 5 questions, get 4 tailored tubs': ['✨ 引导设计：回答 5 个问题，获得 4 款量身方案', '✨ ออกแบบพร้อมไกด์ ตอบ 5 ข้อ รับอ่าง 4 แบบ', '✨ 引導設計：回答 5 個問題，獲得 4 款量身方案'],
   '✨ Guided design': ['✨ 引导设计', '✨ ออกแบบพร้อมไกด์', '✨ 引導設計'],
-  'Answer a few questions — we design four tubs around you, then you fine-tune the one you like.': ['回答几个问题——我们为你量身设计四款浴缸，选中后再自行微调。', 'ตอบคำถามสั้น ๆ — เราออกแบบอ่าง 4 แบบให้คุณ แล้วค่อยปรับแบบที่ชอบ', '回答幾個問題——我們為你量身設計四款浴缸，選中後再自行微調。'],
+  'Answer a few questions — we design four tubs around you, then you fine-tune the one you like.': ['回答几个问题：我们为你量身设计四款浴缸，选中后再自行微调。', 'ตอบคำถามสั้น ๆ เราออกแบบอ่าง 4 แบบให้คุณ แล้วค่อยปรับแบบที่ชอบ', '回答幾個問題：我們為你量身設計四款浴缸，選中後再自行微調。'],
   'Installation space': ['安装空间', 'พื้นที่ติดตั้ง', '安裝空間'],
   'Space length': ['空间长度', 'ความยาวพื้นที่', '空間長度'],
   'Space width': ['空间宽度', 'ความกว้างพื้นที่', '空間寬度'],
   'We keep at least 50mm clearance on each side for installation and cleaning.': ['我们会在四周各保留至少 50mm 的安装与清洁间隙。', 'เราเว้นระยะอย่างน้อยข้างละ 50 มม. สำหรับติดตั้งและทำความสะอาด', '我們會在四周各保留至少 50mm 的安裝與清潔間隙。'],
+  // F35(2026-09-06) 單位空格統一
+  'We keep at least 50 mm clearance on each side for installation and cleaning.': ['我们会在四周各保留至少 50 mm 的安装与清洁间隙。', 'เราเว้นระยะอย่างน้อยข้างละ 50 มม. สำหรับติดตั้งและทำความสะอาด', '我們會在四周各保留至少 50 mm 的安裝與清潔間隙。'],
   "Main bather's height": ['主要使用者身高', 'ส่วนสูงของผู้ใช้หลัก', '主要使用者身高'],
   'Height': ['身高', 'ส่วนสูง', '身高'],
   'How do you like to soak?': ['你喜欢怎么泡？', 'คุณชอบแช่แบบไหน?', '你喜歡怎麼泡？'],
@@ -231,8 +236,8 @@ const I18N = {
   'Clean lines': ['利落直线', 'เส้นสายเรียบคม', '俐落直線'],
   '✨ Design my four tubs →': ['✨ 为我设计四款浴缸 →', '✨ ออกแบบอ่าง 4 แบบให้ฉัน →', '✨ 為我設計四款浴缸 →'],
   'Your four proposals': ['你的四款方案', 'ข้อเสนอ 4 แบบของคุณ', '你的四款方案'],
-  'Built around your space and body — pick one, then fine-tune it.': ['依你的空间与身形而生——选一款，再细调。', 'ออกแบบตามพื้นที่และสรีระของคุณ — เลือกหนึ่งแบบแล้วปรับต่อ', '依你的空間與身形而生——選一款，再細調。'],
-  "Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one — everything stays adjustable.": ['已按四周各留 50mm 与主要使用者身高设定尺寸。选一款——所有参数仍可调整。', 'ปรับขนาดตามพื้นที่ (เว้นข้างละ 50 มม.) และส่วนสูงผู้ใช้หลัก เลือกหนึ่งแบบ — ทุกค่ายังปรับได้', '已按四周各留 50mm 與主要使用者身高設定尺寸。選一款——所有參數仍可調整。'],
+  'Built around your space and body — pick one, then fine-tune it.': ['依你的空间与身形而生。选一款，再细调。', 'ออกแบบตามพื้นที่และสรีระของคุณ เลือกหนึ่งแบบแล้วปรับต่อ', '依你的空間與身形而生。選一款，再細調。'],
+  "Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one — everything stays adjustable.": ['已按四周各留 50mm 与主要使用者身高设定尺寸。选一款。所有参数仍可调整。', 'ปรับขนาดตามพื้นที่ (เว้นข้างละ 50 มม.) และส่วนสูงผู้ใช้หลัก เลือกหนึ่งแบบ ทุกค่ายังปรับได้', '已按四周各留 50mm 與主要使用者身高設定尺寸。選一款。所有參數仍可調整。'],
   '← Change answers': ['← 修改答案', '← แก้คำตอบ', '← 修改答案'],
   'Compact fit': ['贴身省空间', 'กระชับพื้นที่', '貼身省空間'],
   'Full stretch': ['舒展全躺', 'เหยียดตัวเต็มที่', '舒展全躺'],
@@ -246,7 +251,7 @@ const I18N = {
   'Lower arc R1': ['下段弧 R1', 'ส่วนโค้งล่าง R1', '下段弧 R1'],
   'Upper arc R2 (reversed)': ['上段弧 R2（反向）', 'ส่วนโค้งบน R2 (กลับทิศ)', '上段弧 R2（反向）'],
   'S join height': ['S 转折高度', 'ความสูงจุดต่อ S', 'S 轉折高度'],
-  'Arc / S-curve run from the tapered base edge up to the rim (width section as reference). Smaller R = more curved. All R values are annotated on the CAD drawing — the factory reads them straight off. Sketched profiles are auto-fitted to arcs where possible.': ['圆弧／S 曲线从收缩后的缸底边起、连到缸缘（以宽度方向剖面为基准）。R 越小越弯。所有 R 值都会标注在 CAD 图上，工厂直接照图开模。手绘剖面会尽可能自动拟合成圆弧。', 'ส่วนโค้ง / เส้น S เริ่มจากขอบฐาน (หลังสอบเข้า) ขึ้นไปถึงขอบอ่าง (อ้างอิงหน้าตัดด้านกว้าง) R เล็ก = โค้งมาก ค่า R ทุกค่าถูกระบุบนแบบ CAD — โรงงานอ่านได้โดยตรง โปรไฟล์ที่วาดเองจะถูกฟิตเป็นส่วนโค้งอัตโนมัติเท่าที่ทำได้', '圓弧／S 曲線從收縮後的缸底邊起、連到缸緣（以寬度方向剖面為基準）。R 越小越彎。所有 R 值都會標註在 CAD 圖上，工廠直接照圖開模。手繪剖面會盡可能自動擬合成圓弧。'],
+  'Arc / S-curve run from the tapered base edge up to the rim (width section as reference). Smaller R = more curved. All R values are annotated on the CAD drawing — the factory reads them straight off. Sketched profiles are auto-fitted to arcs where possible.': ['圆弧／S 曲线从收缩后的缸底边起、连到缸缘（以宽度方向剖面为基准）。R 越小越弯。所有 R 值都会标注在 CAD 图上，工厂直接照图开模。手绘剖面会尽可能自动拟合成圆弧。', 'ส่วนโค้ง / เส้น S เริ่มจากขอบฐาน (หลังสอบเข้า) ขึ้นไปถึงขอบอ่าง (อ้างอิงหน้าตัดด้านกว้าง) R เล็ก = โค้งมาก ค่า R ทุกค่าถูกระบุบนแบบ CAD โรงงานอ่านได้โดยตรง โปรไฟล์ที่วาดเองจะถูกฟิตเป็นส่วนโค้งอัตโนมัติเท่าที่ทำได้', '圓弧／S 曲線從收縮後的缸底邊起、連到缸緣（以寬度方向剖面為基準）。R 越小越彎。所有 R 值都會標註在 CAD 圖上，工廠直接照圖開模。手繪剖面會盡可能自動擬合成圓弧。'],
   'Freeform (no clean arc fit)': ['自由曲线（无法拟合圆弧）', 'เส้นอิสระ (ฟิตส่วนโค้งไม่ได้)', '自由曲線（無法擬合圓弧）'],
   'Factory classics (production-proven)': ['工厂经典款（量产验证）', 'รุ่นคลาสสิกโรงงาน (ผ่านการผลิตจริง)', '工廠經典款（量產驗證）'],
   'Pedestal skirt base (Oneida-style)': ['裙摆式底座（奥奈达式）', 'ฐานกระโปรง (สไตล์ Oneida)', '裙擺式底座（奧奈達式）'],
@@ -257,10 +262,11 @@ const I18N = {
   'Pedestal skirt': ['裙摆底座', 'ฐานกระโปรง', '裙擺底座'],
   'None': ['无', 'ไม่มี', '無'],
   'Short edge · opposite': ['短边·对侧', 'ด้านสั้น · ฝั่งตรงข้าม', '短邊·對側'],
-  '⚠ Interior length under 950mm — only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).': ['⚠ 内部长度不足 950mm——只适合坐姿／蹲姿使用（脚到臀约 900mm）。', '⚠ ความยาวภายในต่ำกว่า 950มม. — เหมาะกับการอาบแบบนั่ง/นั่งยองเท่านั้น (ขาถึงสะโพก ≈ 900มม.)', '⚠ 內部長度不足 950mm——只適合坐姿／蹲姿使用（腳到臀約 900mm）。'],
-  '⚠ Undercut on acrylic needs a split mould and hand-finished seams — high cost. Consider solid surface, or continue as premium bespoke.': ['⚠ 亚克力做倒扣需左右合模＋人工处理接缝，成本高。建议改用人造石，或按高价定制（Bespoke）继续。', '⚠ Undercut บนอะคริลิกต้องใช้แม่พิมพ์แยกซ้ายขวาและเก็บรอยต่อด้วยมือ — ต้นทุนสูง แนะนำโซลิดเซอร์เฟซ หรือทำต่อแบบ Bespoke พรีเมียม', '⚠ 壓克力做倒扣需左右合模＋人工處理接縫，成本高。建議改用人造石，或按高價客製（Bespoke）繼續。'],
+  '⚠ Interior length under 950mm — only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).': ['⚠ 内部长度不足 950mm：只适合坐姿／蹲姿使用（脚到臀约 900mm）。', '⚠ ความยาวภายในต่ำกว่า 950มม. เหมาะกับการอาบแบบนั่ง/นั่งยองเท่านั้น (ขาถึงสะโพก ≈ 900มม.)', '⚠ 內部長度不足 950mm：只適合坐姿／蹲姿使用（腳到臀約 900mm）。'],
+  '⚠ Undercut on acrylic needs a split mould and hand-finished seams — high cost. Consider solid surface, or continue as premium bespoke.': ['⚠ 亚克力做倒扣需左右合模＋人工处理接缝，成本高。建议改用人造石，或按高价定制（Bespoke）继续。', '⚠ Undercut บนอะคริลิกต้องใช้แม่พิมพ์แยกซ้ายขวาและเก็บรอยต่อด้วยมือ ต้นทุนสูง แนะนำโซลิดเซอร์เฟซ หรือทำต่อแบบ Bespoke พรีเมียม', '⚠ 壓克力做倒扣需左右合模＋人工處理接縫，成本高。建議改用人造石，或按高價客製（Bespoke）繼續。'],
   // M5(2026-09-02) Medium 新增：面板 8 標題去編號，三語從既有含圈號鍵複製去掉圈號
   'Tub Shape (Freestanding)': ['浴缸造型（独立式）', 'รูปทรงอ่าง (แบบตั้งพื้น)', '浴缸造型（獨立式）'],
+  'Tub Shape': ['浴缸造型', 'รูปทรงอ่าง', '浴缸造型'],
   'Dimensions (mm)': ['尺寸参数（mm）', 'ขนาด (มม.)', '尺寸參數（mm）'],
   'Asymmetry Parameters': ['不对称造型参数', 'พารามิเตอร์ความอสมมาตร', '不對稱造型參數'],
   'Drain & Floor Slope': ['排水孔位置与泄水', 'ตำแหน่งท่อน้ำทิ้งและความลาดเอียง', '排水孔位置與洩水'],
@@ -273,8 +279,8 @@ const I18N = {
   'Show water level': ['显示水位模拟', 'แสดงระดับน้ำจำลอง', '顯示水位模擬'],
   // M5(2026-09-02) Medium 新增：機翻待校
   'Leave an email so we can send you the quote (optional).': ['留下 Email，我们才能把报价寄给您（选填）。', 'ฝากอีเมลไว้ เพื่อให้เราส่งใบเสนอราคาให้คุณ (ไม่บังคับ)', '留下 Email，我們才能把報價寄給您（選填）。'],
-  'The Design Studio — Medium': ['设计工作室 — Medium', 'สตูดิโอออกแบบ — Medium', '設計工作室 — Medium'],
-  'Sculpt it yourself — drag the edges in 3D, pick material & colour, get a firm quote.': ['自己动手雕塑 — 在 3D 中拖曳边缘塑形，挑选材质与颜色，取得正式报价。', 'ปั้นแต่งด้วยตัวคุณเอง — ลากขอบในโหมด 3D เลือกวัสดุและสี แล้วรับใบเสนอราคาที่ชัดเจน', '自己動手雕塑 — 在 3D 中拖曳邊緣塑形，挑選材質與顏色，取得正式報價。'],
+  'The Design Studio — Medium': ['设计工作室：Medium', 'สตูดิโอออกแบบ Medium', '設計工作室：Medium'],
+  'Sculpt it yourself — drag the edges in 3D, pick material & colour, get a firm quote.': ['自己动手雕塑。在 3D 中拖曳边缘塑形，挑选材质与颜色，取得正式报价。', 'ปั้นแต่งด้วยตัวคุณเอง ลากขอบในโหมด 3D เลือกวัสดุและสี แล้วรับใบเสนอราคาที่ชัดเจน', '自己動手雕塑。在 3D 中拖曳邊緣塑形，挑選材質與顏色，取得正式報價。'],
   // M6(2026-09-02) Medium 新增：色票下方即時提示客製色加價，逐字複製自 lib-tub-i18n.js（'Custom colour' 已存在字典不重加）
   'Classic White — included': ['经典白（已包含）', 'สีขาวคลาสสิก (รวมอยู่แล้ว)', '經典白（已包含）'],
   // M7(2026-09-02) Medium 新增：送出成功訊息帶編號與信箱，逐字複製自 lib-tub-i18n.js
@@ -288,11 +294,13 @@ const I18N = {
   // M8(2026-09-02) Medium 新增：精靈空間題調整，逐字複製自 lib-tub-i18n.js（舊鍵 'Installation space' 與舊 tip 鍵保留不刪）
   'Where the tub will sit': ['浴缸要放的位置', 'ตำแหน่งที่จะวางอ่างอาบน้ำ', '浴缸要放的位置'],
   'Measure the spot for the tub, not the whole room. We keep at least 50mm clearance on each side for installation and cleaning.': ['请量浴缸要放的那块地，不是整间浴室。我们会在四周各保留至少 50mm 的安装与清洁间隙。', 'วัดเฉพาะจุดที่จะวางอ่าง ไม่ใช่ทั้งห้องน้ำ เราเว้นระยะอย่างน้อยข้างละ 50 มม. สำหรับติดตั้งและทำความสะอาด', '請量浴缸要放的那塊地，不是整間浴室。我們會在四周各保留至少 50mm 的安裝與清潔間隙。'],
+  // F35(2026-09-06) 單位空格統一
+  'Measure the spot for the tub, not the whole room. We keep at least 50 mm clearance on each side for installation and cleaning.': ['请量浴缸要放的那块地，不是整间浴室。我们会在四周各保留至少 50 mm 的安装与清洁间隙。', 'วัดเฉพาะจุดที่จะวางอ่าง ไม่ใช่ทั้งห้องน้ำ เราเว้นระยะอย่างน้อยข้างละ 50 มม. สำหรับติดตั้งและทำความสะอาด', '請量浴缸要放的那塊地，不是整間浴室。我們會在四周各保留至少 50 mm 的安裝與清潔間隙。'],
   // M10(2026-09-02) Medium 新增：長寬下方即時顯示內部尺寸／空間上限提示，逐字複製自 lib-tub-i18n.js（先 grep 確認 'Interior'／'depth' 不存在才加）
   'Interior': ['内部', 'ภายใน', '內部'],
   'depth': ['深', 'ลึก', '深'],
-  'Sized to your space — up to': ['依您的空间调整 — 最大可至', 'ปรับตามพื้นที่ของคุณ — สูงสุด', '依您的空間調整 — 最大可至'],
-  'No space limit — up to our maximum': ['空间不限 — 最大可至', 'ไม่จำกัดพื้นที่ — สูงสุดของเรา', '空間不限 — 最大可至'],
+  'Sized to your space — up to': ['依您的空间调整：最大可至', 'ปรับตามพื้นที่ของคุณ สูงสุด', '依您的空間調整：最大可至'],
+  'No space limit — up to our maximum': ['空间不限：最大可至', 'ไม่จำกัดพื้นที่ สูงสุดของเรา', '空間不限：最大可至'],
   // M11(2026-09-02) Medium 新增：四提案卡差異化，逐字複製自 lib-tub-i18n.js
   'Fits your space, knees relaxed': ['贴合您的空间，膝盖放松', 'พอดีกับพื้นที่ของคุณ เข่าผ่อนคลาย', '貼合您的空間，膝蓋放鬆'],
   'Lie flat at': ['可平躺至', 'นอนราบได้ที่ความสูง', '可平躺至'],
@@ -315,7 +323,7 @@ const I18N = {
   'Influence range': ['影响范围', 'ระยะผลกระทบ', '影響範圍'],
   '🗑 Delete node (or double-click it)': ['🗑 删除节点（或双击它）', '🗑 ลบจุด (หรือดับเบิลคลิก)', '🗑 刪除節點（或雙擊它）'],
   '↺ Reset all edits': ['↺ 重设所有编辑', '↺ รีเซ็ตการแก้ไขทั้งหมด', '↺ 重設所有編輯'],
-  'Deleting a node restores that region to its original curve. The outer shell can never cross inside the inner bowl — drags stop at the limit.': ['删除节点会让该区域恢复原本的曲线。外壳永远不会穿进内缸——拖曳到极限就会停住。', 'การลบจุดจะทำให้บริเวณนั้นกลับไปเป็นเส้นโค้งเดิม เปลือกนอกจะไม่มีวันทะลุเข้าไปในอ่างด้านใน — การลากจะหยุดที่ขีดจำกัด', '刪除節點會讓該區域恢復原本的曲線。外殼永遠不會穿進內缸——拖曳到極限就會停住。'],
+  'Deleting a node restores that region to its original curve. The outer shell can never cross inside the inner bowl — drags stop at the limit.': ['删除节点会让该区域恢复原本的曲线。外壳永远不会穿进内缸，拖曳到极限就会停住。', 'การลบจุดจะทำให้บริเวณนั้นกลับไปเป็นเส้นโค้งเดิม เปลือกนอกจะไม่มีวันทะลุเข้าไปในอ่างด้านใน การลากจะหยุดที่ขีดจำกัด', '刪除節點會讓該區域恢復原本的曲線。外殼永遠不會穿進內缸，拖曳到極限就會停住。'],
   '📐 Angled photo? Fix perspective (4 points)': ['📐 照片是斜角拍的？校正透视（4 个点）', '📐 รูปถ่ายเอียงมุม? แก้ไขมุมมอง (4 จุด)', '📐 照片是斜角拍的？校正透視（4 個點）'],
   'How upload works': ['上传怎么运作', 'วิธีการอัปโหลดทำงานอย่างไร', '上傳怎麼運作'],
   // M15a(2026-09-02) Medium 新增：工具列手機短字＋按鈕無 emoji 版全文（PDF 匯出後 innerHTML 還原用）
@@ -369,41 +377,46 @@ const I18N = {
   'Answer 5 quick questions. We size four tubs to your space and body; pick one and adjust it, or skip and set everything yourself.': ['回答5个快速问题。我们会依您的空间与身型量身设计四款浴缸；挑一款调整，或跳过自己设定所有细节。', 'ตอบคำถามสั้นๆ 5 ข้อ เราจะออกแบบอ่างอาบน้ำ 4 แบบให้เหมาะกับพื้นที่และสรีระของคุณ เลือกหนึ่งแบบมาปรับแต่ง หรือข้ามไปตั้งค่าทุกอย่างด้วยตัวเอง', '回答5個快速問題。我們會依您的空間與身型量身設計四款浴缸；挑一款調整，或跳過自己設定所有細節。'],
   'We design four tubs around you': ['我们为您量身设计四款浴缸', 'เราออกแบบอ่างอาบน้ำ 4 แบบเพื่อคุณ', '我們為您量身設計四款浴缸'],
   // C2b(2026-09-05) Medium 文案去 em dash／白話（與 Basic 相同句沿用 lib-tub-i18n.js 譯文）
-  'Built around your space and body. Pick one, then fine-tune it.': ['依你的空间与身形而生——选一款，再细调。', 'ออกแบบตามพื้นที่และสรีระของคุณ — เลือกหนึ่งแบบแล้วปรับต่อ', '依你的空間與身形而生——選一款，再細調。'],
-  "Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.": ['已按四周各留 50mm 与主要使用者身高设定尺寸。选一款——所有参数仍可调整。', 'ปรับขนาดตามพื้นที่ (เว้นข้างละ 50 มม.) และส่วนสูงผู้ใช้หลัก เลือกหนึ่งแบบ — ทุกค่ายังปรับได้', '已按四周各留 50mm 與主要使用者身高設定尺寸。選一款——所有參數仍可調整。'],
-  '✨ Guided design: answer 5 questions, get 4 tailored tubs': ['✨ 引导设计——回答 5 个问题，获得 4 款量身方案', '✨ ออกแบบพร้อมไกด์ — ตอบ 5 ข้อ รับอ่าง 4 แบบ', '✨ 引導設計——回答 5 個問題，獲得 4 款量身方案'],
-  '⚠ Interior length under 950mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).': ['⚠ 内部长度不足 950mm——只适合坐姿／蹲姿使用（脚到臀约 900mm）。', '⚠ ความยาวภายในต่ำกว่า 950มม. — เหมาะกับการอาบแบบนั่ง/นั่งยองเท่านั้น (ขาถึงสะโพก ≈ 900มม.)', '⚠ 內部長度不足 950mm——只適合坐姿／蹲姿使用（腳到臀約 900mm）。'],
-  '⚠ Wall thickness below 5mm between inner and outer shells: adjust base sizes or arc R.': ['⚠ 内外缸之间壁厚不足 5mm——请调整底部尺寸或弧度 R。', '⚠ ความหนาผนังระหว่างเปลือกในและนอกต่ำกว่า 5 มม. — โปรดปรับขนาดฐานหรือรัศมี R', '⚠ 內外缸之間壁厚不足 5mm——請調整底部尺寸或弧度 R。'],
+  'Built around your space and body. Pick one, then fine-tune it.': ['依你的空间与身形而生。选一款，再细调。', 'ออกแบบตามพื้นที่และสรีระของคุณ เลือกหนึ่งแบบแล้วปรับต่อ', '依你的空間與身形而生。選一款，再細調。'],
+  "Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.": ['已按四周各留 50mm 与主要使用者身高设定尺寸。选一款。所有参数仍可调整。', 'ปรับขนาดตามพื้นที่ (เว้นข้างละ 50 มม.) และส่วนสูงผู้ใช้หลัก เลือกหนึ่งแบบ ทุกค่ายังปรับได้', '已按四周各留 50mm 與主要使用者身高設定尺寸。選一款。所有參數仍可調整。'],
+  // F35(2026-09-06) 單位空格統一
+  "Sized for your space with 50 mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.": ['已按四周各留 50 mm 与主要使用者身高设定尺寸。选一款。所有参数仍可调整。', 'ปรับขนาดตามพื้นที่ (เว้นข้างละ 50 มม.) และส่วนสูงผู้ใช้หลัก เลือกหนึ่งแบบ ทุกค่ายังปรับได้', '已按四周各留 50 mm 與主要使用者身高設定尺寸。選一款。所有參數仍可調整。'],
+  '✨ Guided design: answer 5 questions, get 4 tailored tubs': ['✨ 引导设计：回答 5 个问题，获得 4 款量身方案', '✨ ออกแบบพร้อมไกด์ ตอบ 5 ข้อ รับอ่าง 4 แบบ', '✨ 引導設計：回答 5 個問題，獲得 4 款量身方案'],
+  '⚠ Interior length under 950mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).': ['⚠ 内部长度不足 950mm：只适合坐姿／蹲姿使用（脚到臀约 900mm）。', '⚠ ความยาวภายในต่ำกว่า 950มม. เหมาะกับการอาบแบบนั่ง/นั่งยองเท่านั้น (ขาถึงสะโพก ≈ 900มม.)', '⚠ 內部長度不足 950mm：只適合坐姿／蹲姿使用（腳到臀約 900mm）。'],
+  '⚠ Wall thickness below 5mm between inner and outer shells: adjust base sizes or arc R.': ['⚠ 内外缸之间壁厚不足 5mm：请调整底部尺寸或弧度 R。', '⚠ ความหนาผนังระหว่างเปลือกในและนอกต่ำกว่า 5 มม. โปรดปรับขนาดฐานหรือรัศมี R', '⚠ 內外缸之間壁厚不足 5mm：請調整底部尺寸或弧度 R。'],
+  // F35(2026-09-06) 單位空格統一
+  '⚠ Interior length under 950 mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900 mm).': ['⚠ 内部长度不足 950 mm：只适合坐姿／蹲姿使用（脚到臀约 900 mm）。', '⚠ ความยาวภายในต่ำกว่า 950มม. เหมาะกับการอาบแบบนั่ง/นั่งยองเท่านั้น (ขาถึงสะโพก ≈ 900มม.)', '⚠ 內部長度不足 950 mm：只適合坐姿／蹲姿使用（腳到臀約 900 mm）。'],
+  '⚠ Wall thickness below 5 mm between inner and outer shells: adjust base sizes or arc R.': ['⚠ 内外缸之间壁厚不足 5 mm：请调整底部尺寸或弧度 R。', '⚠ ความหนาผนังระหว่างเปลือกในและนอกต่ำกว่า 5 มม. โปรดปรับขนาดฐานหรือรัศมี R', '⚠ 內外缸之間壁厚不足 5 mm：請調整底部尺寸或弧度 R。'],
   'Make it exclusive: mould retired after your tub, with certificate': ['升级为专属版（模具在您的浴缸后退役＋证书）', 'อัปเกรดเป็นรุ่นพิเศษเฉพาะคุณ (ปลดระวางแม่พิมพ์หลังผลิตอ่างของคุณ + ใบรับรอง)', '升級為專屬版（模具在您的浴缸後退役＋證書）'],
-  'Door-to-door estimate, confirmed on your firm quote.': ['含门到门运费；正式报价时确认。', 'ประมาณการแบบส่งถึงบ้าน — ยืนยันในใบเสนอราคา', '含門到門運費；正式報價時確認。'],
-  'USD $399 design fee, fully credited to any tier. Final price is confirmed on your firm quote.': ['USD $399 设计费——可全额折抵任一层级。最终价格以正式报价确认。', 'ค่าออกแบบ USD $399 — หักคืนเต็มจำนวนในทุกระดับ ราคาสุดท้ายยืนยันในใบเสนอราคา', 'USD $399 設計費——可全額折抵任一層級。最終價格以正式報價確認。'],
-  'Viewing external CAD model. Adjust any parameter to return to the parametric model': ['外部 CAD 模型查看中 — 调整任何参数即可返回参数化模型', 'กำลังแสดงโมเดล CAD ภายนอก — ปรับพารามิเตอร์ใดก็ได้เพื่อกลับสู่โมเดลพาราเมตริก', '外部 CAD 模型檢視中 — 調整任何參數即可返回參數化模型'],
-  'Android AR support is on our roadmap. For now, this works on iPhone/iPad.': ['Android 的 AR 支持已在规划中 — 目前仅支持 iPhone/iPad。', 'การรองรับ AR บน Android อยู่ในแผนของเรา — ตอนนี้ใช้ได้กับ iPhone/iPad เท่านั้น', 'Android 的 AR 支援已在規劃中 — 目前僅支援 iPhone/iPad。'],
-  'The Design Studio: Medium': ['设计工作室 — Medium', 'สตูดิโอออกแบบ — Medium', '設計工作室 — Medium'],
-  'Sculpt it yourself. Drag the edges in 3D, pick material & colour, get a firm quote.': ['自己动手雕塑 — 在 3D 中拖曳边缘塑形，挑选材质与颜色，取得正式报价。', 'ปั้นแต่งด้วยตัวคุณเอง — ลากขอบในโหมด 3D เลือกวัสดุและสี แล้วรับใบเสนอราคาที่ชัดเจน', '自己動手雕塑 — 在 3D 中拖曳邊緣塑形，挑選材質與顏色，取得正式報價。'],
+  'Door-to-door estimate, confirmed on your firm quote.': ['含门到门运费；正式报价时确认。', 'ประมาณการแบบส่งถึงบ้าน ยืนยันในใบเสนอราคา', '含門到門運費；正式報價時確認。'],
+  'USD $399 design fee, fully credited to any tier. Final price is confirmed on your firm quote.': ['USD $399 设计费，可全额折抵任一层级。最终价格以正式报价确认。', 'ค่าออกแบบ USD $399 หักคืนเต็มจำนวนในทุกระดับ ราคาสุดท้ายยืนยันในใบเสนอราคา', 'USD $399 設計費，可全額折抵任一層級。最終價格以正式報價確認。'],
+  'Viewing external CAD model. Adjust any parameter to return to the parametric model': ['外部 CAD 模型查看中。调整任何参数即可返回参数化模型', 'กำลังแสดงโมเดล CAD ภายนอก ปรับพารามิเตอร์ใดก็ได้เพื่อกลับสู่โมเดลพาราเมตริก', '外部 CAD 模型檢視中。調整任何參數即可返回參數化模型'],
+  'Android AR support is on our roadmap. For now, this works on iPhone/iPad.': ['Android 的 AR 支持已在规划中。目前仅支持 iPhone/iPad。', 'การรองรับ AR บน Android อยู่ในแผนของเรา ตอนนี้ใช้ได้กับ iPhone/iPad เท่านั้น', 'Android 的 AR 支援已在規劃中。目前僅支援 iPhone/iPad。'],
+  'The Design Studio: Medium': ['设计工作室：Medium', 'สตูดิโอออกแบบ Medium', '設計工作室：Medium'],
+  'Sculpt it yourself. Drag the edges in 3D, pick material & colour, get a firm quote.': ['自己动手雕塑。在 3D 中拖曳边缘塑形，挑选材质与颜色，取得正式报价。', 'ปั้นแต่งด้วยตัวคุณเอง ลากขอบในโหมด 3D เลือกวัสดุและสี แล้วรับใบเสนอราคาที่ชัดเจน', '自己動手雕塑。在 3D 中拖曳邊緣塑形，挑選材質與顏色，取得正式報價。'],
   'Inner wall R: length section': ['内缸侧弧 R（长边剖面）', 'R ผนังใน (หน้าตัดด้านยาว)', '內缸側弧 R（長邊剖面）'],
   'Inner wall R: width section': ['内缸侧弧 R（短边剖面）', 'R ผนังใน (หน้าตัดด้านสั้น)', '內缸側弧 R（短邊剖面）'],
   'Outer wall R: length section': ['外缸侧弧 R（长边剖面）', 'R ผนังนอก (หน้าตัดด้านยาว)', '外缸側弧 R（長邊剖面）'],
   'Outer wall R: width section': ['外缸侧弧 R（短边剖面）', 'R ผนังนอก (หน้าตัดด้านสั้น)', '外缸側弧 R（短邊剖面）'],
-  'Arc / S-curve run from the tapered base edge up to the rim (width section as reference). Smaller R = more curved. All R values are annotated on the CAD drawing. The factory reads them straight off. Sketched profiles are auto-fitted to arcs where possible.': ['圆弧／S 曲线从收缩后的缸底边起、连到缸缘（以宽度方向剖面为基准）。R 越小越弯。所有 R 值都会标注在 CAD 图上，工厂直接照图开模。手绘剖面会尽可能自动拟合成圆弧。', 'ส่วนโค้ง / เส้น S เริ่มจากขอบฐาน (หลังสอบเข้า) ขึ้นไปถึงขอบอ่าง (อ้างอิงหน้าตัดด้านกว้าง) R เล็ก = โค้งมาก ค่า R ทุกค่าถูกระบุบนแบบ CAD — โรงงานอ่านได้โดยตรง โปรไฟล์ที่วาดเองจะถูกฟิตเป็นส่วนโค้งอัตโนมัติเท่าที่ทำได้', '圓弧／S 曲線從收縮後的缸底邊起、連到缸緣（以寬度方向剖面為基準）。R 越小越彎。所有 R 值都會標註在 CAD 圖上，工廠直接照圖開模。手繪剖面會盡可能自動擬合成圓弧。'],
-  'Allow undercut (bulge beyond rim, split mould: stone resin / premium)': ['允许倒扣（外鼓超过缸口，需左右合模：人造石/高价款）', 'อนุญาต undercut (ผนังป่องเกินปากอ่าง — แม่พิมพ์แยกซ้ายขวา: โซลิดเซอร์เฟซ/พรีเมียม)', '允許倒扣（外鼓超過缸口，需左右合模：人造石/高價款）'],
-  '⚠ Undercut on acrylic needs a split mould and hand-finished seams: high cost. Consider solid surface, or continue as premium bespoke.': ['⚠ 亚克力做倒扣需左右合模＋人工处理接缝，成本高。建议改用人造石，或按高价定制（Bespoke）继续。', '⚠ Undercut บนอะคริลิกต้องใช้แม่พิมพ์แยกซ้ายขวาและเก็บรอยต่อด้วยมือ — ต้นทุนสูง แนะนำโซลิดเซอร์เฟซ หรือทำต่อแบบ Bespoke พรีเมียม', '⚠ 壓克力做倒扣需左右合模＋人工處理接縫，成本高。建議改用人造石，或按高價客製（Bespoke）繼續。'],
-  'Draw a one-of-a-kind bathtub. Sketch lines are auto-smoothed into clean curves and built into a 3D model. All dimension parameters remain adjustable afterwards.': ['画出独一无二的浴缸 — 系统会自动把手绘线条转成流畅曲线并建成 3D 模型，之后仍可调整所有尺寸参数。', 'วาดอ่างที่มีเพียงหนึ่งเดียว — เส้นที่วาดจะถูกปรับให้เรียบและสร้างเป็นโมเดล 3D อัตโนมัติ และยังปรับขนาดทุกค่าได้ภายหลัง', '畫出獨一無二的浴缸 — 系統會自動把手繪線條轉成流暢曲線並建成 3D 模型，之後仍可調整所有尺寸參數。'],
-  'Sizing here is visual only. For true-to-scale placement, use AR.': ['此处大小仅为视觉示意——要看真实尺寸请用 AR。', 'ขนาดในภาพเป็นเพียงภาพประกอบ — หากต้องการขนาดจริงโปรดใช้ AR', '此處大小僅為視覺示意——要看真實尺寸請用 AR。'],
+  'Arc / S-curve run from the tapered base edge up to the rim (width section as reference). Smaller R = more curved. All R values are annotated on the CAD drawing. The factory reads them straight off. Sketched profiles are auto-fitted to arcs where possible.': ['圆弧／S 曲线从收缩后的缸底边起、连到缸缘（以宽度方向剖面为基准）。R 越小越弯。所有 R 值都会标注在 CAD 图上，工厂直接照图开模。手绘剖面会尽可能自动拟合成圆弧。', 'ส่วนโค้ง / เส้น S เริ่มจากขอบฐาน (หลังสอบเข้า) ขึ้นไปถึงขอบอ่าง (อ้างอิงหน้าตัดด้านกว้าง) R เล็ก = โค้งมาก ค่า R ทุกค่าถูกระบุบนแบบ CAD โรงงานอ่านได้โดยตรง โปรไฟล์ที่วาดเองจะถูกฟิตเป็นส่วนโค้งอัตโนมัติเท่าที่ทำได้', '圓弧／S 曲線從收縮後的缸底邊起、連到缸緣（以寬度方向剖面為基準）。R 越小越彎。所有 R 值都會標註在 CAD 圖上，工廠直接照圖開模。手繪剖面會盡可能自動擬合成圓弧。'],
+  'Allow undercut (bulge beyond rim, split mould: stone resin / premium)': ['允许倒扣（外鼓超过缸口，需左右合模：人造石/高价款）', 'อนุญาต undercut (ผนังป่องเกินปากอ่าง แม่พิมพ์แยกซ้ายขวา: โซลิดเซอร์เฟซ/พรีเมียม)', '允許倒扣（外鼓超過缸口，需左右合模：人造石/高價款）'],
+  '⚠ Undercut on acrylic needs a split mould and hand-finished seams: high cost. Consider solid surface, or continue as premium bespoke.': ['⚠ 亚克力做倒扣需左右合模＋人工处理接缝，成本高。建议改用人造石，或按高价定制（Bespoke）继续。', '⚠ Undercut บนอะคริลิกต้องใช้แม่พิมพ์แยกซ้ายขวาและเก็บรอยต่อด้วยมือ ต้นทุนสูง แนะนำโซลิดเซอร์เฟซ หรือทำต่อแบบ Bespoke พรีเมียม', '⚠ 壓克力做倒扣需左右合模＋人工處理接縫，成本高。建議改用人造石，或按高價客製（Bespoke）繼續。'],
+  'Draw a one-of-a-kind bathtub. Sketch lines are auto-smoothed into clean curves and built into a 3D model. All dimension parameters remain adjustable afterwards.': ['画出独一无二的浴缸。系统会自动把手绘线条转成流畅曲线并建成 3D 模型，之后仍可调整所有尺寸参数。', 'วาดอ่างที่มีเพียงหนึ่งเดียว เส้นที่วาดจะถูกปรับให้เรียบและสร้างเป็นโมเดล 3D อัตโนมัติ และยังปรับขนาดทุกค่าได้ภายหลัง', '畫出獨一無二的浴缸。系統會自動把手繪線條轉成流暢曲線並建成 3D 模型，之後仍可調整所有尺寸參數。'],
+  'Sizing here is visual only. For true-to-scale placement, use AR.': ['此处大小仅为视觉示意，要看真实尺寸请用 AR。', 'ขนาดในภาพเป็นเพียงภาพประกอบ หากต้องการขนาดจริงโปรดใช้ AR', '此處大小僅為視覺示意，要看真實尺寸請用 AR。'],
   // C2c(2026-09-05) Pro 文案去 em dash／白話
-  'The Design Studio: Pro': ['设计工作室 — 专业版', 'สตูดิโอออกแบบ — โปร', '設計工作室 — 專業版'],
-  'Sketch any shape · sculpt it live in 3D · export designer-ready CAD. We build it from there': ['画出任何形状 · 3D 实时雕塑 · 一键导出设计师可修改的 CAD — 之后交给我们制造', 'วาดรูปทรงใดก็ได้ · ปั้นแบบ 3D เรียลไทม์ · ส่งออก CAD ที่นักออกแบบแก้ไขได้ — จากนั้นเราผลิตให้', '客戶自主設計 → 參數化 3D 預覽 → 一鍵輸出設計師可修改之 CAD (DXF) 圖檔 → 模具製造'],
-  '⚠ Please upload photos of a bathtub only. Basins, shower trays, or washbasins cannot be reliably detected and will be reconstructed as an incorrect bathtub shape.': ['⚠ 请仅上传浴缸照片——系统目前无法可靠辨识底盆/淋浴盆/洗手盆，这类照片仍会被重建成一个错误的浴缸模型', '⚠ กรุณาอัปโหลดเฉพาะรูปถ่ายอ่างอาบน้ำ — ระบบไม่สามารถแยกแยะอ่างล้างหน้า/ถาดอาบน้ำได้อย่างน่าเชื่อถือ ภาพเหล่านี้จะถูกสร้างเป็นโมเดลอ่างอาบน้ำที่ผิดพลาด', '⚠ 請僅上傳浴缸照片——系統目前無法可靠辨識底盆/淋浴盆/洗手盆，這類照片仍會被重建成一個錯誤的浴缸模型'],
-  '💡 Include one photo taken square-on to the side, level with the rim. This lets us automatically recreate the side-wall profile shape.': ['💡 建议加拍一张正对侧面、与缸缘同高的照片——这样系统可以自动还原侧壁曲线造型', '💡 แนะนำให้ถ่ายภาพหนึ่งใบจากด้านข้างตรงๆ ระดับเดียวกับขอบอ่าง — จะช่วยให้ระบบคืนรูปทรงผนังด้านข้างได้อัตโนมัติ', '💡 建議加拍一張正對側面、與缸緣同高的照片——這樣系統可以自動還原側壁曲線造型'],
-  '💡 Re-uploading the same photos may occasionally produce a slightly different result. If the shape looks off, try re-uploading or fine-tune it manually below.': ['💡 同一组照片重新上传，偶尔可能得到略有差异的结果——如果形状看起来不太对，可以试着重新上传，或在下方手动微调', '💡 การอัปโหลดรูปชุดเดิมซ้ำอาจได้ผลลัพธ์ที่แตกต่างเล็กน้อยในบางครั้ง — หากรูปทรงดูไม่ถูกต้อง ลองอัปโหลดใหม่ หรือปรับแต่งด้วยตนเองด้านล่าง', '💡 同一組照片重新上傳，偶爾可能得到略有差異的結果——如果形狀看起來不太對，可以試著重新上傳，或在下方手動微調'],
+  'The Design Studio: Pro': ['设计工作室：专业版', 'สตูดิโอออกแบบ โปร', '設計工作室：專業版'],
+  'Sketch any shape · sculpt it live in 3D · export designer-ready CAD. We build it from there': ['画出任何形状 · 3D 实时雕塑 · 一键导出设计师可修改的 CAD，之后交给我们制造', 'วาดรูปทรงใดก็ได้ · ปั้นแบบ 3D เรียลไทม์ · ส่งออก CAD ที่นักออกแบบแก้ไขได้ จากนั้นเราผลิตให้', '客戶自主設計 → 參數化 3D 預覽 → 一鍵輸出設計師可修改之 CAD (DXF) 圖檔 → 模具製造'],
+  '⚠ Please upload photos of a bathtub only. Basins, shower trays, or washbasins cannot be reliably detected and will be reconstructed as an incorrect bathtub shape.': ['⚠ 请仅上传浴缸照片。系统目前无法可靠辨识底盆/淋浴盆/洗手盆，这类照片仍会被重建成一个错误的浴缸模型', '⚠ กรุณาอัปโหลดเฉพาะรูปถ่ายอ่างอาบน้ำ ระบบไม่สามารถแยกแยะอ่างล้างหน้า/ถาดอาบน้ำได้อย่างน่าเชื่อถือ ภาพเหล่านี้จะถูกสร้างเป็นโมเดลอ่างอาบน้ำที่ผิดพลาด', '⚠ 請僅上傳浴缸照片。系統目前無法可靠辨識底盆/淋浴盆/洗手盆，這類照片仍會被重建成一個錯誤的浴缸模型'],
+  '💡 Include one photo taken square-on to the side, level with the rim. This lets us automatically recreate the side-wall profile shape.': ['💡 建议加拍一张正对侧面、与缸缘同高的照片，这样系统可以自动还原侧壁曲线造型', '💡 แนะนำให้ถ่ายภาพหนึ่งใบจากด้านข้างตรงๆ ระดับเดียวกับขอบอ่าง จะช่วยให้ระบบคืนรูปทรงผนังด้านข้างได้อัตโนมัติ', '💡 建議加拍一張正對側面、與缸緣同高的照片，這樣系統可以自動還原側壁曲線造型'],
+  '💡 Re-uploading the same photos may occasionally produce a slightly different result. If the shape looks off, try re-uploading or fine-tune it manually below.': ['💡 同一组照片重新上传，偶尔可能得到略有差异的结果，如果形状看起来不太对，可以试着重新上传，或在下方手动微调', '💡 การอัปโหลดรูปชุดเดิมซ้ำอาจได้ผลลัพธ์ที่แตกต่างเล็กน้อยในบางครั้ง หากรูปทรงดูไม่ถูกต้อง ลองอัปโหลดใหม่ หรือปรับแต่งด้วยตนเองด้านล่าง', '💡 同一組照片重新上傳，偶爾可能得到略有差異的結果，如果形狀看起來不太對，可以試著重新上傳，或在下方手動微調'],
   // C2d(2026-09-05) 工作室共用 UI 字串去 em dash
   'Classic White, included': ['经典白（已包含）', 'สีขาวคลาสสิก (รวมอยู่แล้ว)', '經典白（已包含）'],
-  'No space limit: up to our maximum': ['空间不限 — 最大可至', 'ไม่จำกัดพื้นที่ — สูงสุดของเรา', '空間不限 — 最大可至'],
-  'Sized to your space: up to': ['依您的空间调整 — 最大可至', 'ปรับตามพื้นที่ของคุณ — สูงสุด', '依您的空間調整 — 最大可至'],
+  'No space limit: up to our maximum': ['空间不限：最大可至', 'ไม่จำกัดพื้นที่ สูงสุดของเรา', '空間不限：最大可至'],
+  'Sized to your space: up to': ['依您的空间调整：最大可至', 'ปรับตามพื้นที่ของคุณ สูงสุด', '依您的空間調整：最大可至'],
   '❌ Something went wrong. Please try again, or email hello@batheatelier.com directly.': ['❌ 送出失败，请稍后再试，或直接来信 hello@batheatelier.com', '❌ ส่งไม่สำเร็จ กรุณาลองใหม่ หรืออีเมลมาที่ hello@batheatelier.com', '❌ 送出失敗，請稍後再試，或直接來信 hello@batheatelier.com'],
   'The manufacturing CAD pack (dimensioned DXF three-views plus the full spec file) is emailed together with your firm quote after you submit your design below.': ['可制造的 CAD 包（含尺寸标注的 DXF 三视图＋完整规格文件）会在你于下方送出设计后，随正式报价一并通过 Email 发送。', 'ชุดไฟล์ CAD สำหรับการผลิต (DXF สามมุมมองพร้อมขนาด + ไฟล์สเปกฉบับเต็ม) จะถูกส่งทางอีเมลพร้อมใบเสนอราคา หลังจากคุณส่งแบบด้านล่าง', '可製造的 CAD 包（含尺寸標註的 DXF 三視圖＋完整規格檔）會在你於下方送出設計後，隨正式報價一併以 Email 寄出。'],
-  'AR preview currently supports iPhone/iPad. Android support is on our roadmap.': ['AR 预览目前支持 iPhone/iPad——Android 支持规划中。', 'ตัวอย่าง AR รองรับ iPhone/iPad ในขณะนี้ — การรองรับ Android อยู่ในแผนงาน', 'AR 預覽目前支援 iPhone/iPad——Android 支援規劃中。'],
-  'This design is too complex to share as a QR code. Try a simpler shape, or browse this page directly on your iPhone.': ['此设计过于复杂，无法生成 QR code 分享——请尝试简化造型，或直接用你的 iPhone 开启本页。', 'ดีไซน์นี้ซับซ้อนเกินกว่าจะแชร์เป็น QR code — ลองทำรูปทรงให้เรียบง่ายขึ้น หรือเปิดหน้านี้โดยตรงบน iPhone ของคุณ', '此設計過於複雜，無法生成 QR code 分享——請嘗試簡化造型，或直接用你的 iPhone 開啟本頁。'],
+  'AR preview currently supports iPhone/iPad. Android support is on our roadmap.': ['AR 预览目前支持 iPhone/iPad。Android 支持规划中。', 'ตัวอย่าง AR รองรับ iPhone/iPad ในขณะนี้ การรองรับ Android อยู่ในแผนงาน', 'AR 預覽目前支援 iPhone/iPad。Android 支援規劃中。'],
+  'This design is too complex to share as a QR code. Try a simpler shape, or browse this page directly on your iPhone.': ['此设计过于复杂，无法生成 QR code 分享，请尝试简化造型，或直接用你的 iPhone 开启本页。', 'ดีไซน์นี้ซับซ้อนเกินกว่าจะแชร์เป็น QR code ลองทำรูปทรงให้เรียบง่ายขึ้น หรือเปิดหน้านี้โดยตรงบน iPhone ของคุณ', '此設計過於複雜，無法生成 QR code 分享，請嘗試簡化造型，或直接用你的 iPhone 開啟本頁。'],
   // L1/L2-c(2026-09-05) 工作室送出同意句
   'By submitting, you agree to our': ['提交即表示您同意我们的', 'การส่งข้อมูลถือว่าคุณยอมรับ', '提交即表示您同意我們的'],
   'Terms': ['条款', 'ข้อกำหนด', '條款'],
@@ -424,6 +437,28 @@ const I18N = {
   // L16(2026-09-06) 提案卡空間限制警示（鏡射 basic F2，譯文同 lib-tub-i18n.js）
   'Limited by your space': ['受你的空间尺寸限制', 'จำกัดตามพื้นที่ของคุณ', '受你的空間尺寸限制'],
   'Sized to your space': ['依你的空间尺寸', 'ปรับตามพื้นที่ของคุณ', '依你的空間尺寸'],
+  // F15(2026-09-06)：數字框夾回提示（鏡射 basic F3）
+  'Adjusted to the nearest allowed value': ['已调整为允许范围内的最接近值', 'ปรับเป็นค่าที่ใกล้ที่สุดที่อนุญาต', '已調整為允許範圍內的最接近值'],
+  // F20(2026-09-06)：email 格式錯誤提示（鏡射 basic F8）
+  'Please check your email address, it looks incomplete.': ['请检查您的电子邮箱格式，看起来不完整。', 'โปรดตรวจสอบอีเมลของคุณ ดูเหมือนจะยังไม่สมบูรณ์', '請檢查您的電子郵件格式，看起來不完整。'],
+  // F19(2026-09-06) Edge Editing 文字三語（下拉選項靠 collectI18nNodes 自動翻；動態句由 handles _t()）
+  // F36(2026-09-06)：譯文去 em dash（鏡射 basic F7；只動值）
+  'Outer rim edge': ['外缘边线', 'ขอบด้านนอก', '外緣邊線'],
+  'Inner bowl edge': ['内缸边线', 'ขอบอ่างด้านใน', '內缸邊線'],
+  'Base edge': ['底边线', 'ขอบฐาน', '底邊線'],
+  'selected. Click anywhere on it to <b>add a node</b>. Click another edge to switch.': ['已选中。点击边线上任一处可<b>加入节点</b>，点击另一条边线可切换。', 'เลือกแล้ว คลิกที่ใดก็ได้บนขอบนี้เพื่อ<b>เพิ่มจุด</b> คลิกขอบอื่นเพื่อสลับ', '已選中。點擊邊線上任一處可<b>加入節點</b>，點擊另一條邊線可切換。'],
+  'Drag the node on the model, or fine-tune below. <b>Double-click a node deletes it</b> and restores the curve. Outer shell stops at the inner-bowl limit automatically.': ['在模型上拖曳节点，或在下方微调。<b>双击节点可删除</b>并还原曲线。外壳会自动止于内缸边界。', 'ลากจุดบนโมเดล หรือปรับละเอียดด้านล่าง <b>ดับเบิลคลิกที่จุดเพื่อลบ</b>และคืนค่าเส้นโค้ง เปลือกด้านนอกจะหยุดที่ขอบเขตอ่างด้านในโดยอัตโนมัติ', '在模型上拖曳節點，或在下方微調。<b>雙擊節點可刪除</b>並還原曲線。外殼會自動止於內缸邊界。'],
+  'Editable edges: <b style="color:#7a5f2f">outer rim</b> (gold, drag in any direction: sideways reshapes, <b>up/down changes local rim height</b>), <b style="color:#8f5424">inner bowl</b> (copper), <b style="color:#4f6f8a">base</b> (blue), <b style="color:#4c6e48">side profiles</b> (green: drag <b>out/in = bulge</b>, <b>up/down = move it along the wall</b>).<br>① Click an edge to <b>select</b> ② click again to <b>add a node</b> ③ <b>drag</b> to reshape. <b>Double-click the tub wall adds a side profile right there</b>. Not just at the four centers. <b>Double-click a node deletes it</b> and the curve springs back.':
+    ['可编辑边线：<b style="color:#7a5f2f">外缘</b>（金色，任意方向拖曳：左右可改变形状，<b>上下可改变该处缸缘高度</b>），<b style="color:#8f5424">内缸边线</b>（古铜色），<b style="color:#4f6f8a">底边线</b>（蓝色），<b style="color:#4c6e48">侧面轮廓</b>（绿色：拖曳<b>向外/向内＝鼓起弧度</b>，<b>上/下＝沿壁面移动</b>）。<br>① 点击边线<b>选取</b> ② 再次点击<b>加入节点</b> ③ <b>拖曳</b>调整形状。<b>双击缸壁可就地新增一条侧面轮廓</b>，不限于四个中心点。<b>双击节点可删除</b>，曲线会自动弹回。',
+     'ขอบที่แก้ไขได้: <b style="color:#7a5f2f">ขอบด้านนอก</b> (สีทอง ลากทิศทางใดก็ได้: ลากด้านข้างเปลี่ยนรูปทรง <b>ลากขึ้น/ลงเปลี่ยนความสูงขอบเฉพาะจุด</b>), <b style="color:#8f5424">ขอบอ่างด้านใน</b> (สีทองแดง), <b style="color:#4f6f8a">ขอบฐาน</b> (สีน้ำเงิน), <b style="color:#4c6e48">โปรไฟล์ด้านข้าง</b> (สีเขียว: ลาก<b>ออก/เข้า = ทำให้นูน</b>, <b>ขึ้น/ลง = เลื่อนไปตามผนัง</b>)<br>① คลิกขอบเพื่อ<b>เลือก</b> ② คลิกอีกครั้งเพื่อ<b>เพิ่มจุด</b> ③ <b>ลาก</b>เพื่อปรับรูปทรง <b>ดับเบิลคลิกที่ผนังอ่างเพื่อเพิ่มโปรไฟล์ด้านข้างตรงจุดนั้นได้เลย</b> ไม่จำกัดแค่สี่จุดกึ่งกลาง <b>ดับเบิลคลิกที่จุดเพื่อลบ</b> เส้นโค้งจะดีดกลับทันที',
+     '可編輯邊線：<b style="color:#7a5f2f">外緣</b>（金色，任意方向拖曳：左右可改變形狀，<b>上下可改變該處缸緣高度</b>），<b style="color:#8f5424">內缸邊線</b>（古銅色），<b style="color:#4f6f8a">底邊線</b>（藍色），<b style="color:#4c6e48">側面輪廓</b>（綠色：拖曳<b>向外/向內＝鼓起弧度</b>，<b>上/下＝沿壁面移動</b>）。<br>① 點擊邊線<b>選取</b> ② 再次點擊<b>加入節點</b> ③ <b>拖曳</b>調整形狀。<b>雙擊缸壁可就地新增一條側面輪廓</b>，不限於四個中心點。<b>雙擊節點可刪除</b>，曲線會自動彈回。'],
+  // F19b(2026-09-06) 節點面板標籤
+  ' (whole shell)': ['（整片侧壁）', ' (ทั้งเปลือก)', '（整片側壁）'],
+  ', node #': ['，节点 #', ', จุด #', '，節點 #'],
+  'Height position': ['高度位置', 'ตำแหน่งความสูง', '高度位置'],
+  'Bulge (out +/in −)': ['鼓起（外+/内−）', 'นูน (ออก+/เข้า−)', '鼓起（外+/內−）'],
+  'Influence (height)': ['影响（高度）', 'ผลกระทบ (ความสูง)', '影響（高度）'],
+  'Deleting a node restores that region to its original curve. The outer shell can never cross inside the inner bowl. Drags stop at the limit.': ['删除节点会让该区域恢复原本的曲线。外壳永远不会穿进内缸。拖曳到极限就会停住。', 'การลบจุดจะทำให้บริเวณนั้นกลับไปเป็นเส้นโค้งเดิม เปลือกนอกจะไม่มีวันทะลุเข้าไปในอ่างด้านใน การลากจะหยุดที่ขีดจำกัด', '刪除節點會讓該區域恢復原本的曲線。外殼永遠不會穿進內缸。拖曳到極限就會停住。'],
 };
 // 含 HTML 標記的區塊：id → [英文, 简中, 泰文, 繁中]
 const I18N_HTML = {
@@ -481,6 +516,7 @@ function applyLang(){
   if(typeof refreshQuoteBanner === 'function') refreshQuoteBanner();
   if(typeof BRIEF_APPLIED !== 'undefined' && BRIEF_APPLIED){ const sc=document.getElementById('spaceCap'); const r=document.getElementById('rL'), w=document.getElementById('rW'); if(sc && r && w) sc.textContent = (typeof spaceCapText === 'function') ? spaceCapText(r.max, w.max) : (t('Sized to your space — up to') + ' ' + r.max + ' × ' + w.max + ' mm'); }   // M10(2026-09-02)：改呼叫 spaceCapText 統一兩軸不限文案
   if(typeof refreshDimsInner === 'function') refreshDimsInner();   // M10(2026-09-02)
+  if(typeof window.refreshEdgeTip === 'function') window.refreshEdgeTip();   // F19(2026-09-06)
   if(typeof StudioSteps !== 'undefined') StudioSteps.render();   // S1(2026-09-04)：步驟指示器語言切換時重繪
 }
 // 語言完全交由站上導覽列的 langSel 控制（見檔尾接線），設計器不再有自己的語言選項

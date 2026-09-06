@@ -84,6 +84,7 @@ const I18N = {
   '⚠ No closed shape detected. Use a dark pen on white paper, with even lighting and clear contrast.': ['⚠ 检测不到封闭形状。请用深色笔在白纸上画封闭轮廓，光线均匀、对比清楚。', '⚠ ตรวจไม่พบรูปทรงแบบปิด กรุณาใช้ปากกาสีเข้มบนกระดาษขาว แสงสม่ำเสมอ คอนทราสต์ชัดเจน', '⚠ 偵測不到封閉形狀。請用深色筆在白紙上畫封閉輪廓，光線均勻、對比清楚。'],
   '⚠ Image processing failed: ': ['⚠ 图片处理失败：', '⚠ ประมวลผลรูปไม่สำเร็จ: ', '⚠ 圖片處理失敗：'],
   'Customer name': ['客户姓名 / Customer Name', 'ชื่อลูกค้า', '客戶姓名 / Customer Name'],
+  'Customer name (optional)': ['客户姓名（选填） / Customer Name (optional)', 'ชื่อลูกค้า (ไม่บังคับ)', '客戶姓名（選填） / Customer Name (optional)'],
   'Notes (e.g. overflow drain required)': ['备注 / Notes（例：需加装溢水口）', 'หมายเหตุ (เช่น ต้องการช่องน้ำล้น)', '備註 / Notes（例：需加裝溢水口）'],
   '⑧ Price & Quote': ['⑧ 价格与询价', '⑧ ราคาและใบเสนอราคา', '⑧ 價格與詢價'],
   'Price': ['价格', 'ราคา', '價格'],
@@ -144,6 +145,8 @@ const I18N = {
   'Outer wall R — length section': ['外缸侧弧 R（长边剖面）', 'R ผนังนอก (หน้าตัดด้านยาว)', '外缸側弧 R（長邊剖面）'],
   'Outer wall R — width section': ['外缸侧弧 R（短边剖面）', 'R ผนังนอก (หน้าตัดด้านสั้น)', '外缸側弧 R（短邊剖面）'],
   'Overflow drain (factory standard, 75mm below rim)': ['溢水口（工厂标准件，距缸缘 75mm）', 'ช่องน้ำล้น (มาตรฐานโรงงาน ต่ำกว่าขอบ 75 มม.)', '溢水口（工廠標準件，距缸緣 75mm）'],
+  // F35(2026-09-06) 單位空格統一
+  'Overflow drain (factory standard, 75 mm below rim)': ['溢水口（工厂标准件，距缸缘 75 mm）', 'ช่องน้ำล้น (มาตรฐานโรงงาน ต่ำกว่าขอบ 75 มม.)', '溢水口（工廠標準件，距缸緣 75 mm）'],
   'Outer base (L×W)': ['外缸底尺寸 (长×宽)', 'ฐานนอก (ยาว×กว้าง)', '外缸底尺寸 (長×寬)'],
   'Inner base (L×W)': ['内缸底尺寸 (长×宽)', 'ก้นอ่างใน (ยาว×กว้าง)', '內缸底尺寸 (長×寬)'],
   'Overflow': ['溢水口', 'ช่องน้ำล้น', '溢水口'],
@@ -156,6 +159,8 @@ const I18N = {
   'Space length': ['空间长度', 'ความยาวพื้นที่', '空間長度'],
   'Space width': ['空间宽度', 'ความกว้างพื้นที่', '空間寬度'],
   'We keep at least 50mm clearance on each side for installation and cleaning.': ['我们会在四周各保留至少 50mm 的安装与清洁间隙。', 'เราเว้นระยะอย่างน้อยข้างละ 50 มม. สำหรับติดตั้งและทำความสะอาด', '我們會在四周各保留至少 50mm 的安裝與清潔間隙。'],
+  // F35(2026-09-06) 單位空格統一
+  'We keep at least 50 mm clearance on each side for installation and cleaning.': ['我们会在四周各保留至少 50 mm 的安装与清洁间隙。', 'เราเว้นระยะอย่างน้อยข้างละ 50 มม. สำหรับติดตั้งและทำความสะอาด', '我們會在四周各保留至少 50 mm 的安裝與清潔間隙。'],
   "Main bather's height": ['主要使用者身高', 'ส่วนสูงของผู้ใช้หลัก', '主要使用者身高'],
   'Height': ['身高', 'ส่วนสูง', '身高'],
   'How do you like to soak?': ['你喜欢怎么泡？', 'คุณชอบแช่แบบไหน?', '你喜歡怎麼泡？'],
@@ -260,6 +265,8 @@ const I18N = {
   // W1(2026-09-02) Basic v2 新增：精靈空間題標題／提示／不限文案（舊鍵 'Installation space' 等保留不刪）
   'Where the tub will sit': ['浴缸要放的位置', 'ตำแหน่งที่จะวางอ่างอาบน้ำ', '浴缸要放的位置'],
   'Measure the spot for the tub, not the whole room. We keep at least 50mm clearance on each side for installation and cleaning.': ['请量浴缸要放的那块地，不是整间浴室。我们会在四周各保留至少 50mm 的安装与清洁间隙。', 'วัดเฉพาะจุดที่จะวางอ่าง ไม่ใช่ทั้งห้องน้ำ เราเว้นระยะอย่างน้อยข้างละ 50 มม. สำหรับติดตั้งและทำความสะอาด', '請量浴缸要放的那塊地，不是整間浴室。我們會在四周各保留至少 50mm 的安裝與清潔間隙。'],
+  // F35(2026-09-06) 單位空格統一
+  'Measure the spot for the tub, not the whole room. We keep at least 50 mm clearance on each side for installation and cleaning.': ['请量浴缸要放的那块地，不是整间浴室。我们会在四周各保留至少 50 mm 的安装与清洁间隙。', 'วัดเฉพาะจุดที่จะวางอ่าง ไม่ใช่ทั้งห้องน้ำ เราเว้นระยะอย่างน้อยข้างละ 50 มม. สำหรับติดตั้งและทำความสะอาด', '請量浴缸要放的那塊地，不是整間浴室。我們會在四周各保留至少 50 mm 的安裝與清潔間隙。'],
   'No space limit — up to our maximum': ['空间不限 — 最大可至', 'ไม่จำกัดพื้นที่ — สูงสุดของเรา', '空間不限 — 最大可至'],
   // S1-0(2026-09-02) Basic v2 新增：Shape & comfort 標題／標籤／說明／按鈕
   'Shape & comfort': ['造型与舒适度', 'รูปทรงและความสบาย', '造型與舒適度'],
@@ -268,6 +275,7 @@ const I18N = {
   'Water depth': ['水深', 'ความลึกของน้ำ', '水深'],
   'Backrest': ['靠背', 'พนักพิง', '靠背'],
   'Rim edge': ['缸缘宽度', 'ขอบอ่าง', '缸緣寬度'],
+  '◐ Rim Profile': ['◐ 缸缘造型', '◐ รูปทรงขอบอ่าง', '◐ 缸緣造型'],
   'Slim': ['纤薄', 'บาง', '纖薄'],
   'Standard': ['标准', 'มาตรฐาน', '標準'],
   'Wide': ['加宽', 'กว้าง', '加寬'],
@@ -319,9 +327,14 @@ const I18N = {
   'Redesign: answer again': ['重新设计：再答一次', 'ออกแบบใหม่ ตอบคำถามอีกครั้ง', '重新設計：再答一次'], // F7(2026-09-06)
   'Built around your space and body. Pick one, then fine-tune it.': ['依你的空间与身形而生。选一款，再细调。', 'ออกแบบตามพื้นที่และสรีระของคุณ เลือกหนึ่งแบบแล้วปรับต่อ', '依你的空間與身形而生。選一款，再細調。'], // F7(2026-09-06)
   "Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.": ['已按四周各留 50mm 与主要使用者身高设定尺寸。选一款。所有参数仍可调整。', 'ปรับขนาดตามพื้นที่ (เว้นข้างละ 50 มม.) และส่วนสูงผู้ใช้หลัก เลือกหนึ่งแบบ ทุกค่ายังปรับได้', '已按四周各留 50mm 與主要使用者身高設定尺寸。選一款。所有參數仍可調整。'], // F7(2026-09-06)
+  // F35(2026-09-06) 單位空格統一
+  "Sized for your space with 50 mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.": ['已按四周各留 50 mm 与主要使用者身高设定尺寸。选一款。所有参数仍可调整。', 'ปรับขนาดตามพื้นที่ (เว้นข้างละ 50 มม.) และส่วนสูงผู้ใช้หลัก เลือกหนึ่งแบบ ทุกค่ายังปรับได้', '已按四周各留 50 mm 與主要使用者身高設定尺寸。選一款。所有參數仍可調整。'],
   '✨ Guided design: answer 5 questions, get 4 tailored tubs': ['✨ 引导设计：回答 5 个问题，获得 4 款量身方案', '✨ ออกแบบพร้อมไกด์ ตอบ 5 ข้อ รับอ่าง 4 แบบ', '✨ 引導設計：回答 5 個問題，獲得 4 款量身方案'], // F7(2026-09-06)
   '⚠ Interior length under 950mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).': ['⚠ 内部长度不足 950mm：只适合坐姿／蹲姿使用（脚到臀约 900mm）。', '⚠ ความยาวภายในต่ำกว่า 950มม. เหมาะกับการอาบแบบนั่ง/นั่งยองเท่านั้น (ขาถึงสะโพก ≈ 900มม.)', '⚠ 內部長度不足 950mm：只適合坐姿／蹲姿使用（腳到臀約 900mm）。'], // F7(2026-09-06)
   '⚠ Wall thickness below 5mm between inner and outer shells: adjust base sizes or arc R.': ['⚠ 内外缸之间壁厚不足 5mm：请调整底部尺寸或弧度 R。', '⚠ ความหนาผนังระหว่างเปลือกในและนอกต่ำกว่า 5 มม. โปรดปรับขนาดฐานหรือรัศมี R', '⚠ 內外缸之間壁厚不足 5mm：請調整底部尺寸或弧度 R。'], // F7(2026-09-06)
+  // F35(2026-09-06) 單位空格統一
+  '⚠ Interior length under 950 mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900 mm).': ['⚠ 内部长度不足 950 mm：只适合坐姿／蹲姿使用（脚到臀约 900 mm）。', '⚠ ความยาวภายในต่ำกว่า 950มม. เหมาะกับการอาบแบบนั่ง/นั่งยองเท่านั้น (ขาถึงสะโพก ≈ 900มม.)', '⚠ 內部長度不足 950 mm：只適合坐姿／蹲姿使用（腳到臀約 900 mm）。'],
+  '⚠ Wall thickness below 5 mm between inner and outer shells: adjust base sizes or arc R.': ['⚠ 内外缸之间壁厚不足 5 mm：请调整底部尺寸或弧度 R。', '⚠ ความหนาผนังระหว่างเปลือกในและนอกต่ำกว่า 5 มม. โปรดปรับขนาดฐานหรือรัศมี R', '⚠ 內外缸之間壁厚不足 5 mm：請調整底部尺寸或弧度 R。'],
   'Make it exclusive: mould retired after your tub, with certificate': ['升级为专属版（模具在您的浴缸后退役＋证书）', 'อัปเกรดเป็นรุ่นพิเศษเฉพาะคุณ (ปลดระวางแม่พิมพ์หลังผลิตอ่างของคุณ + ใบรับรอง)', '升級為專屬版（模具在您的浴缸後退役＋證書）'],
   'Door-to-door estimate, confirmed on your firm quote.': ['含门到门运费；正式报价时确认。', 'ประมาณการแบบส่งถึงบ้าน ยืนยันในใบเสนอราคา', '含門到門運費；正式報價時確認。'], // F7(2026-09-06)
   'USD $399 design fee, fully credited to any tier. Final price is confirmed on your firm quote.': ['USD $399 设计费，可全额折抵任一层级。最终价格以正式报价确认。', 'ค่าออกแบบ USD $399 หักคืนเต็มจำนวนในทุกระดับ ราคาสุดท้ายยืนยันในใบเสนอราคา', 'USD $399 設計費，可全額折抵任一層級。最終價格以正式報價確認。'], // F7(2026-09-06)

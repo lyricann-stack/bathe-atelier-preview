@@ -208,6 +208,7 @@
     #mobileCta .mc-btn{background:#1b1a16;color:#f4f1ea;border:none;padding:11px 16px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
     #panel{padding-bottom:72px}
     #viewer{height:30vh;min-height:200px}
+    body.ss-on #ssNav{position:sticky;bottom:calc(65px + env(safe-area-inset-bottom));background:rgba(250,248,242,.96);padding-bottom:8px;z-index:40}/* F21(2026-09-06)：鏡射 basic F4——步驟模式下 #ssNav 黏在價格條上方，任何捲動位置都不被 #mobileCta 蓋住 */
   }
   /* S3(2026-09-04)：步驟模式下 #ssBar 對齊面板內距 */
   body.ss-on #ssBar{margin:-14px -14px 12px}
@@ -331,7 +332,7 @@
             <div class="rim-label" style="margin-top:0"><span class="wz-n">1</span>Where the tub will sit</div>
             <div class="row"><label>Space length</label><input type="range" id="rSpL" min="1300" max="2400" step="50" value="1800"><div class="val"><input id="nSpL" value="1800"><span>mm</span></div></div>
             <div class="row"><label>Space width</label><input type="range" id="rSpW" min="700" max="1400" step="50" value="1000"><div class="val"><input id="nSpW" value="1000"><span>mm</span></div></div>
-            <div class="tip">Measure the spot for the tub, not the whole room. We keep at least 50mm clearance on each side for installation and cleaning.</div>
+            <div class="tip">Measure the spot for the tub, not the whole room. We keep at least 50 mm clearance on each side for installation and cleaning.</div>
           </div>
           <div class="wz-q">
             <div class="rim-label"><span class="wz-n">2</span>Main bather's height</div>
@@ -370,7 +371,7 @@
           <div class="sk-sub">Built around your space and body. Pick one, then fine-tune it.</div>
           <div class="tip" id="propPriceLine" style="margin:-4px 0 10px"></div>
           <div id="propGrid"></div>
-          <div class="tip" style="margin-top:10px">Sized for your space with 50mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.</div>
+          <div class="tip" style="margin-top:10px">Sized for your space with 50 mm clearance per side, and for the main bather's height. Pick one. Everything stays adjustable.</div>
           <div class="sk-actions">
             <button class="cancel" onclick="wizBack()">← Change answers</button>
             <button class="cancel" onclick="closeWizard()">Cancel</button>
@@ -391,7 +392,7 @@
     </div>
     <button class="preset" data-keep="1" data-step="1" style="margin:0 0 12px;padding:11px" onclick="openWizard()">✨ Guided design: answer 5 questions, get 4 tailored tubs</button>
     <div class="group">
-      <h3>Tub Shape (Freestanding)</h3>
+      <h3>Tub Shape</h3>
       <div class="shape-btns">
         <button data-shape="rect" onclick="setShape('rect',this)">Rounded Rect</button>
         <button data-shape="stadium" onclick="setShape('stadium',this)">Rounded Ends</button>
@@ -428,8 +429,8 @@
       <div class="row" id="obLRow"><label>Outer base length</label><input type="range" id="rObL" min="600" max="2000" step="2" value="1190"><div class="val"><input id="nObL" value="1190"><span>mm</span></div></div>
       <div class="row" id="obWRow"><label>Outer base width</label><input type="range" id="rObW" min="300" max="1000" step="2" value="600"><div class="val"><input id="nObW" value="600"><span>mm</span></div></div>
       <div id="warn">⚠ Invalid parameters: interior space too small, please adjust</div>
-      <div id="lenWarn" class="tip" style="display:none;color:#b3541e">⚠ Interior length under 950mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900mm).</div>
-      <div id="thinWarn" class="tip" style="display:none;color:#b3541e">⚠ Wall thickness below 5mm between inner and outer shells: adjust base sizes or arc R.</div>
+      <div id="lenWarn" class="tip" style="display:none;color:#b3541e">⚠ Interior length under 950 mm: only suitable for seated / crouched bathing (leg-to-hip ≈ 900 mm).</div>
+      <div id="thinWarn" class="tip" style="display:none;color:#b3541e">⚠ Wall thickness below 5 mm between inner and outer shells: adjust base sizes or arc R.</div>
     </div>
     <div class="group">
       <h3>Asymmetry Parameters</h3>
@@ -478,7 +479,7 @@
            頁面限制)，medium.html原本就有ovfToggle開關(item3當初決策文件搜錯id誤判成缺失，已更正)，
            只缺一句提示文字讓客戶知道可以拖；faucetToggle(item5)才是真的缺，照抄pro.html補上一行。 -->
       <div class="tip">Drain marker (and overflow marker, once enabled) can be dragged directly in the 3D view to reposition.</div>
-      <div class="chk" id="ovfChk" style="margin-top:10px"><input type="checkbox" id="ovfToggle"><label for="ovfToggle">Overflow drain (factory standard, 75mm below rim)</label></div>
+      <div class="chk" id="ovfChk" style="margin-top:10px"><input type="checkbox" id="ovfToggle"><label for="ovfToggle">Overflow drain (factory standard, 75 mm below rim)</label></div>
       <div class="chk" id="faucetChk" style="margin-top:10px"><input type="checkbox" id="faucetToggle"><label for="faucetToggle">Faucet hole (drag on the rim to position)</label></div>
       <!-- 缸底斜面下放Medium(2026-08-22，業主裁定為基本功能)：HTML/wording跟pro.html一致 -->
       <div class="row" style="margin-top:12px"><label>Base slope</label><input type="range" id="rBaseSlope" min="0" max="3" step="0.1" value="0"><div class="val"><input id="nBaseSlope" value="0"><span>°</span></div></div>
@@ -516,7 +517,7 @@
         <div class="tip">Optional. It helps us pitch the quote at the right level.</div>
       </div>
       <div class="yd-q" data-substep="3">
-        <div class="yd-label">Customer name</div>
+        <div class="yd-label">Customer name (optional)</div>
         <input type="text" id="custName" placeholder="Customer name">
         <div class="tip">The name we put on the quote.</div>
       </div>
@@ -663,7 +664,7 @@
     </div>
     <div id="arDesktopPanel" style="display:none">
       <div class="sk-sub">Scan with an iPhone or iPad to view this design in AR.</div>
-      <img id="arQrImg" style="width:220px;height:220px;margin:10px auto;display:block">
+      <img id="arQrImg" alt="QR code: scan with your phone to view this tub in AR" style="width:220px;height:220px;margin:10px auto;display:block">
       <div id="arQrError" class="tip" style="display:none;color:#b3541e"></div>
       <div class="tip">Android AR support is on our roadmap. For now, this works on iPhone/iPad.</div>
     </div>
@@ -704,7 +705,7 @@
      切換。順序要求同pro.html：wallmount在geometry之前；handles在orbit/boot之前；不載入Phase 7/8
      的feature-only模組(photo2tub/ar-export/ar-ui/photocompose)——這四檔在module載入時就有不受
      保護的getElementById(...).addEventListener等呼叫，Medium HTML沒有對應元素(arModal/composeModal/
-     p2tBanner等)會直接拋錯，08裁定本次維持行為零改變的純換底，不下放這些功能，見驗收計畫。 -->
+     p2tBanner等)會直接拋錯，08裁定本次維持行為零改變的純換底，不下放這些功能，見驗收計畫。（F25 2026-09-06 補：2026-08-22 起 ar-export／ar-ui／photocompose 已下放載入，見下方 script 清單；只有 photo2tub 仍未載） -->
 <script src="lib-tub-state.js"></script>
 <script src="lib-edit3d-i18n.js"></script>
 <script src="lib-tub-scene.js"></script>
