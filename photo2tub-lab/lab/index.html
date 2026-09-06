@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Photo2Tub Lab · 第一階段曲面測試頁</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="page-header">
+  <h1>Photo2Tub 曲面品質改善 · 第一階段人工參數測試頁</h1>
+  <details class="page-sub-details">
+    <summary>開發說明（範圍與檔案位置）</summary>
+    <p class="page-sub">
+      範圍：獨立的 GitHub Pages 曲面測試版，不連接原網站後端。
+      人工指定參數重現 2026-09-06 示範造型，尚未接任何辨識或 AI API。本頁不呼叫任何付費 API，
+      模型運算在你的瀏覽器內執行；JSON 檔案只在瀏覽器內讀取，不上傳伺服器。
+    </p>
+  </details>
+</header>
+
+<main class="layout">
+
+  <section class="panel photo-panel">
+    <h2>原照片</h2>
+    <img src="../reference/reference-photo.png" alt="業主提供的浴缸參考照片" class="ref-photo">
+    <p class="hint">對照重點：右端大幅抬升並向後捲、左端小幅抬升、中央缸緣最低；外壁向底部收縮；缸口薄邊。</p>
+  </section>
+
+  <section class="panel viewer-panel">
+    <h2>本次參數化版本（<span id="shape-label">—</span>）</h2>
+    <p class="hint" id="shape-source-note"></p>
+    <div id="stage" class="stage" role="img" aria-label="參數化浴缸 3D 模型，可拖曳旋轉、滾輪縮放"></div>
+    <div class="controls-row">
+      <label class="form-label">觀看角度
+        <select id="view-angle" class="form-select">
+          <option value="perspective">立體</option>
+          <option value="side">側面</option>
+          <option value="top">俯視</option>
+          <option value="end">端面</option>
+        </select>
+      </label>
+      <label class="form-label">縮放
+        <input id="view-zoom" class="form-range" type="range" min="1.7" max="4.8" step="0.05" value="3.1">
+      </label>
+      <label class="form-label">展示模式
+        <select id="display-mode" class="form-select">
+          <option value="demo">原示範柔光展示</option>
+          <option value="diagnostic">診斷中性灰</option>
+        </select>
+      </label>
+    </div>
+    <span class="sr-only" id="status" aria-live="polite"></span>
+  </section>
+
+  <section class="panel demo-panel">
+    <h2>原始 AI 示範（唯讀對照，reference/codex-bathtub-3d.html）</h2>
+    <p class="hint">下方載入原始示範的未修改副本，供造型比對。</p>
+    <iframe class="demo-frame" src="../reference/codex-bathtub-3d.html" title="原始 AI 示範模型（唯讀）"></iframe>
+  </section>
+
+  <section class="panel controls-panel">
+    <h2>形狀參數</h2>
+    <label class="form-label">長度 <output id="param-length-value" class="tabular-nums"></output>
+      <input class="form-range" type="range" id="param-length" min="1300" max="2200" step="10"></label>
+    <label class="form-label">寬度 <output id="param-width-value" class="tabular-nums"></output>
+      <input class="form-range" type="range" id="param-width" min="650" max="1100" step="10"></label>
+    <label class="form-label">中央高度 <output id="param-center-height-value" class="tabular-nums"></output>
+      <input class="form-range" type="range" id="param-center-height" min="400" max="750" step="10"></label>
+    <label class="form-label">正端（end_positive）抬升 <output id="param-rise-positive-value" class="tabular-nums"></output>
+      <input class="form-range" type="range" id="param-rise-positive" min="0" max="350" step="5"></label>
+    <label class="form-label">負端（end_negative）抬升 <output id="param-rise-negative-value" class="tabular-nums"></output>
+      <input class="form-range" type="range" id="param-rise-negative" min="0" max="350" step="5"></label>
+    <label class="form-label">輪廓方圓 <output id="param-round-value" class="tabular-nums"></output>
+      <input class="form-range" type="range" id="param-round" min="0" max="100" step="1"></label>
+    <label class="form-label">缸邊厚度 <output id="param-rim-thickness-value" class="tabular-nums"></output>
+      <input class="form-range" type="range" id="param-rim-thickness" min="12" max="65" step="1"></label>
+  </section>
+
+  <section class="panel json-panel">
+    <h2>JSON 存檔／重載（schema：photo2tub-lab-shape-v1）</h2>
+    <div class="btn-row">
+      <button id="btn-load-reference" type="button">載入 fixtures/reference-shape.json</button>
+      <button id="btn-load-variant" type="button">載入 fixtures/test-variant-b.json</button>
+      <button id="btn-reset-default" type="button">重設為內建預設</button>
+    </div>
+    <div class="btn-row">
+      <button id="btn-export" type="button">刷新下方 JSON 文字框</button>
+      <button id="btn-download" type="button">下載目前形狀 JSON</button>
+      <label class="file-label">上傳 JSON 檔<input id="file-input" type="file" accept="application/json"></label>
+    </div>
+    <textarea id="json-area" class="json-area" spellcheck="false"></textarea>
+    <div class="btn-row">
+      <button id="btn-load-from-text" type="button">用上方文字框內容完整重建模型</button>
+    </div>
+    <p id="load-message" class="load-message"></p>
+  </section>
+
+  <section class="panel test-panel">
+    <h2>驗證：JSON 載入 A→B 是否與直接載入 B 一致</h2>
+    <p class="hint">
+      先直接建構 fixtures/test-variant-b.json 的幾何並記錄雜湊；
+      再依序完整載入 fixtures/reference-shape.json、fixtures/test-variant-b.json 後重新記錄雜湊；
+      兩者位置陣列雜湊必須相同，才代表完整匯入沒有殘留前一個模型的欄位。
+    </p>
+    <button id="btn-selftest" type="button">執行 A→B 一致性自測</button>
+    <pre id="selftest-result" class="selftest-result"></pre>
+  </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="geometry.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
