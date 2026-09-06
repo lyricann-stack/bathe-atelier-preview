@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "photo2tub-lab-shape-v1",
+  "unit": "mm",
+  "label": "測試款 B（尺寸與抬升方向都不同，用於 A→B 一致性自測）",
+  "sourceNote": "非量測資料，純粹用來驗證：載入不同長寬高與端部抬升方向後，模型能否完整重建、不殘留 A 的參數。",
+  "dimensions": { "length": 1600, "width": 900, "centerHeight": 480 },
+  "rim": {
+    "endPositiveRise": 40,
+    "endNegativeRise": 260,
+    "endPositiveRisePower": 2.1,
+    "endNegativeRisePower": 2.0
+  },
+  "plan": { "cornerRoundPct": 55 },
+  "shell": { "rimThickness": 40 },
+  "sectionProfile": {
+    "rowUnit": "m",
+    "calibration": {
+      "baseLengthSurface": 1799,
+      "baseLengthDrain": 1800,
+      "baseWidth": 799,
+      "baseHeight": 546,
+      "baseRimThickness": 24,
+      "rimTaperRefLength": 0.879,
+      "rimTaperRefWidth": 0.379
+    },
+    "rimTaperRowStart": 9,
+    "rimTaperRowSpan": 4,
+    "rows": [
+      [0, 0, 0.022, 0],
+      [0.40, 0.14, 0.022, 0],
+      [0.62, 0.235, 0.022, 0],
+      [0.686, 0.272, 0.041, 0],
+      [0.732, 0.298, 0.094, 0.025],
+      [0.791, 0.331, 0.216, 0.13],
+      [0.843, 0.365, 0.365, 0.43],
+      [0.880, 0.387, 0.480, 0.80],
+      [0.899, 0.399, 0.536, 1],
+      [0.8995, 0.3995, 0.542, 1],
+      [0.895, 0.395, 0.546, 1],
+      [0.885, 0.385, 0.545, 1],
+      [0.879, 0.379, 0.540, 1],
+      [0.876, 0.376, 0.528, 0.99],
+      [0.861, 0.364, 0.465, 0.80],
+      [0.827, 0.337, 0.343, 0.47],
+      [0.777, 0.301, 0.231, 0.16],
+      [0.716, 0.257, 0.156, 0.025],
+      [0.658, 0.222, 0.132, 0],
+      [0.550, 0.182, 0.127, 0],
+      [0.33, 0.11, 0.126, 0],
+      [0, 0, 0.126, 0]
+    ]
+  },
+  "accessories": {
+    "drain": {
+      "xAnchorM": 0.15,
+      "note": "測試款自訂位置，非量測，僅驗證欄位可覆蓋（公尺尺度錨點，非正規化比例）。"
+    },
+    "overflow": {
+      "rowIndex": 14,
+      "t": 0.45,
+      "tNormal": 0.46,
+      "theta": 4.71238898038469,
+      "note": "測試款沿用示範估算角度。"
+    }
+  },
+  "evidence": {
+    "status": "estimated",
+    "basis": "僅供第一階段參數化與匯入一致性測試，不對應任何實際照片。",
+    "unknowns": ["全部尺寸皆為測試假設值，非任何實際浴缸"]
+  }
+}

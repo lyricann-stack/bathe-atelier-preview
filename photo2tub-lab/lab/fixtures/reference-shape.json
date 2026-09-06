@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "photo2tub-lab-shape-v1",
+  "unit": "mm",
+  "label": "參考示範重現（人工參數）",
+  "sourceNote": "沿用 2026-09-06 業主認可示範（reference/codex-bathtub-3d.html）的人工估算數值，非量測尺寸；來源見 reference/modification-plan.md §3。",
+  "dimensions": { "length": 1800, "width": 800, "centerHeight": 550 },
+  "rim": {
+    "endPositiveRise": 205,
+    "endNegativeRise": 15,
+    "endPositiveRisePower": 2.1,
+    "endNegativeRisePower": 2.0
+  },
+  "plan": { "cornerRoundPct": 20 },
+  "shell": { "rimThickness": 24 },
+  "sectionProfile": {
+    "rowUnit": "m",
+    "calibration": {
+      "baseLengthSurface": 1799,
+      "baseLengthDrain": 1800,
+      "baseWidth": 799,
+      "baseHeight": 546,
+      "baseRimThickness": 24,
+      "rimTaperRefLength": 0.879,
+      "rimTaperRefWidth": 0.379
+    },
+    "rimTaperRowStart": 9,
+    "rimTaperRowSpan": 4,
+    "rows": [
+      [0, 0, 0.022, 0],
+      [0.40, 0.14, 0.022, 0],
+      [0.62, 0.235, 0.022, 0],
+      [0.686, 0.272, 0.041, 0],
+      [0.732, 0.298, 0.094, 0.025],
+      [0.791, 0.331, 0.216, 0.13],
+      [0.843, 0.365, 0.365, 0.43],
+      [0.880, 0.387, 0.480, 0.80],
+      [0.899, 0.399, 0.536, 1],
+      [0.8995, 0.3995, 0.542, 1],
+      [0.895, 0.395, 0.546, 1],
+      [0.885, 0.385, 0.545, 1],
+      [0.879, 0.379, 0.540, 1],
+      [0.876, 0.376, 0.528, 0.99],
+      [0.861, 0.364, 0.465, 0.80],
+      [0.827, 0.337, 0.343, 0.47],
+      [0.777, 0.301, 0.231, 0.16],
+      [0.716, 0.257, 0.156, 0.025],
+      [0.658, 0.222, 0.132, 0],
+      [0.550, 0.182, 0.127, 0],
+      [0.33, 0.11, 0.126, 0],
+      [0, 0, 0.126, 0]
+    ]
+  },
+  "accessories": {
+    "drain": {
+      "xAnchorM": -0.23,
+      "note": "公尺尺度的錨點數值（非 0~1 正規化比例），實際套用時再乘上 length/baseLengthDrain 的近似 1.0 縮放比例；示範估算位置，非量測。"
+    },
+    "overflow": {
+      "rowIndex": 14,
+      "t": 0.45,
+      "tNormal": 0.46,
+      "theta": 4.71238898038469,
+      "note": "示範估算的內壁溢水孔位置與角度（theta = 1.5*PI），非量測。"
+    }
+  },
+  "evidence": {
+    "status": "estimated",
+    "basis": "依 reference/reference-photo.png 目視比對示範作者手動調校，非型錄或量測資料。",
+    "unknowns": ["實際量產長寬高", "實際壁厚", "排水孔/溢水孔精確位置", "底部與裙擺實際構造"]
+  }
+}
